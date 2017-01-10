@@ -240,4 +240,4 @@ if __name__ == "__main__":
     test = TSCalib(**calib_settings)
     relte = test.cnt_photon_ltdscp()
 
-    print("Successfully Run the program !!")
+    print("Successfully Run the program !!!")
