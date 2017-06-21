@@ -52,7 +52,7 @@ class DataManager:
     START = 11
     STEP  = 19
 
-    _base_dir = os.path.expanduser('/Volumes/D/WEDATA/d20170608_2')
+    _base_dir = os.path.expanduser('/Volumes/D/WEDATA')
     def __init__(self, MPorSX, date):
         self.date = date
         #self._set_date()
@@ -132,7 +132,7 @@ class DataManager:
             we_dir = 'FC'       #MP
         elif(self.MPorSX=="SX"):
             we_dir = 'd7116'    #SX
-        self.dir_path = os.path.join(self._base_dir, we_dir)
+        self.dir_path = os.path.join(self._base_dir, 'd' + self.date + '_2', we_dir)
 
     def _generate_path(self, shot_num):
         return os.path.join(self.dir_path, '{0:05d}.wvf'.format(shot_num))

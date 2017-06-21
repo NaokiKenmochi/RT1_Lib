@@ -27,6 +27,10 @@ class DataBrowser:
         self.a3 = 0.00
         self.b3 = 0.30
 
+        #グラフ描写のstep数
+        self.num_step = 20
+
+
         self.data_pos_name_ep01 = np.array([[7, "time", ""],
                                             [7, "8GPf", ""],
                                             [7, "8GPr", ""],
@@ -74,14 +78,14 @@ class DataBrowser:
         :param LOCALorPPL:
         :return:
         """
-        if LOCALorPPL == "LOCAL":
+        if LOCALorPPL == "PPL":
             dm_ep01 = read_wvf.DataManager(self.date)
             dm_ep02_MP = read_wvf_ep02.DataManager("MP", self.date)
             dm_ep02_SX = read_wvf_ep02.DataManager("SX", self.date)
             data_ep01 = dm_ep01.fetch_raw_data(self.shotnum)
             data_ep02_MP = dm_ep02_MP.fetch_raw_data(self.shotnum)
             data_ep02_SX = dm_ep02_SX.fetch_raw_data(self.shotnum)
-            np.savez("data_%s_%d" % (self.date, self.shotnum), data_ep01=data_ep01, data_ep02_MP=data_ep02_MP, data_ep02_SX=data_ep02_SX)
+            #np.savez("data_%s_%d" % (self.date, self.shotnum), data_ep01=data_ep01, data_ep02_MP=data_ep02_MP, data_ep02_SX=data_ep02_SX)
             print("Load IF from PPL")
 
         else:
@@ -122,7 +126,7 @@ class DataBrowser:
         for j in range(1,33):
             ax1 = fig.add_subplot(5,2,int(self.data_pos_name_ep01[j,0]), sharex=None, sharey=None)
             ax1.set_xlim(0.5, 2.5)
-            ax1.plot(data_ep01[0,::100],data_ep01[j,::100], label=self.data_pos_name_ep01[j,1])
+            ax1.plot(data_ep01[0,::self.num_step],data_ep01[j,::self.num_step], label=self.data_pos_name_ep01[j,1])
             ax1.legend(fontsize=10)
             ax1.set_ylabel(self.data_pos_name_ep01[j,2])
             if(j==9 or j==15):
@@ -133,7 +137,7 @@ class DataBrowser:
         #############################
         for j in range(1,4):
             ax1 = fig.add_subplot(5,2, int(self.data_pos_name_ep02[j+2,0]), sharex=None, sharey=None)
-            ax1.plot(data_ep02_SX[0,::1000]+0.5,data_ep02_SX[j,::1000]+0.1-0.10*j, label=self.data_pos_name_ep02[j+2, 1])
+            ax1.plot(data_ep02_SX[0,::10*self.num_step]+0.5,data_ep02_SX[j,::10*self.num_step]+0.1-0.10*j, label=self.data_pos_name_ep02[j+2, 1])
             plt.subplots_adjust(left=0.05, right=0.97, bottom=0.05, top=0.95, wspace=0.15, hspace=0.12)
             ax1.legend(fontsize=10)
 
@@ -143,7 +147,7 @@ class DataBrowser:
         for j in range(1,4):
             ax1 = fig.add_subplot(5,2,2, sharex=None, sharey=None)
             ax1 = fig.add_subplot(5,2, int(self.data_pos_name_ep02[j-1,0]), sharex=None, sharey=None)
-            ax1.plot(data_ep02_MP[0,::1000]+0.5,data_ep02_MP[j,::1000]+0.2-0.10*j, label=self.data_pos_name_ep02[j-1, 1])
+            ax1.plot(data_ep02_MP[0,::10*self.num_step]+0.5,data_ep02_MP[j,::10*self.num_step]+0.2-0.10*j, label=self.data_pos_name_ep02[j-1, 1])
             #ax1.plot(time_ep02_MP[::100], data_ep02_MP[j,::100]+0.5-0.25*j, label=self.data_name_ep02[j-1])
             plt.subplots_adjust(left=0.05, right=0.97, bottom=0.05, top=0.95, wspace=0.15, hspace=0.12)
             ax1.legend(fontsize=10)
@@ -194,6 +198,7 @@ class DataBrowser:
 
     def adj_gain(self, data_ep01):
         """WE7000のゲインを調整"""
+
         data_ep01[1,:] = 4.24561e-6+(0.00112308 *data_ep01[1,:])+(0.0247089*(data_ep01[1,:])**2)+(0.00316782*(data_ep01[1,:])**3)+(0.000294602*(data_ep01[1,:])**4)
         data_ep01[1,:] *= 1.90546e3
         data_ep01[2,:] = 1.78134e-6+(0.000992047*data_ep01[2,:])+(0.0189206*(data_ep01[2,:])**2)+(0.00316506*(data_ep01[2,:])**3)+(6.71477e-5*(data_ep01[2,:])**4)
@@ -219,5 +224,5 @@ class DataBrowser:
 
 
 if __name__ == "__main__":
-    db = DataBrowser(date="20170607", shotNo=64)
+    db = DataBrowser(date="20170606", shotNo=47)
     db.multiplot()
