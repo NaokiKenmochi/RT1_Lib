@@ -34,7 +34,7 @@ class DataBrowser:
                                             [7, "2GPr", ""],
                                             [9, "Pgas", ""],
                                             [7, "8GPf_n", ""],
-                                            [7, "8GPr_n", ""],
+                                            [7, "8GPr_n", "$\mathbf{P_{ECH} [kW]}$"],
                                             [10,"SX1", ""],
                                             [9, "VG", ""],
                                             [3, "IF", ""],
@@ -55,8 +55,8 @@ class DataBrowser:
                                             [5, "Pol730nm", ""],    #trg
                                             [5, "Pol710nm", ""],     #PD
                                             [5, "Pol450nm", ""],  #1000V
-                                            [4, "REFcos", ""],
-                                            [4, "REFsin", ""],
+                                            [6, "REFcos", ""],
+                                            [6, "REFsin", ""],
                                             [1, "dmlt1", ""],
                                             [1, "mlt2", ""],
                                             [1, "mlt3", "diamag [Wb]"]])
@@ -64,9 +64,9 @@ class DataBrowser:
         self.data_pos_name_ep02 = np.array([[2, "MP1", ""],
                                             [2, "MP2", ""],
                                             [2, "MP3", ""],
-                                            [6, "SX", ""],
-                                            [6, "SX", ""],
-                                            [6, "SX", ""]])
+                                            [4, "SX", ""],
+                                            [4, "SX", ""],
+                                            [4, "SX", ""]])
 
     def load_date(self, LOCALorPPL):
         """
@@ -100,6 +100,7 @@ class DataBrowser:
         """
         fig = plt.figure(figsize=(18,10))
         data_ep01, data_ep02_MP, data_ep02_SX = self.load_date("PPL")
+        data_ep01 = self.adj_gain(data_ep01)
         data_ep01 = self.mag_loop(data_ep01)
         data_ep01 = self.calib_IF(data_ep01)
         time_ep02_SX = np.arange(0,2,2/2000000)
@@ -162,12 +163,12 @@ class DataBrowser:
         ml[30,:] = ml[30,:] - ml[18,:]/3.0
         for j in range(17,22):
             ml[j,:] -= np.mean(ml[j,:6000])
-            #ml[j] = [np.abs(1.0e-4*np.sum(ml[j,:i])) for i in range(len(ml[0]))]
-            ml[j] = [np.abs(1.0e-4*np.sum(3e-2*ml[j,:i])) for i in range(len(ml[0]))]
+            ml[j] = [np.abs(1.0e-4*np.sum(ml[j,:i])) for i in range(len(ml[0]))]
+            #ml[j] = [np.abs(1.0e-4*np.sum(3e-2*ml[j,:i])) for i in range(len(ml[0]))]
         for j in range(30,33):
             ml[j,:] -= np.mean(ml[j,:6000])
-            #ml[j] = [np.abs(1.0e-4*np.sum(ml[j,:i])) for i in range(len(ml[0]))]
-            ml[j] = [np.abs(1.0e-4*np.sum(3e-2*ml[j,:i])) for i in range(len(ml[0]))]
+            ml[j] = [np.abs(1.0e-4*np.sum(ml[j,:i])) for i in range(len(ml[0]))]
+            #ml[j] = [np.abs(1.0e-4*np.sum(3e-2*ml[j,:i])) for i in range(len(ml[0]))]
         return ml
 
     def calib_IF(self, IF):
@@ -193,9 +194,30 @@ class DataBrowser:
 
         return IF
 
-    def adj_gain(self):
+    def adj_gain(self, data_ep01):
         """WE7000のゲインを調整"""
-        pass
+        data_ep01[1,:] = 4.24561e-6+(0.00112308 *data_ep01[1,:])+(0.0247089*(data_ep01[1,:])**2)+(0.00316782*(data_ep01[1,:])**3)+(0.000294602*(data_ep01[1,:])**4)
+        data_ep01[1,:] *= 1.90546e3
+        data_ep01[2,:] = 1.78134e-6+(0.000992047*data_ep01[2,:])+(0.0189206*(data_ep01[2,:])**2)+(0.00316506*(data_ep01[2,:])**3)+(6.71477e-5*(data_ep01[2,:])**4)
+        data_ep01[2,:] *= 1.0e2
+        data_ep01[3,:] = (data_ep01[3,:])*2.0
+        data_ep01[4,:] = (data_ep01[4,:])*2.0
+        data_ep01[6,:] = -2.95352e-6+(0.00313776*data_ep01[6,:])+(0.0381345*(data_ep01[6,:])**2)-(0.0110572*(data_ep01[6,:])**3)+(0.00832368*(data_ep01[6,:])**4)
+        data_ep01[6,:] *= 2.45471e3
+        data_ep01[7,:] = 2.94379e-6+(0.00288251*data_ep01[7,:])+(0.0365269*(data_ep01[7,:])**2)-(0.0137599*(data_ep01[7,:])**3)+(0.00581889*(data_ep01[7,:])**4)
+        data_ep01[7,:] *= 9.33254e1
+        data_ep01[9,:] = 10**((data_ep01[9,:]-7.75)/0.75+2)
+        data_ep01[17,:] = (data_ep01[17,:])/10/3
+        data_ep01[18,:] = (data_ep01[18,:])/10/3
+        data_ep01[19,:] = (data_ep01[19,:])/10/3
+        data_ep01[20,:] = (data_ep01[20,:])/10/3
+        data_ep01[21,:] = (data_ep01[21,:])/10/3
+        data_ep01[30,:] = (data_ep01[30,:])/10/3
+        data_ep01[31,:] = (data_ep01[31,:])/10
+        data_ep01[32,:] = (data_ep01[32,:])/10/3
+
+        return data_ep01
+
 
 
 if __name__ == "__main__":
