@@ -164,11 +164,9 @@ class DataBrowser:
         for j in range(17,22):
             ml[j,:] -= np.mean(ml[j,:6000])
             ml[j] = [np.abs(1.0e-4*np.sum(ml[j,:i])) for i in range(len(ml[0]))]
-            #ml[j] = [np.abs(1.0e-4*np.sum(3e-2*ml[j,:i])) for i in range(len(ml[0]))]
         for j in range(30,33):
             ml[j,:] -= np.mean(ml[j,:6000])
             ml[j] = [np.abs(1.0e-4*np.sum(ml[j,:i])) for i in range(len(ml[0]))]
-            #ml[j] = [np.abs(1.0e-4*np.sum(3e-2*ml[j,:i])) for i in range(len(ml[0]))]
         return ml
 
     def calib_IF(self, IF):
