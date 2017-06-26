@@ -1,10 +1,12 @@
 import read_wvf
 import read_wvf_ep02
 import matplotlib.pyplot as plt
+from matplotlib.colors import LogNorm
 import numpy as np
 import matplotlib.cbook as cbook
 import matplotlib.image as image
 from PIL import Image
+import scipy.signal as sig
 
 
 class DataBrowser:
@@ -53,14 +55,14 @@ class DataBrowser:
                                             [1, "ml3", ""],
                                             [1, "ml4", ""],
                                             [1, "ml5", ""],
-                                            [8, "Pfwd", ""],
-                                            [8, "Prev", ""],
+                                            [12, "Pfwd", ""],
+                                            [12, "Prev", ""],
                                             [10,"mpz", ""],
                                             [5, "Pol730nm", ""],    #trg
                                             [5, "Pol710nm", ""],     #PD
                                             [5, "Pol450nm", ""],  #1000V
-                                            [6, "REFcos", ""],
-                                            [6, "REFsin", ""],
+                                            [11, "REFcos", ""],
+                                            [11, "REFsin", ""],
                                             [1, "dmlt1", ""],
                                             [1, "mlt2", ""],
                                             [1, "mlt3", "diamag [Wb]"]])
@@ -68,9 +70,10 @@ class DataBrowser:
         self.data_pos_name_ep02 = np.array([[2, "MP1", ""],
                                             [2, "MP2", ""],
                                             [2, "MP3", ""],
-                                            [4, "SX", ""],
-                                            [4, "SX", ""],
-                                            [4, "SX", ""]])
+                                            [6, "IF_FAST", ""],
+                                            [6, "IF2_FAST", ""],
+                                            [10, "SX", ""],
+                                            [10, "SX", ""]])
 
     def load_date(self, LOCALorPPL):
         """
@@ -103,7 +106,7 @@ class DataBrowser:
         :return:
         """
         fig = plt.figure(figsize=(18,10))
-        data_ep01, data_ep02_MP, data_ep02_SX = self.load_date("PPL")
+        data_ep01, data_ep02_MP, data_ep02_SX = self.load_date("LOCAL")
         data_ep01 = self.adj_gain(data_ep01)
         data_ep01 = self.mag_loop(data_ep01)
         data_ep01 = self.calib_IF(data_ep01)
@@ -124,7 +127,7 @@ class DataBrowser:
         #   Date in exp_ep01        #
         #############################
         for j in range(1,33):
-            ax1 = fig.add_subplot(5,2,int(self.data_pos_name_ep01[j,0]), sharex=None, sharey=None)
+            ax1 = fig.add_subplot(6,2,int(self.data_pos_name_ep01[j,0]), sharex=None, sharey=None)
             ax1.set_xlim(0.5, 2.5)
             ax1.plot(data_ep01[0,::self.num_step],data_ep01[j,::self.num_step], label=self.data_pos_name_ep01[j,1])
             ax1.legend(fontsize=10)
@@ -135,8 +138,8 @@ class DataBrowser:
         #############################
         #   Date in exp_ep02 (SX)   #
         #############################
-        for j in range(1,4):
-            ax1 = fig.add_subplot(5,2, int(self.data_pos_name_ep02[j+2,0]), sharex=None, sharey=None)
+        for j in range(1,5):
+            ax1 = fig.add_subplot(6,2, int(self.data_pos_name_ep02[j+2,0]), sharex=None, sharey=None)
             ax1.plot(data_ep02_SX[0,::10*self.num_step]+0.5,data_ep02_SX[j,::10*self.num_step]+0.1-0.10*j, label=self.data_pos_name_ep02[j+2, 1])
             plt.subplots_adjust(left=0.05, right=0.97, bottom=0.05, top=0.95, wspace=0.15, hspace=0.12)
             ax1.legend(fontsize=10)
@@ -145,8 +148,7 @@ class DataBrowser:
         #   Date in exp_ep02 (MP)   #
         #############################
         for j in range(1,4):
-            ax1 = fig.add_subplot(5,2,2, sharex=None, sharey=None)
-            ax1 = fig.add_subplot(5,2, int(self.data_pos_name_ep02[j-1,0]), sharex=None, sharey=None)
+            ax1 = fig.add_subplot(6,2, int(self.data_pos_name_ep02[j-1,0]), sharex=None, sharey=None)
             ax1.plot(data_ep02_MP[0,::10*self.num_step]+0.5,data_ep02_MP[j,::10*self.num_step]+0.2-0.10*j, label=self.data_pos_name_ep02[j-1, 1])
             #ax1.plot(time_ep02_MP[::100], data_ep02_MP[j,::100]+0.5-0.25*j, label=self.data_name_ep02[j-1])
             plt.subplots_adjust(left=0.05, right=0.97, bottom=0.05, top=0.95, wspace=0.15, hspace=0.12)
@@ -154,6 +156,12 @@ class DataBrowser:
             if(j == 2):
                 plt.title("Date: %s, Shot No.: %d" % (self.date,self.shotnum), loc='right', fontsize=36, fontname="Arial")
 
+#        plt.show()
+
+        ax1 = fig.add_subplot(6,2,4)
+        self.stft(data_ep02_MP[0,:], data_ep02_MP[3,:])
+        ax1 = fig.add_subplot(6,2,8)
+        self.stft(data_ep02_SX[0,:], data_ep02_SX[2,:])
         plt.show()
 
     def mag_loop(self, ml):
@@ -221,8 +229,18 @@ class DataBrowser:
 
         return data_ep01
 
+    def stft(self, x, y):
+        MAXFREQ = 5e4
+        N = np.abs(1/(x[1]-x[2]))
+        f, t, Zxx =sig.spectrogram(y, fs=N, window='hamming', nperseg=5000)
+        #plt.xlim(0, 1.0)
+        plt.pcolormesh(t, f, np.abs(Zxx), vmin=0, vmax=4e-8)
+        #plt.contourf(t, f, np.abs(Zxx), 200, norm=LogNorm())# vmax=1e-7)
+        plt.ylabel("Frequency [Hz]")
+        #plt.xlabel("Time [sec]")
+        plt.ylim([0, MAXFREQ])
 
 
 if __name__ == "__main__":
-    db = DataBrowser(date="20170606", shotNo=47)
+    db = DataBrowser(date="20170608", shotNo=74)
     db.multiplot()
