@@ -236,7 +236,6 @@ class DataBrowser:
         plt.pcolormesh(t, f, np.abs(Zxx), vmin=0, vmax=4e-8)
         #plt.contourf(t, f, np.abs(Zxx), 200, norm=LogNorm())# vmax=1e-7)
         plt.ylabel(label + "\nFrequency [Hz]")
-        #plt.xlabel("Time [sec]")
         plt.ylim([0, MAXFREQ])
 
 
