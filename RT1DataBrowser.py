@@ -10,7 +10,7 @@ import scipy.signal as sig
 
 
 class DataBrowser:
-    def __init__(self, date, shotNo):
+    def __init__(self, date, shotNo, LOCALorPPL):
         """
 
         :param date:
@@ -18,6 +18,7 @@ class DataBrowser:
         """
         self.date = date
         self.shotnum = shotNo
+        self.LOCALorPPL = LOCALorPPL
         ##干渉計の補正値
         #for IF1
         self.a1 = 0.00
@@ -38,18 +39,18 @@ class DataBrowser:
                                             [7, "8GPr", ""],
                                             [7, "2GPf", ""],
                                             [7, "2GPr", ""],
-                                            [9, "Pgas", ""],
+                                            [11, "Pgas", ""],
                                             [7, "8GPf_n", ""],
                                             [7, "8GPr_n", "$\mathbf{P_{ECH} [kW]}$"],
-                                            [10,"SX1", ""],
+                                            [11,"SX1", ""],
                                             [9, "VG", ""],
                                             [3, "IF", ""],
                                             [3, "IF2", ""],
                                             [3, "IF3", "$\mathbf{n_eL [10^{17}m^{-3}]}$"],
                                             [5, "Pol390nm", ""],  #wall3
-                                            [10,"Id", ""],
-                                            [10,"Ia", ""],
-                                            [10,"Ib", ""],
+                                            [11,"Id", ""],
+                                            [11,"Ia", ""],
+                                            [11,"Ib", ""],
                                             [1, "ml1", ""],
                                             [1, "ml2", ""],
                                             [1, "ml3", ""],
@@ -57,7 +58,7 @@ class DataBrowser:
                                             [1, "ml5", ""],
                                             [12, "Pfwd", ""],
                                             [12, "Prev", ""],
-                                            [10,"mpz", ""],
+                                            [11,"mpz", ""],
                                             [5, "Pol730nm", ""],    #trg
                                             [5, "Pol710nm", ""],     #PD
                                             [5, "Pol450nm", ""],  #1000V
@@ -106,7 +107,7 @@ class DataBrowser:
         :return:
         """
         fig = plt.figure(figsize=(18,10))
-        data_ep01, data_ep02_MP, data_ep02_SX = self.load_date("LOCAL")
+        data_ep01, data_ep02_MP, data_ep02_SX = self.load_date(self.LOCALorPPL)
         data_ep01 = self.adj_gain(data_ep01)
         data_ep01 = self.mag_loop(data_ep01)
         data_ep01 = self.calib_IF(data_ep01)
@@ -132,7 +133,7 @@ class DataBrowser:
             ax1.plot(data_ep01[0,::self.num_step],data_ep01[j,::self.num_step], label=self.data_pos_name_ep01[j,1])
             ax1.legend(fontsize=10)
             ax1.set_ylabel(self.data_pos_name_ep01[j,2])
-            if(j==9 or j==15):
+            if(j==22 or j==28):
                 ax1.set_xlabel("Time [sec]")
 
         #############################
@@ -140,8 +141,8 @@ class DataBrowser:
         #############################
         for j in range(1,5):
             ax1 = fig.add_subplot(6,2, int(self.data_pos_name_ep02[j+2,0]), sharex=None, sharey=None)
-            ax1.plot(data_ep02_SX[0,::10*self.num_step]+0.5,data_ep02_SX[j,::10*self.num_step]+0.1-0.10*j, label=self.data_pos_name_ep02[j+2, 1])
-            plt.subplots_adjust(left=0.05, right=0.97, bottom=0.05, top=0.95, wspace=0.15, hspace=0.12)
+            ax1.plot(data_ep02_SX[0,::20*self.num_step]+0.5,data_ep02_SX[j,::20*self.num_step]+0.1-0.10*j, label=self.data_pos_name_ep02[j+2, 1])
+            plt.subplots_adjust(left=0.05, right=0.97, bottom=0.05, top=0.95, wspace=0.15, hspace=0.15)
             ax1.legend(fontsize=10)
 
         #############################
@@ -149,19 +150,17 @@ class DataBrowser:
         #############################
         for j in range(1,4):
             ax1 = fig.add_subplot(6,2, int(self.data_pos_name_ep02[j-1,0]), sharex=None, sharey=None)
-            ax1.plot(data_ep02_MP[0,::10*self.num_step]+0.5,data_ep02_MP[j,::10*self.num_step]+0.2-0.10*j, label=self.data_pos_name_ep02[j-1, 1])
+            ax1.plot(data_ep02_MP[0,::20*self.num_step]+0.5,data_ep02_MP[j,::20*self.num_step]+0.2-0.10*j, label=self.data_pos_name_ep02[j-1, 1])
             #ax1.plot(time_ep02_MP[::100], data_ep02_MP[j,::100]+0.5-0.25*j, label=self.data_name_ep02[j-1])
-            plt.subplots_adjust(left=0.05, right=0.97, bottom=0.05, top=0.95, wspace=0.15, hspace=0.12)
+            plt.subplots_adjust(left=0.05, right=0.97, bottom=0.05, top=0.95, wspace=0.15, hspace=0.15)
             ax1.legend(fontsize=10)
             if(j == 2):
-                plt.title("Date: %s, Shot No.: %d" % (self.date,self.shotnum), loc='right', fontsize=36, fontname="Arial")
-
-#        plt.show()
+                plt.title("Date: %s, Shot No.: %d" % (self.date,self.shotnum), loc='right', fontsize=36, fontname="Times New Roman")
 
         ax1 = fig.add_subplot(6,2,4)
-        self.stft(data_ep02_MP[0,:], data_ep02_MP[3,:])
+        self.stft(data_ep02_MP[0,:], data_ep02_MP[3,:], self.data_pos_name_ep02[2,1])
         ax1 = fig.add_subplot(6,2,8)
-        self.stft(data_ep02_SX[0,:], data_ep02_SX[2,:])
+        self.stft(data_ep02_SX[0,:], data_ep02_SX[2,:], self.data_pos_name_ep02[4,1])
         plt.show()
 
     def mag_loop(self, ml):
@@ -229,18 +228,18 @@ class DataBrowser:
 
         return data_ep01
 
-    def stft(self, x, y):
+    def stft(self, x, y, label):
         MAXFREQ = 5e4
         N = np.abs(1/(x[1]-x[2]))
         f, t, Zxx =sig.spectrogram(y, fs=N, window='hamming', nperseg=5000)
         #plt.xlim(0, 1.0)
         plt.pcolormesh(t, f, np.abs(Zxx), vmin=0, vmax=4e-8)
         #plt.contourf(t, f, np.abs(Zxx), 200, norm=LogNorm())# vmax=1e-7)
-        plt.ylabel("Frequency [Hz]")
+        plt.ylabel(label + "\nFrequency [Hz]")
         #plt.xlabel("Time [sec]")
         plt.ylim([0, MAXFREQ])
 
 
 if __name__ == "__main__":
-    db = DataBrowser(date="20170608", shotNo=74)
+    db = DataBrowser(date="20170608", shotNo=74, LOCALorPPL="LOCAL")
     db.multiplot()
