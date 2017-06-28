@@ -66,7 +66,7 @@ class DataBrowser:
                                             [11, "REFsin", ""],
                                             [1, "dmlt1", ""],
                                             [1, "mlt2", ""],
-                                            [1, "mlt3", "diamag [Wb]"]])
+                                            [1, "mlt3", "diamag [mWb]"]])
 
         self.data_pos_name_ep02 = np.array([[2, "MP1", ""],
                                             [2, "MP2", ""],
@@ -174,10 +174,12 @@ class DataBrowser:
         ml[30,:] = ml[30,:] - ml[18,:]/3.0
         for j in range(17,22):
             ml[j,:] -= np.mean(ml[j,:6000])
-            ml[j] = [np.abs(1.0e-4*np.sum(ml[j,:i])) for i in range(len(ml[0]))]
+            #ml[j] = [np.abs(1.0e-4*np.sum(ml[j,:i])) for i in range(len(ml[0]))]    #Unit: Wb
+            ml[j] = [np.abs(1.0e-1*np.sum(ml[j,:i])) for i in range(len(ml[0]))]    #Unit: mWb
         for j in range(30,33):
             ml[j,:] -= np.mean(ml[j,:6000])
-            ml[j] = [np.abs(1.0e-4*np.sum(ml[j,:i])) for i in range(len(ml[0]))]
+            #ml[j] = [np.abs(1.0e-4*np.sum(ml[j,:i])) for i in range(len(ml[0]))]    #Unit:Wb
+            ml[j] = [np.abs(1.0e-4*np.sum(ml[j,:i])) for i in range(len(ml[0]))]    #Unit:mWb
         return ml
 
     def calib_IF(self, IF):
