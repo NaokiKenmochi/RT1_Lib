@@ -229,13 +229,13 @@ class DataBrowser:
         return data_ep01
 
     def stft(self, x, y, label):
-        MAXFREQ = 5e4
-        N = np.abs(1/(x[1]-x[2]))
+        MAXFREQ = 5e1
+        N = 1e-3*np.abs(1/(x[1]-x[2]))
         f, t, Zxx =sig.spectrogram(y, fs=N, window='hamming', nperseg=5000)
         #plt.xlim(0, 1.0)
-        plt.pcolormesh(t, f, np.abs(Zxx), vmin=0, vmax=4e-8)
+        plt.pcolormesh(t, f, np.abs(Zxx), vmin=0, vmax=4e-5)
         #plt.contourf(t, f, np.abs(Zxx), 200, norm=LogNorm())# vmax=1e-7)
-        plt.ylabel(label + "\nFrequency [Hz]")
+        plt.ylabel(label + "\nFrequency [kHz]")
         plt.ylim([0, MAXFREQ])
 
 
