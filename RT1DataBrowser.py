@@ -161,7 +161,9 @@ class DataBrowser:
         self.stft(data_ep02_MP[0,:], data_ep02_MP[3,:], self.data_pos_name_ep02[2,1])
         ax1 = fig.add_subplot(6,2,8)
         self.stft(data_ep02_SX[0,:], data_ep02_SX[2,:], self.data_pos_name_ep02[4,1])
-        plt.show()
+        filename = "RT1_%s_%d" % (self.date, self.shotnum)
+        plt.savefig(filename)
+#        plt.show()
 
     def mag_loop(self, ml):
         """
@@ -242,5 +244,6 @@ class DataBrowser:
 
 
 if __name__ == "__main__":
-    db = DataBrowser(date="20170608", shotNo=74, LOCALorPPL="LOCAL")
+    db = DataBrowser(date="20170629", shotNo=72, LOCALorPPL="PPL")
+
     db.multiplot()
