@@ -18,6 +18,7 @@ import struct
 import os, os.path
 import re
 import subprocess
+import platform
 
 class DataManager:
     ##################################
@@ -52,7 +53,11 @@ class DataManager:
     START = 11
     STEP  = 19
 
-    _base_dir = os.path.expanduser('/Volumes/D/WEDATA')
+    if(platform.system() == 'Darwin'):
+        _base_dir = os.path.expanduser('/Volumes/D/WEDATA')
+    elif(platform.system() == 'Windows'):
+        _base_dir = os.path.expanduser('//Exp_ep02/D/WEDATA')  #for windows in same natwork
+
     def __init__(self, MPorSX, date):
         self.date = date
         #self._set_date()

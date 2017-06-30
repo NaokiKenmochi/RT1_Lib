@@ -18,6 +18,7 @@ import struct
 import os, os.path
 import re
 import subprocess
+import platform
 
 class DataManager:
     ##################################
@@ -52,7 +53,11 @@ class DataManager:
     START = 11
     STEP  = 19
 
-    _base_dir = os.path.expanduser('~/mount_point/exp_ep01')
+    if(platform.system() == 'Darwin'):
+        _base_dir = os.path.expanduser('~/mount_point/exp_ep01')
+    elif(platform.system() == 'Windows'):
+        _base_dir = os.path.expanduser('//EXP_EP01/d/WEDATA')  #for windows(in same Network)
+
     def __init__(self, date):
         self.date = date
 #        self._set_date()
