@@ -1,5 +1,4 @@
 import read_wvf
-import read_wvf_ep02
 import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
 import numpy as np
@@ -83,9 +82,9 @@ class DataBrowser:
         :return:
         """
         if LOCALorPPL == "PPL":
-            dm_ep01 = read_wvf.DataManager(self.date)
-            dm_ep02_MP = read_wvf_ep02.DataManager("MP", self.date)
-            dm_ep02_SX = read_wvf_ep02.DataManager("SX", self.date)
+            dm_ep01 = read_wvf.DataManager("exp_ep01", 0, self.date)
+            dm_ep02_MP = read_wvf.DataManager("exp_ep02", "MP", self.date)
+            dm_ep02_SX = read_wvf.DataManager("exp_ep02", "SX", self.date)
             data_ep01 = dm_ep01.fetch_raw_data(self.shotnum)
             data_ep02_MP = dm_ep02_MP.fetch_raw_data(self.shotnum)
             data_ep02_SX = dm_ep02_SX.fetch_raw_data(self.shotnum)
@@ -244,6 +243,6 @@ class DataBrowser:
 
 
 if __name__ == "__main__":
-    db = DataBrowser(date="20170629", shotNo=73, LOCALorPPL="PPL")
+    db = DataBrowser(date="20170629", shotNo=2, LOCALorPPL="PPL")
 
     db.multiplot()

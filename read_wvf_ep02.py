@@ -56,7 +56,7 @@ class DataManager:
     if(platform.system() == 'Darwin'):
         _base_dir = os.path.expanduser('/Volumes/D/WEDATA')
     elif(platform.system() == 'Windows'):
-        _base_dir = os.path.expanduser('//Exp_ep02/D/WEDATA')  #for windows in same natwork
+        _base_dir = os.path.expanduser('//Exp_ep02/D/WEDATA')  #for windows in same network
 
     def __init__(self, MPorSX, date):
         self.date = date

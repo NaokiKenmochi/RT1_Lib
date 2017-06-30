@@ -5,6 +5,10 @@ WE7000が出すバイナリファイル(.wvf)をそのヘッダファイル(.hdr
 2016/08/29
 by Noriki Takahashi
 
+exp_ep01, exp_ep02を区別して読み込む
+2017/6/30
+by Naoki Kenmochi
+
 Edit:
 package化に向けて編集開始
 それまでのものはread_wvf_old.pyとした
@@ -21,46 +25,65 @@ import subprocess
 import platform
 
 class DataManager:
-    ##################################
-    #              定数              #
-    ##################################
-    # ヘッダーファイルから情報を引き出してバイナリを読む
-    # hfile = '00064.hdr' # hedder file
-    # bfile = '00064.wvf' # binary file
-    # チャンネル数(固定)
-    CH_NUM = 32
 
-    # 以下のものだけ取り出せれば十分(igorでは少なくともそうだった)
-    # 他のWEの製品が生成するものに対応したければ，エンディアンなどを調べる必要もある．
-    # VR -> VResolution: 縦軸(vertical axis)の1目盛り分
-    # VO -> VOffset    : 縦軸(vertical axis)のオフセット分
-    # ticks * VR + VO が計測値(電圧値)
-    # HR -> HResolution: 横軸(horizontal axis)の1目盛り分
-    # HO -> HOffset    : 横軸(horizontal axis)のオフセット分
-    # ticks * HR + HO が計測値(時間)
-    VR_ID = 5
-    VO_ID = 6
-    HR_ID = 14
-    HO_ID = 15
+#    if(platform.system() == 'Darwin'):
+#        _base_dir = os.path.expanduser('~/mount_point/exp_ep01')
+#    elif(platform.system() == 'Windows'):
+#        _base_dir = os.path.expanduser('//EXP_EP01/d/WEDATA')  #for windows(in same Network)
 
-    # BlockSizeがある行
-    BS_ID = 4
+    def __init__(self, exp_ep01or02, MPorSX, date):
+        ##################################
+        #              定数              #
+        ##################################
+        # ヘッダーファイルから情報を引き出してバイナリを読む
+        # hfile = '00064.hdr' # hedder file
+        # bfile = '00064.wvf' # binary file
 
-    # Groupの数
-    GROUP_NUM = 8
+        # 以下のものだけ取り出せれば十分(igorでは少なくともそうだった)
+        # 他のWEの製品が生成するものに対応したければ，エンディアンなどを調べる必要もある．
+        # VR -> VResolution: 縦軸(vertical axis)の1目盛り分
+        # VO -> VOffset    : 縦軸(vertical axis)のオフセット分
+        # ticks * VR + VO が計測値(電圧値)
+        # HR -> HResolution: 横軸(horizontal axis)の1目盛り分
+        # HO -> HOffset    : 横軸(horizontal axis)のオフセット分
+        # ticks * HR + HO が計測値(時間)
+        self.VR_ID = 5
+        self.VO_ID = 6
+        self.HR_ID = 14
+        self.HO_ID = 15
 
-    # headerの読み取り位置
-    START = 11
-    STEP  = 19
+        # BlockSizeがある行
+        self.BS_ID = 4
 
-    if(platform.system() == 'Darwin'):
-        _base_dir = os.path.expanduser('~/mount_point/exp_ep01')
-    elif(platform.system() == 'Windows'):
-        _base_dir = os.path.expanduser('//EXP_EP01/d/WEDATA')  #for windows(in same Network)
+        # headerの読み取り位置
+        self.START = 11
+        self.STEP  = 19
 
-    def __init__(self, date):
         self.date = date
+        self.exp_ep01or02 = exp_ep01or02
+        self.MPorSX = MPorSX
 #        self._set_date()
+
+        if(self.exp_ep01or02 == 'exp_ep01'):
+            # チャンネル数(固定)
+            self.CH_NUM = 32
+            # Groupの数
+            self.GROUP_NUM = 8
+            if(platform.system() == 'Darwin'):
+                self._base_dir = os.path.expanduser('~/mount_point/exp_ep01')
+            elif(platform.system() == 'Windows'):
+                self._base_dir = os.path.expanduser('//EXP_EP01/d/WEDATA')  #for windows(in same Network)
+
+        elif(self.exp_ep01or02 == 'exp_ep02'):
+            # チャンネル数(固定)
+            self.CH_NUM = 4
+            # Groupの数
+            self.GROUP_NUM = 1
+            if(platform.system() == 'Darwin'):
+                self._base_dir = os.path.expanduser('/Volumes/D/WEDATA')
+            elif(platform.system() == 'Windows'):
+                self._base_dir = os.path.expanduser('//Exp_ep02/D/WEDATA')  #for windows in same network
+
         self._set_dir()
 
     def fetch_raw_ch_data(self, shot_nums, ch_nums):
@@ -133,8 +156,15 @@ class DataManager:
         subprocess.check_call(cmd.split(" "), shell=True)
 
     def _set_dir(self):
-        we_dir = 'd7273'
-        self.dir_path = os.path.join(self._base_dir, 'd' + self.date, we_dir)
+        if(self.exp_ep01or02 == "exp_ep01"):
+            we_dir = 'd7273'
+            self.dir_path = os.path.join(self._base_dir, 'd' + self.date, we_dir)
+        elif(self.exp_ep01or02 == "exp_ep02"):
+            if(self.MPorSX=="MP"):
+                we_dir = 'FC'       #MP
+            elif(self.MPorSX=="SX"):
+                we_dir = 'd7116'    #SX
+            self.dir_path = os.path.join(self._base_dir, 'd' + self.date + '_2', we_dir)
 
     def _generate_path(self, shot_num):
         return os.path.join(self.dir_path, '{0:05d}.wvf'.format(shot_num))
