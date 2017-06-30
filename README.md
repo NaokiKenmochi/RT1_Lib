@@ -8,7 +8,6 @@ ___PythonでWE7000で収集したRT-1のデータを表示する___
 - Modify the "date" and "ShotNo".
 - Run the RT1DataBrowser.py
 
-
 ## Sample
 ![Sample of DataBrowser](RT1_20170608_74.png)
 ## ToDo
