@@ -243,6 +243,6 @@ class DataBrowser:
 
 
 if __name__ == "__main__":
-    db = DataBrowser(date="20170629", shotNo=2, LOCALorPPL="PPL")
+    db = DataBrowser(date="20170629", shotNo=73, LOCALorPPL="PPL")
 
     db.multiplot()
