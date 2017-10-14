@@ -6,16 +6,17 @@ import matplotlib.cbook as cbook
 import matplotlib.image as image
 from PIL import Image
 import scipy.signal as sig
+from scipy import optimize
 
 
 class DataBrowser:
-    def __init__(self, date, shotNo, LOCALorPPL):
+    def __init__(self, data, shotNo, LOCALorPPL):
         """
 
-        :param date:
+        :param data:
         :param shotNo:
         """
-        self.date = date
+        self.data = data
         self.shotnum = shotNo
         self.LOCALorPPL = LOCALorPPL
         ##干渉計の補正値
@@ -23,11 +24,16 @@ class DataBrowser:
         self.a1 = 0.00
         self.b1 = 0.29
         #for IF2
-        self.a2 = -0.005
-        self.b2 = 0.135
+        #12 Oct 2017
+        self.a2 = -0.0035
+        self.b2 = 0.0315
+        #19 July 2015
+        #self.a2 = -0.005
+        #self.b2 = 0.135
         #for IF3
         self.a3 = 0.00
-        self.b3 = 0.30
+        self.b3 = 0.28      #12 Oct 2017
+        #self.b3 = 0.30     #18 July 2016
 
         #グラフ描写のstep数
         self.num_step = 20
@@ -82,17 +88,17 @@ class DataBrowser:
         :return:
         """
         if LOCALorPPL == "PPL":
-            dm_ep01 = read_wvf.DataManager("exp_ep01", 0, self.date)
-            dm_ep02_MP = read_wvf.DataManager("exp_ep02", "MP", self.date)
-            dm_ep02_SX = read_wvf.DataManager("exp_ep02", "SX", self.date)
+            dm_ep01 = read_wvf.DataManager("exp_ep01", 0, self.data)
+            dm_ep02_MP = read_wvf.DataManager("exp_ep02", "MP", self.data)
+            dm_ep02_SX = read_wvf.DataManager("exp_ep02", "SX", self.data)
             data_ep01 = dm_ep01.fetch_raw_data(self.shotnum)
             data_ep02_MP = dm_ep02_MP.fetch_raw_data(self.shotnum)
             data_ep02_SX = dm_ep02_SX.fetch_raw_data(self.shotnum)
-            #np.savez("data_%s_%d" % (self.date, self.shotnum), data_ep01=data_ep01, data_ep02_MP=data_ep02_MP, data_ep02_SX=data_ep02_SX)
+            #np.savez("data_%s_%d" % (self.data, self.shotnum), data_ep01=data_ep01, data_ep02_MP=data_ep02_MP, data_ep02_SX=data_ep02_SX)
             print("Load IF from PPL")
 
         else:
-            data = np.load("data_%s_%d.npz" % (self.date, self.shotnum))
+            data = np.load("data_%s_%d.npz" % (self.data, self.shotnum))
             data_ep01 = data["data_ep01"]
             data_ep02_MP = data["data_ep02_MP"]
             data_ep02_SX = data["data_ep02_SX"]
@@ -154,14 +160,16 @@ class DataBrowser:
             plt.subplots_adjust(left=0.05, right=0.97, bottom=0.05, top=0.95, wspace=0.15, hspace=0.15)
             ax1.legend(fontsize=10)
             if(j == 2):
-                plt.title("Date: %s, Shot No.: %d" % (self.date,self.shotnum), loc='right', fontsize=36, fontname="Times New Roman")
+                plt.title("Date: %s, Shot No.: %d" % (self.data,self.shotnum), loc='right', fontsize=36, fontname="Times New Roman")
 
         ax1 = fig.add_subplot(6,2,4)
         self.stft(data_ep02_MP[0,:], data_ep02_MP[3,:], self.data_pos_name_ep02[2,1])
         ax1 = fig.add_subplot(6,2,8)
         self.stft(data_ep02_SX[0,:], data_ep02_SX[2,:], self.data_pos_name_ep02[4,1])
-        filename = "RT1_%s_%d" % (self.date, self.shotnum)
-        plt.savefig(filename)
+        filepath = "figure/"
+        filename = "RT1_%s_%d" % (self.data, self.shotnum)
+        plt.savefig(filepath + filename)
+
 #        plt.show()
 
     def mag_loop(self, ml):
@@ -241,8 +249,70 @@ class DataBrowser:
         plt.ylabel(label + "\nFrequency [kHz]")
         plt.ylim([0, MAXFREQ])
 
+    def fit_func(self, parameter, x, y, t0):
+        y0 = parameter[0]
+        A = parameter[1]
+        tau = parameter[2]
+        x0 = t0#parameter[3]
+        #exp_XOffset = y - (y0 + A*np.exp(-(x-x0)/tau))
+        exp_XOffset = y - A*np.exp(-(x-x0)/tau)
+        return exp_XOffset
+
+    def get_tau(self, x, y, t0):
+        parameter0 = [0., 0., 0.1, 0.]
+        result = optimize.leastsq(self.fit_func, parameter0, args=(x, y, t0), maxfev=5000)
+        y0_fit = 0#result[0][0]
+        A_fit = result[0][1]
+        tau_fit = result[0][2]
+        x0_fit = t0#result[0][3]
+        print(y0_fit, A_fit, tau_fit, x0_fit)
+        #plt.plot(x, y)
+        plt.plot(x, y0_fit + A_fit*np.exp(-(x-x0_fit)/tau_fit))
+        plt.text(0.9, 0.20, "y0 + A*np.exp(-(x-x0)/tau)", fontsize=12)
+        plt.text(0.9, 0.15, "y0=%f" % y0_fit, fontsize=12)
+        plt.text(0.9, 0.10, "A=%f" % A_fit, fontsize=12)
+        plt.text(0.9, 0.05, "tau=%f" % tau_fit, fontsize=12)
+        plt.text(0.9, 0.00, "x0=%f" % x0_fit, fontsize=12)
+        plt.xlabel("Time[sec]", fontsize=18)
+        plt.ylabel("$\mathbf{n_eL [10^{17}m^{-3}]}$", fontsize=18)
+        plt.tick_params(labelsize=18)
+
+    def plt_IFwfit(self, LOCALorPPL, pltstart):
+        fig = plt.figure(figsize=(12,8))
+
+        if LOCALorPPL == "PPL":
+            dm_ep01 = read_wvf.DataManager("exp_ep01", 0, self.data)
+            data_ep01 = dm_ep01.fetch_raw_data(self.shotnum)
+            #np.savez("data_%s_%d" % (self.data, self.shotnum), data_ep01=data_ep01, data_ep02_MP=data_ep02_MP, data_ep02_SX=data_ep02_SX)
+            print("Load IF from PPL")
+
+        else:
+            data = np.load("data_%s_%d.npz" % (self.data, self.shotnum))
+            data_ep01 = data["data_ep01"]
+            print("Load IF from local")
+
+        data_ep01 = self.adj_gain(data_ep01)
+        data_ep01 = self.calib_IF(data_ep01)
+
+        ax1=plt.subplot(211)
+        pltnum = 11
+        plt.plot(data_ep01[0, 10000:22000:self.num_step], data_ep01[pltnum, 10000:22000:self.num_step], label=self.data_pos_name_ep01[pltnum,1])
+        plt.legend()
+        self.get_tau(data_ep01[0, pltstart:18000:self.num_step], data_ep01[pltnum, pltstart:18000:self.num_step], pltstart/10000)
+        plt.title("Date: %s, Shot No.: %d" % (self.data,self.shotnum), loc='right', fontsize=20, fontname="Times New Roman")
+        ax1=plt.subplot(212)
+        pltnum = 12
+        plt.plot(data_ep01[0, 10000:22000:self.num_step], data_ep01[pltnum, 10000:22000:self.num_step], label=self.data_pos_name_ep01[pltnum,1])
+        plt.legend()
+        self.get_tau(data_ep01[0, pltstart:18000:self.num_step], data_ep01[pltnum, pltstart:18000:self.num_step], pltstart/10000)
+
+        filepath = "figure/"
+        filename = "GP1_%s_%d_IF2_IF3_y0" % (self.data, self.shotnum)
+        plt.savefig(filepath + filename)
+        plt.clf()
+
 
 if __name__ == "__main__":
-    db = DataBrowser(date="20170629", shotNo=73, LOCALorPPL="PPL")
-
-    db.multiplot()
+    db = DataBrowser(data="20171014", shotNo=1, LOCALorPPL="PPL")
+#    db.multiplot()
+#    db.plt_IFwfit(LOCALorPPL="PPL", pltstart=12200)
