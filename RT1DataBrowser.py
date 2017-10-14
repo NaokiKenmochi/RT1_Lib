@@ -314,5 +314,5 @@ class DataBrowser:
 
 if __name__ == "__main__":
     db = DataBrowser(data="20171014", shotNo=1, LOCALorPPL="PPL")
-#    db.multiplot()
+    db.multiplot()
 #    db.plt_IFwfit(LOCALorPPL="PPL", pltstart=12200)
