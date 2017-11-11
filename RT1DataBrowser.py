@@ -51,7 +51,7 @@ class DataBrowser:
                                             [9, "VG", ""],
                                             [3, "IF", ""],
                                             [3, "IF2", ""],
-                                            [3, "IF3", "$\mathbf{n_eL [10^{17}m^{-3}]}$"],
+                                            [3, "IF3", "$\mathbf{n_eL [10^{17}m^{-2}]}$"],
                                             [5, "Pol390nm", ""],  #wall3
                                             [11,"Id", ""],
                                             [11,"Ia", ""],
@@ -211,6 +211,9 @@ class DataBrowser:
 #        IF[10,:] -= np.mean(IF[10,:6000])
 #        IF[11,:] -= np.mean(IF[11,:6000])
 #        IF[12,:] -= np.mean(IF[12,:6000])
+        #np.savetxt("IF3_20170629_68.txt", IF[12, :], delimiter="\n")
+        #np.savetxt("IF2_20170629_68.txt", IF[11, :], delimiter="\n")
+        #np.savetxt("IF1_20170629_68.txt", IF[10, :], delimiter="\n")
 
         return IF
 
@@ -274,7 +277,7 @@ class DataBrowser:
         plt.text(0.9, 0.2*x0_fit, "tau=%f" % tau_fit, fontsize=12)
         plt.text(0.9, 0.0*x0_fit, "x0=%f" % x0_fit, fontsize=12)
         plt.xlabel("Time[sec]", fontsize=18)
-        plt.ylabel("$\mathbf{n_eL [10^{17}m^{-3}]}$", fontsize=18)
+        plt.ylabel("$\mathbf{n_eL [10^{17}m^{-2}]}$", fontsize=18)
         plt.tick_params(labelsize=18)
 
     def plt_IFwfit(self, LOCALorPPL, pltstart):
@@ -293,26 +296,41 @@ class DataBrowser:
 
         data_ep01 = self.adj_gain(data_ep01)
         data_ep01 = self.calib_IF(data_ep01)
+        data_ep01 = self.mag_loop(data_ep01)
 
-        ax1=plt.subplot(211)
-        pltnum = 11
+        ax1=plt.subplot(311)
+        pltnum = 10
         plt.plot(data_ep01[0, 10000:22000:self.num_step], data_ep01[pltnum, 10000:22000:self.num_step], label=self.data_pos_name_ep01[pltnum,1])
         plt.legend()
         self.get_tau(data_ep01[0, pltstart:18000:self.num_step], data_ep01[pltnum, pltstart:18000:self.num_step], pltstart/10000)
         plt.title("Date: %s, Shot No.: %d" % (self.data,self.shotnum), loc='right', fontsize=20, fontname="Times New Roman")
-        ax1=plt.subplot(212)
+        ax1=plt.subplot(312)
+        pltnum = 11
+        plt.plot(data_ep01[0, 10000:22000:self.num_step], data_ep01[pltnum, 10000:22000:self.num_step], label=self.data_pos_name_ep01[pltnum,1])
+        plt.legend()
+        self.get_tau(data_ep01[0, pltstart:18000:self.num_step], data_ep01[pltnum, pltstart:18000:self.num_step], pltstart/10000)
+        ax1=plt.subplot(313)
         pltnum = 12
         plt.plot(data_ep01[0, 10000:22000:self.num_step], data_ep01[pltnum, 10000:22000:self.num_step], label=self.data_pos_name_ep01[pltnum,1])
         plt.legend()
         self.get_tau(data_ep01[0, pltstart:18000:self.num_step], data_ep01[pltnum, pltstart:18000:self.num_step], pltstart/10000)
 
         filepath = "figure/"
-        filename = "GP1_%s_%d_IF2_IF3_y0" % (self.data, self.shotnum)
+        filename = "GP1_%s_%d_IF1_IF2_IF3_y0" % (self.data, self.shotnum)
         plt.savefig(filepath + filename)
         plt.clf()
+        filename2 = "GP1_%s_%d_IF1IF2IF3_all.txt" % (self.data, self.shotnum)
+        IF1IF2IF3 = np.zeros((len(data_ep01[0]), 4))
+        IF1IF2IF3[:, :] = data_ep01[9:13, :].T
+        np.savetxt(filename2, IF1IF2IF3, delimiter=",")
+        #np.savetxt(filename2, data_ep01[6, ::self.num_step], delimiter="\n")
+        #np.savetxt(filename2, data_ep01[1, ::self.num_step], delimiter="\n")
 
 
 if __name__ == "__main__":
-    db = DataBrowser(data="20171014", shotNo=2, LOCALorPPL="PPL")
+#    for i in range(111,114):
+#        db = DataBrowser(data="20171110", shotNo=i, LOCALorPPL="PPL")
+#        db.plt_IFwfit(LOCALorPPL="PPL", pltstart=11200)
+    db = DataBrowser(data="20171111", shotNo=3, LOCALorPPL="PPL")
     db.multiplot()
 #    db.plt_IFwfit(LOCALorPPL="PPL", pltstart=12200)
