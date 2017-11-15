@@ -337,8 +337,8 @@ class DataBrowser:
 
 
 if __name__ == "__main__":
-    for i in range(39, 114):
-        db = DataBrowser(data="20171110", shotNo=i, LOCALorPPL="PPL")
+    for i in range(7, 43):
+        db = DataBrowser(data="20171111", shotNo=i, LOCALorPPL="PPL")
         db.plt_IFwfit(LOCALorPPL="PPL", pltstart=11200)
 #    db = DataBrowser(data="20171111", shotNo=35, LOCALorPPL="PPL")
 #    db.multiplot()
