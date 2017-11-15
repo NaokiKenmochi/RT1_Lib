@@ -326,14 +326,14 @@ class DataBrowser:
         #filename = "GP1_%s_%d_IF1_IF2_IF3_y0" % (self.data, self.shotnum)
         #plt.savefig(filepath + filename)
         #plt.clf()
-        filename2 = "GP1_%s_%d_IF1IF2IF3_all.txt" % (self.data, self.shotnum)
+        #filename2 = "GP1_%s_%d_IF1IF2IF3_all.txt" % (self.data, self.shotnum)
         #filename3 = "GP1_%s_%d_ml3.txt" % (self.data, self.shotnum)
-        #filename4 = "GP1_%s_%d_2GPf.txt" % (self.data, self.shotnum)
-        IF1IF2IF3 = np.zeros((len(data_ep01[0]), 4))
-        IF1IF2IF3[:, :] = data_ep01[9:13, :].T
-        np.savetxt(filename2, IF1IF2IF3, delimiter=",")
+        filename4 = "GP1_%s_%d_2GPf.txt" % (self.data, self.shotnum)
+        #IF1IF2IF3 = np.zeros((len(data_ep01[0]), 4))
+        #IF1IF2IF3[:, :] = data_ep01[9:13, :].T
+        #np.savetxt(filename2, IF1IF2IF3, delimiter=",")
         #np.savetxt(filename3, data_ep01[19, :].T, delimiter=",")
-        #np.savetxt(filename4, data_ep01[3, :].T, delimiter=",")
+        np.savetxt(filename4, data_ep01[3, :].T, delimiter=",")
 
 
 if __name__ == "__main__":
