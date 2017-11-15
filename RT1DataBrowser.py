@@ -25,8 +25,11 @@ class DataBrowser:
         self.b1 = 0.29
         #for IF2
         #12 Oct 2017
-        self.a2 = -0.0035
-        self.b2 = 0.0315
+        #self.a2 = -0.0035
+        #self.b2 = 0.0315
+        #11 Nov 2017
+        self.a2 = -0.001
+        self.b2 = 0.145
         #19 July 2015
         #self.a2 = -0.005
         #self.b2 = 0.135
@@ -197,9 +200,13 @@ class DataBrowser:
         :param IF:
         :return:
         """
-        IF[10,:] = np.arcsin((IF[10,:]-self.a1)/self.b1)*180/np.pi - np.mean(np.arcsin((IF[10,:5000]-self.a1)/self.b1)*180/np.pi)
+        IF_offset = np.mean(np.arcsin((IF[10,:5000]-self.a1)/self.b1)*180/np.pi)
+        #IF[10,:] = np.arcsin((IF[10,:]-self.a1)/self.b1)*180/np.pi - np.mean(np.arcsin((IF[10,:5000]-self.a1)/self.b1)*180/np.pi)
+        IF[10,:] = np.arcsin((IF[10,:]-self.a1)/self.b1)*180/np.pi
         IF[11,:] = np.arcsin((IF[11,:]-self.a2)/self.b2)*180/np.pi - np.mean(np.arcsin((IF[11,:5000]-self.a2)/self.b2)*180/np.pi)
         IF[12,:] = np.arcsin((IF[12,:]-self.a3)/self.b3)*180/np.pi - np.mean(np.arcsin((IF[12,:5000]-self.a3)/self.b3)*180/np.pi)
+
+        IF[10, :] = 180 - IF[10, :] - IF_offset
 
         IF[10,:] = IF[10,:]*5.58/360
         IF[11,:] = IF[11,:]*5.58/360
@@ -268,7 +275,7 @@ class DataBrowser:
         A_fit = result[0][1]
         tau_fit = result[0][2]
         x0_fit = t0#result[0][3]
-        print(y0_fit, A_fit, tau_fit, x0_fit)
+        print(self.shotnum, y0_fit, A_fit, tau_fit, x0_fit)
         #plt.plot(x, y)
         plt.plot(x, y0_fit + A_fit*np.exp(-(x-x0_fit)/tau_fit))
         plt.text(0.9, 0.8*x0_fit, "y0 + A*np.exp(-(x-x0)/tau)", fontsize=12)
@@ -298,39 +305,41 @@ class DataBrowser:
         data_ep01 = self.calib_IF(data_ep01)
         data_ep01 = self.mag_loop(data_ep01)
 
-        ax1=plt.subplot(311)
-        pltnum = 10
-        plt.plot(data_ep01[0, 10000:22000:self.num_step], data_ep01[pltnum, 10000:22000:self.num_step], label=self.data_pos_name_ep01[pltnum,1])
-        plt.legend()
-        self.get_tau(data_ep01[0, pltstart:18000:self.num_step], data_ep01[pltnum, pltstart:18000:self.num_step], pltstart/10000)
-        plt.title("Date: %s, Shot No.: %d" % (self.data,self.shotnum), loc='right', fontsize=20, fontname="Times New Roman")
-        ax1=plt.subplot(312)
-        pltnum = 11
-        plt.plot(data_ep01[0, 10000:22000:self.num_step], data_ep01[pltnum, 10000:22000:self.num_step], label=self.data_pos_name_ep01[pltnum,1])
-        plt.legend()
-        self.get_tau(data_ep01[0, pltstart:18000:self.num_step], data_ep01[pltnum, pltstart:18000:self.num_step], pltstart/10000)
-        ax1=plt.subplot(313)
-        pltnum = 12
-        plt.plot(data_ep01[0, 10000:22000:self.num_step], data_ep01[pltnum, 10000:22000:self.num_step], label=self.data_pos_name_ep01[pltnum,1])
-        plt.legend()
-        self.get_tau(data_ep01[0, pltstart:18000:self.num_step], data_ep01[pltnum, pltstart:18000:self.num_step], pltstart/10000)
+        #ax1=plt.subplot(311)
+        #pltnum = 10
+        #plt.plot(data_ep01[0, 10000:22000:self.num_step], data_ep01[pltnum, 10000:22000:self.num_step], label=self.data_pos_name_ep01[pltnum,1])
+        #plt.legend()
+        #self.get_tau(data_ep01[0, pltstart:18000:self.num_step], data_ep01[pltnum, pltstart:18000:self.num_step], pltstart/10000)
+        #plt.title("Date: %s, Shot No.: %d" % (self.data,self.shotnum), loc='right', fontsize=20, fontname="Times New Roman")
+        #ax1=plt.subplot(312)
+        #pltnum = 11
+        #plt.plot(data_ep01[0, 10000:22000:self.num_step], data_ep01[pltnum, 10000:22000:self.num_step], label=self.data_pos_name_ep01[pltnum,1])
+        #plt.legend()
+        #self.get_tau(data_ep01[0, pltstart:18000:self.num_step], data_ep01[pltnum, pltstart:18000:self.num_step], pltstart/10000)
+        #ax1=plt.subplot(313)
+        #pltnum = 12
+        #plt.plot(data_ep01[0, 10000:22000:self.num_step], data_ep01[pltnum, 10000:22000:self.num_step], label=self.data_pos_name_ep01[pltnum,1])
+        #plt.legend()
+        #self.get_tau(data_ep01[0, pltstart:18000:self.num_step], data_ep01[pltnum, pltstart:18000:self.num_step], pltstart/10000)
 
-        filepath = "figure/"
-        filename = "GP1_%s_%d_IF1_IF2_IF3_y0" % (self.data, self.shotnum)
-        plt.savefig(filepath + filename)
-        plt.clf()
+        #filepath = "figure/"
+        #filename = "GP1_%s_%d_IF1_IF2_IF3_y0" % (self.data, self.shotnum)
+        #plt.savefig(filepath + filename)
+        #plt.clf()
         filename2 = "GP1_%s_%d_IF1IF2IF3_all.txt" % (self.data, self.shotnum)
+        #filename3 = "GP1_%s_%d_ml3.txt" % (self.data, self.shotnum)
+        #filename4 = "GP1_%s_%d_2GPf.txt" % (self.data, self.shotnum)
         IF1IF2IF3 = np.zeros((len(data_ep01[0]), 4))
         IF1IF2IF3[:, :] = data_ep01[9:13, :].T
         np.savetxt(filename2, IF1IF2IF3, delimiter=",")
-        #np.savetxt(filename2, data_ep01[6, ::self.num_step], delimiter="\n")
-        #np.savetxt(filename2, data_ep01[1, ::self.num_step], delimiter="\n")
+        #np.savetxt(filename3, data_ep01[19, :].T, delimiter=",")
+        #np.savetxt(filename4, data_ep01[3, :].T, delimiter=",")
 
 
 if __name__ == "__main__":
-#    for i in range(111,114):
-#        db = DataBrowser(data="20171110", shotNo=i, LOCALorPPL="PPL")
-#        db.plt_IFwfit(LOCALorPPL="PPL", pltstart=11200)
-    db = DataBrowser(data="20171111", shotNo=3, LOCALorPPL="PPL")
-    db.multiplot()
+    for i in range(39, 114):
+        db = DataBrowser(data="20171110", shotNo=i, LOCALorPPL="PPL")
+        db.plt_IFwfit(LOCALorPPL="PPL", pltstart=11200)
+#    db = DataBrowser(data="20171111", shotNo=35, LOCALorPPL="PPL")
+#    db.multiplot()
 #    db.plt_IFwfit(LOCALorPPL="PPL", pltstart=12200)
