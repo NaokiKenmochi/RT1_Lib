@@ -328,18 +328,42 @@ class DataBrowser:
         #plt.clf()
         #filename2 = "GP1_%s_%d_IF1IF2IF3_all.txt" % (self.data, self.shotnum)
         #filename3 = "GP1_%s_%d_ml3.txt" % (self.data, self.shotnum)
-        filename4 = "GP1_%s_%d_2GPf.txt" % (self.data, self.shotnum)
+        #filename4 = "GP1_%s_%d_2GPf.txt" % (self.data, self.shotnum)
+        filename5 = "GP1_%s_%d_IF1IF2FAST.txt" % (self.data, self.shotnum)
         #IF1IF2IF3 = np.zeros((len(data_ep01[0]), 4))
         #IF1IF2IF3[:, :] = data_ep01[9:13, :].T
         #np.savetxt(filename2, IF1IF2IF3, delimiter=",")
         #np.savetxt(filename3, data_ep01[19, :].T, delimiter=",")
-        np.savetxt(filename4, data_ep01[3, :].T, delimiter=",")
+        #np.savetxt(filename4, data_ep01[3, :].T, delimiter=",")
+        np.savetxt(filename5, data_ep02[3, :].T, delimiter=",")
 
+
+    def load_FAST(self, LOCALorPPL):
+
+        if LOCALorPPL == "PPL":
+            #dm_ep02_SX = read_wvf.DataManager("exp_ep02", "SX", self.data)
+            #data_ep02_SX = dm_ep02_SX.fetch_raw_data(self.shotnum)
+            #np.savez("data_%s_%d" % (self.data, self.shotnum), data_ep01=data_ep01, data_ep02_MP=data_ep02_MP, data_ep02_SX=data_ep02_SX)
+            dm_ep02_MP = read_wvf.DataManager("exp_ep02", "MP", self.data)
+            data_ep02_MP = dm_ep02_MP.fetch_raw_data(self.shotnum)
+            print("Load IF from PPL")
+
+        else:
+            data = np.load("data_%s_%d.npz" % (self.data, self.shotnum))
+            data_ep02 = data["data_ep02"]
+            print("Load IF from local")
+
+
+        filename5 = "GP1_%s_%d_IF1IF2FAST.txt" % (self.data, self.shotnum)
+        filename6 = "GP1_%s_%d_MP123FAST.txt" % (self.data, self.shotnum)
+        np.savez("MP123_%s_%d" % (self.data, self.shotnum), data_ep02_MP=data_ep02_MP)
+        #np.savetxt(filename5, data_ep02_SX[1:3, :].T, delimiter=",")
 
 if __name__ == "__main__":
-    for i in range(7, 43):
-        db = DataBrowser(data="20171111", shotNo=i, LOCALorPPL="PPL")
-        db.plt_IFwfit(LOCALorPPL="PPL", pltstart=11200)
+    for i in range(107, 108):
+        db = DataBrowser(data="20171110", shotNo=i, LOCALorPPL="PPL")
+#        db.plt_IFwfit(LOCALorPPL="PPL", pltstart=11200)
+        db.load_FAST(LOCALorPPL="PPL")
 #    db = DataBrowser(data="20171111", shotNo=35, LOCALorPPL="PPL")
 #    db.multiplot()
 #    db.plt_IFwfit(LOCALorPPL="PPL", pltstart=12200)
