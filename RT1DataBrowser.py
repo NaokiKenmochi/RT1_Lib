@@ -23,20 +23,27 @@ class DataBrowser:
         #for IF1
         self.a1 = 0.00
         self.b1 = 0.29
+
         #for IF2
-        #12 Oct 2017
-        #self.a2 = -0.0035
-        #self.b2 = 0.0315
-        #11 Nov 2017
-        self.a2 = -0.001
-        self.b2 = 0.145
+        if(np.int(data)>=20150719 and np.int(data)<20171012):
         #19 July 2015
-        #self.a2 = -0.005
-        #self.b2 = 0.135
+            self.a2 = -0.005
+            self.b2 = 0.135
+        elif(np.int(data)>=20171012 and np.int(data)<20171111):
+        #12 Oct 2017
+            self.a2 = -0.0035
+            self.b2 = 0.0315
+        elif(np.int(data)>=20171111):
+        #11 Nov 2017
+            self.a2 = -0.001
+            self.b2 = 0.145
+
         #for IF3
         self.a3 = 0.00
-        self.b3 = 0.28      #12 Oct 2017
-        #self.b3 = 0.30     #18 July 2016
+        if(np.int(data)>=20160718 and np.int(data)<20171012):
+            self.b3 = 0.30     #18 July 2016
+        elif(np.int(data)>=20171012):
+            self.b3 = 0.28      #12 Oct 2017
 
         #グラフ描写のstep数
         self.num_step = 20
@@ -287,7 +294,7 @@ class DataBrowser:
         plt.ylabel("$\mathbf{n_eL [10^{17}m^{-2}]}$", fontsize=18)
         plt.tick_params(labelsize=18)
 
-    def plt_IFwfit(self, LOCALorPPL, pltstart):
+    def plt_IFwfit(self, LOCALorPPL, pltstart, graph="SHOW_GRAPH"):
         fig = plt.figure(figsize=(12,8))
 
         if LOCALorPPL == "PPL":
@@ -305,27 +312,29 @@ class DataBrowser:
         data_ep01 = self.calib_IF(data_ep01)
         data_ep01 = self.mag_loop(data_ep01)
 
-        #ax1=plt.subplot(311)
-        #pltnum = 10
-        #plt.plot(data_ep01[0, 10000:22000:self.num_step], data_ep01[pltnum, 10000:22000:self.num_step], label=self.data_pos_name_ep01[pltnum,1])
-        #plt.legend()
-        #self.get_tau(data_ep01[0, pltstart:18000:self.num_step], data_ep01[pltnum, pltstart:18000:self.num_step], pltstart/10000)
-        #plt.title("Date: %s, Shot No.: %d" % (self.data,self.shotnum), loc='right', fontsize=20, fontname="Times New Roman")
-        #ax1=plt.subplot(312)
-        #pltnum = 11
-        #plt.plot(data_ep01[0, 10000:22000:self.num_step], data_ep01[pltnum, 10000:22000:self.num_step], label=self.data_pos_name_ep01[pltnum,1])
-        #plt.legend()
-        #self.get_tau(data_ep01[0, pltstart:18000:self.num_step], data_ep01[pltnum, pltstart:18000:self.num_step], pltstart/10000)
-        #ax1=plt.subplot(313)
-        #pltnum = 12
-        #plt.plot(data_ep01[0, 10000:22000:self.num_step], data_ep01[pltnum, 10000:22000:self.num_step], label=self.data_pos_name_ep01[pltnum,1])
-        #plt.legend()
-        #self.get_tau(data_ep01[0, pltstart:18000:self.num_step], data_ep01[pltnum, pltstart:18000:self.num_step], pltstart/10000)
+        if(graph == "SHOW_GRAPH"):
+            ax1=plt.subplot(311)
+            pltnum = 10
+            plt.plot(data_ep01[0, 10000:22000:self.num_step], data_ep01[pltnum, 10000:22000:self.num_step], label=self.data_pos_name_ep01[pltnum,1])
+            plt.legend()
+            self.get_tau(data_ep01[0, pltstart:18000:self.num_step], data_ep01[pltnum, pltstart:18000:self.num_step], pltstart/10000)
+            plt.title("Date: %s, Shot No.: %d" % (self.data,self.shotnum), loc='right', fontsize=20, fontname="Times New Roman")
+            ax1=plt.subplot(312)
+            pltnum = 11
+            plt.plot(data_ep01[0, 10000:22000:self.num_step], data_ep01[pltnum, 10000:22000:self.num_step], label=self.data_pos_name_ep01[pltnum,1])
+            plt.legend()
+            self.get_tau(data_ep01[0, pltstart:18000:self.num_step], data_ep01[pltnum, pltstart:18000:self.num_step], pltstart/10000)
+            ax1=plt.subplot(313)
+            pltnum = 12
+            plt.plot(data_ep01[0, 10000:22000:self.num_step], data_ep01[pltnum, 10000:22000:self.num_step], label=self.data_pos_name_ep01[pltnum,1])
+            plt.legend()
+            self.get_tau(data_ep01[0, pltstart:18000:self.num_step], data_ep01[pltnum, pltstart:18000:self.num_step], pltstart/10000)
 
-        #filepath = "figure/"
-        #filename = "GP1_%s_%d_IF1_IF2_IF3_y0" % (self.data, self.shotnum)
-        #plt.savefig(filepath + filename)
-        #plt.clf()
+            filepath = "figure/"
+            filename = "GP1_%s_%d_IF1_IF2_IF3_y0" % (self.data, self.shotnum)
+            plt.savefig(filepath + filename)
+            plt.clf()
+
         #filename2 = "GP1_%s_%d_IF1IF2IF3_all.txt" % (self.data, self.shotnum)
         #filename3 = "GP1_%s_%d_ml3.txt" % (self.data, self.shotnum)
         #filename4 = "GP1_%s_%d_2GPf.txt" % (self.data, self.shotnum)
@@ -361,7 +370,7 @@ class DataBrowser:
 
 if __name__ == "__main__":
     for i in range(107, 108):
-        db = DataBrowser(data="20171110", shotNo=i, LOCALorPPL="PPL")
+        db = DataBrowser(data="20170608", shotNo=i, LOCALorPPL="PPL")
 #        db.plt_IFwfit(LOCALorPPL="PPL", pltstart=11200)
         db.load_FAST(LOCALorPPL="PPL")
 #    db = DataBrowser(data="20171111", shotNo=35, LOCALorPPL="PPL")
