@@ -113,65 +113,30 @@ class STFT_FAST:
 
     def stft(self):
         data_SX, time_SX = self.load_SX_CosmoZ(self.LOCALorPPL)
-        #ep01 = self.load_ep01("PPL")
-        IF_FAST = self.load_IF_FAST("PPL")
-        #MP_FAST = self.load_MP_FAST("PPL")
-        #y = MP_FAST[1, :]
-        #x = MP_FAST[0, :]
-        #y = data_SX[:, 4]
-        #x = data_SX[:, 0]
         time_SX_10M = np.linspace(0, 2, 2e7)
         data_SX_10M = np.zeros(2e7)
         data_SX_10M[[i for i in time_SX*1e7]] = data_SX
-        #for i in range(len(time_SX)):
-        #    data_SX_10M[np.int(time_SX[i]*1e6)] = data_SX[i]
         y = data_SX_10M
         x = time_SX_10M
-        #plt.plot(x, y)
-        #plt.show()
-        #num_IF = 2
-        #y = IF_FAST[num_IF, :]
-        #x = np.linspace(0, 2, 2000000)
-        #y = ep01[11, :]
-        #x = ep01[0, :]
-        #plt.plot(x, MP_FAST[1, :])
-        #plt.plot(x, MP_FAST[2, :])
-        #plt.plot(x, MP_FAST[3, :])
-        #plt.plot(x, y)
-        #plt.show()
         MAXFREQ = 1e6
         N = np.abs(1/(x[1]-x[2]))
 
         plt.figure(figsize=(8, 5))
-        #f, t, Zxx =sig.spectrogram(y, fs=N, window='hamming', nperseg=50000)
-        #f, t, Zxx =sig.spectrogram(y, fs=N, window='hamming', nperseg=500000)
         f, t, Zxx =sig.spectrogram(y, fs=N, window='hamming', nperseg=500000)
-        #f, t, Zxx =sig.spectrogram(y, fs=N, window='hamming', nperseg=500)
-        #plt.xlim(0, 1.0)
         vmin = 0.0
         vmax = 5e-1
-        #vmax = 2e-6
-        #plt.pcolormesh(t+0.76316, f, np.abs(Zxx))#, vmin=vmin, vmax=vmax)
         plt.pcolormesh(t, f, np.abs(Zxx), vmin=vmin, vmax=vmax)
         sfmt=matplotlib.ticker.ScalarFormatter(useMathText=True)
-        #cbar = plt.colorbar(ticks=np.linspace(vmin, vmax, 10), format=sfmt)
         cbar = plt.colorbar(format=sfmt)
         cbar.ax.tick_params(labelsize=12)
         cbar.formatter.set_powerlimits((0, 0))
         cbar.update_ticks()
-        #plt.contourf(t+0.76316, f, np.abs(Zxx), 10, norm=LogNorm(), vmax=2e-7)
-        #plt.ylabel("Frequency of IF%d [Hz]" % (num_IF))
         plt.ylabel("Frequency of SX [Hz]")
-        #plt.pcolormesh(t+0.5, f, np.abs(Zxx), vmin=0, vmax=1e-1)
         plt.xlabel("Time [sec]")
         plt.ylim([0, MAXFREQ])
-        #plt.xlim([0.8, 2.2])
         plt.title("Date: %s, Shot No.: %d" % (self.date, self.shotnum), loc='right', fontsize=20, fontname="Times New Roman")
-        #plt.show()
         filepath = "figure/"
-        #filename = "STFT_SX4_%s_%d" % (self.date, self.shotnum)
         filename = "STFT_SX_20171110_19"
-        #filename = "STFT_IF%d_%s_%d" % (num_IF, self.date, self.shotnum)
         plt.savefig(filepath + filename)
         plt.clf()
 

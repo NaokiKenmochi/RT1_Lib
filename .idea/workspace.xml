@@ -29,8 +29,8 @@
       <file leaf-file-name="STFT_IF_FAST.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/STFT_IF_FAST.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3300">
-              <caret line="165" column="31" lean-forward="false" selection-start-line="165" selection-start-column="31" selection-end-line="165" selection-end-column="31" />
+            <state relative-caret-position="580">
+              <caret line="29" column="0" lean-forward="false" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -533,7 +533,14 @@
       <option name="project" value="LOCAL" />
       <updated>1511998793502</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="STFTのプログラムを追加">
+      <created>1512112569766</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1512112569766</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -654,7 +661,8 @@
     <MESSAGE value="test5" />
     <MESSAGE value="test6" />
     <MESSAGE value="IFの較正データをdataによって場合分けすることにした" />
-    <option name="LAST_COMMIT_MESSAGE" value="IFの較正データをdataによって場合分けすることにした" />
+    <MESSAGE value="STFTのプログラムを追加" />
+    <option name="LAST_COMMIT_MESSAGE" value="STFTのプログラムを追加" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1149,8 +1157,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/STFT_IF_FAST.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3300">
-          <caret line="165" column="31" lean-forward="false" selection-start-line="165" selection-start-column="31" selection-end-line="165" selection-end-column="31" />
+        <state relative-caret-position="580">
+          <caret line="29" column="0" lean-forward="false" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
           <folding />
         </state>
       </provider>
