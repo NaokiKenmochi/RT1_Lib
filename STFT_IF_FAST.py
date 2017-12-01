@@ -1,29 +1,36 @@
+import sys
+sys.path.append('/Users/kemmochi/PycharmProjects/ControlCosmoZ')
+
 import numpy as np
 import pywt
 import read_wvf
+import czdec
 import scipy.signal as sig
 import matplotlib.pyplot as plt
+import matplotlib.ticker
 from matplotlib.colors import LogNorm
+from mpl_toolkits.axes_grid1 import make_axes_locatable
+
 
 class STFT_FAST:
-    def __init__(self, data, shotNo, LOCALorPPL):
+    def __init__(self, date, shotNo, LOCALorPPL):
         """
 
-        :param data:
+        :param date:
         :param shotNo:
         """
-        self.data = data
+        self.date = date
         self.shotnum = shotNo
         self.LOCALorPPL = LOCALorPPL
 
     def load_ep01(self, LOCALorPPL):
         if LOCALorPPL == "PPL":
-            dm_ep01 = read_wvf.DataManager("exp_ep01", 0, self.data)
+            dm_ep01 = read_wvf.DataManager("exp_ep01", 0, self.date)
             data_ep01 = dm_ep01.fetch_raw_data(self.shotnum)
             print("Load ep01 from PPL")
 
         else:
-            data = np.load("IF_%s_%d.npz" % (self.data, self.shotnum))
+            data = np.load("IF_%s_%d.npz" % (self.date, self.shotnum))
             data_ep02_SX = data["data_ep02_SX"]
             filename = "GP1_20171110_107_IF1IF2FAST.txt"
             IF_FAST = np.loadtxt(filename, delimiter=",")
@@ -33,12 +40,12 @@ class STFT_FAST:
 
     def load_IF_FAST(self, LOCALorPPL):
         if LOCALorPPL == "PPL":
-            dm_ep02_SX = read_wvf.DataManager("exp_ep02", "SX", self.data)
+            dm_ep02_SX = read_wvf.DataManager("exp_ep02", "SX", self.date)
             data_ep02_SX = dm_ep02_SX.fetch_raw_data(self.shotnum)
             print("Load SX from PPL")
 
         else:
-            data = np.load("IF_%s_%d.npz" % (self.data, self.shotnum))
+            data = np.load("IF_%s_%d.npz" % (self.date, self.shotnum))
             data_ep02_SX = data["data_ep02_SX"]
             filename = "GP1_20171110_107_IF1IF2FAST.txt"
             IF_FAST = np.loadtxt(filename, delimiter=",")
@@ -48,19 +55,35 @@ class STFT_FAST:
 
     def load_MP_FAST(self, LOCALorPPL):
         if LOCALorPPL == "PPL":
-            dm_ep02_MP = read_wvf.DataManager("exp_ep02", "MP", self.data)
+            dm_ep02_MP = read_wvf.DataManager("exp_ep02", "MP", self.date)
             data_ep02_MP = dm_ep02_MP.fetch_raw_data(self.shotnum)
             print("Load MP from PPL")
 
         else:
-            data = np.load("MP123_%s_%d.npz" % (self.data, self.shotnum))
+            data = np.load("MP123_%s_%d.npz" % (self.date, self.shotnum))
             data_ep02_MP = data["data_ep02_MP"]
             print("Load MP from local")
 
         return data_ep02_MP
 
+    def load_SX_CosmoZ(self, LOCALorPPL):
+        if LOCALorPPL == "PPL":
+            data = czdec.CosmoZ_DataBrowser(filepath= '/Volumes/share/Cosmo_Z_xray/', filename="", date=self.date, shotnum=self.shotnum)
+            data_SX = data.read_cosmoz()
+            print("Load SX from PPL")
+
+        else:
+            #data = np.load("/Users/kemmochi/PycharmProjects/ControlCosmoZ/SX_%s_%d.npz" % (self.date, self.shotnum))
+            data = np.load("data/19.npz")
+            data_SX = data['energy']
+            time_SX = data['time']
+            print("Load SX from local")
+
+        return data_SX, time_SX
+
     def cwt(self):
-        IF_FAST = self.load_IF_FAST("PPL")
+        # TODO: 時間がかかりすぎる　要確認
+        #IF_FAST = self.load_IF_FAST("PPL")
         #MP_FAST = self.load_MP_FAST("PPL")
         #y = MP_FAST[1, :]
         #x = MP_FAST[0, :]
@@ -85,16 +108,28 @@ class STFT_FAST:
         plt.contourf(x,N*freqs, np.sqrt(np.real(coef)**2+np.imag(coef)**2), 100, vmax=5.0)
         #ax3.contourf(x, 200/wfreq, np.sqrt(np.real(coef)**2+np.imag(coef)**2), 200, vmax=0.4)
         #plt.colorbar()
-        plt.title("Date: %s, Shot No.: %d" % (self.data,self.shotnum), loc='right', fontsize=20, fontname="Times New Roman")
+        plt.title("Date: %s, Shot No.: %d" % (self.date, self.shotnum), loc='right', fontsize=20, fontname="Times New Roman")
         plt.show()
 
     def stft(self):
+        data_SX, time_SX = self.load_SX_CosmoZ(self.LOCALorPPL)
         #ep01 = self.load_ep01("PPL")
-        #IF_FAST = self.load_IF_FAST("PPL")
-        MP_FAST = self.load_MP_FAST("PPL")
-        y = MP_FAST[1, :]
-        x = MP_FAST[0, :]
-        #num_IF = 1
+        IF_FAST = self.load_IF_FAST("PPL")
+        #MP_FAST = self.load_MP_FAST("PPL")
+        #y = MP_FAST[1, :]
+        #x = MP_FAST[0, :]
+        #y = data_SX[:, 4]
+        #x = data_SX[:, 0]
+        time_SX_10M = np.linspace(0, 2, 2e7)
+        data_SX_10M = np.zeros(2e7)
+        data_SX_10M[[i for i in time_SX*1e7]] = data_SX
+        #for i in range(len(time_SX)):
+        #    data_SX_10M[np.int(time_SX[i]*1e6)] = data_SX[i]
+        y = data_SX_10M
+        x = time_SX_10M
+        #plt.plot(x, y)
+        #plt.show()
+        #num_IF = 2
         #y = IF_FAST[num_IF, :]
         #x = np.linspace(0, 2, 2000000)
         #y = ep01[11, :]
@@ -104,26 +139,43 @@ class STFT_FAST:
         #plt.plot(x, MP_FAST[3, :])
         #plt.plot(x, y)
         #plt.show()
-        MAXFREQ = 1e3
+        MAXFREQ = 1e6
         N = np.abs(1/(x[1]-x[2]))
-        f, t, Zxx =sig.spectrogram(y, fs=N, window='hamming', nperseg=50000)
+
+        plt.figure(figsize=(8, 5))
+        #f, t, Zxx =sig.spectrogram(y, fs=N, window='hamming', nperseg=50000)
+        #f, t, Zxx =sig.spectrogram(y, fs=N, window='hamming', nperseg=500000)
+        f, t, Zxx =sig.spectrogram(y, fs=N, window='hamming', nperseg=500000)
         #f, t, Zxx =sig.spectrogram(y, fs=N, window='hamming', nperseg=500)
         #plt.xlim(0, 1.0)
-        #plt.pcolormesh(t+0.76316, f, np.abs(Zxx), vmin=0, vmax=2e-6)
+        vmin = 0.0
+        vmax = 5e-1
+        #vmax = 2e-6
+        #plt.pcolormesh(t+0.76316, f, np.abs(Zxx))#, vmin=vmin, vmax=vmax)
+        plt.pcolormesh(t, f, np.abs(Zxx), vmin=vmin, vmax=vmax)
+        sfmt=matplotlib.ticker.ScalarFormatter(useMathText=True)
+        #cbar = plt.colorbar(ticks=np.linspace(vmin, vmax, 10), format=sfmt)
+        cbar = plt.colorbar(format=sfmt)
+        cbar.ax.tick_params(labelsize=12)
+        cbar.formatter.set_powerlimits((0, 0))
+        cbar.update_ticks()
         #plt.contourf(t+0.76316, f, np.abs(Zxx), 10, norm=LogNorm(), vmax=2e-7)
         #plt.ylabel("Frequency of IF%d [Hz]" % (num_IF))
-        plt.ylabel("Frequency of MP1 [Hz]")
-        plt.pcolormesh(t, f, np.abs(Zxx), vmin=0, vmax=3e-8)
+        plt.ylabel("Frequency of SX [Hz]")
+        #plt.pcolormesh(t+0.5, f, np.abs(Zxx), vmin=0, vmax=1e-1)
         plt.xlabel("Time [sec]")
         plt.ylim([0, MAXFREQ])
         #plt.xlim([0.8, 2.2])
-        plt.title("Date: %s, Shot No.: %d" % (self.data,self.shotnum), loc='right', fontsize=20, fontname="Times New Roman")
+        plt.title("Date: %s, Shot No.: %d" % (self.date, self.shotnum), loc='right', fontsize=20, fontname="Times New Roman")
         #plt.show()
         filepath = "figure/"
-        filename = "STFT_MP1_%s_%d" % (self.data, self.shotnum)
+        #filename = "STFT_SX4_%s_%d" % (self.date, self.shotnum)
+        filename = "STFT_SX_20171110_19"
+        #filename = "STFT_IF%d_%s_%d" % (num_IF, self.date, self.shotnum)
         plt.savefig(filepath + filename)
+        plt.clf()
 
 if __name__ == "__main__":
-    stft = STFT_FAST(data="20171111", shotNo=31, LOCALorPPL="PPL")
+    stft = STFT_FAST(date="20171110", shotNo=19, LOCALorPPL="LOCAL")
     stft.stft()
     #stft.cwt()

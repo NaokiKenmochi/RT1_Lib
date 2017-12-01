@@ -3,7 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="38b4f2c5-f5ec-46d1-a1cd-c2deed0afcaf" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/RT1DataBrowser.py" afterPath="$PROJECT_DIR$/RT1DataBrowser.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/STFT_IF_FAST.py" afterPath="$PROJECT_DIR$/STFT_IF_FAST.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -14,11 +14,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="RT1DataBrowser.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="RT1DataBrowser.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/RT1DataBrowser.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="720">
-              <caret line="48" column="0" lean-forward="false" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
+            <state relative-caret-position="255">
+              <caret line="335" column="0" lean-forward="false" selection-start-line="335" selection-start-column="0" selection-end-line="335" selection-end-column="0" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -26,14 +26,12 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="STFT_IF_FAST.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="STFT_IF_FAST.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/STFT_IF_FAST.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1650">
-              <caret line="115" column="55" lean-forward="false" selection-start-line="115" selection-start-column="55" selection-end-line="115" selection-end-column="55" />
-              <folding>
-                <element signature="e#0#18#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="3300">
+              <caret line="165" column="31" lean-forward="false" selection-start-line="165" selection-start-column="31" selection-end-line="165" selection-end-column="31" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -66,8 +64,8 @@
       <file leaf-file-name="read_wvf.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/read_wvf.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2340">
-              <caret line="162" column="24" lean-forward="false" selection-start-line="162" selection-start-column="24" selection-end-line="162" selection-end-column="24" />
+            <state relative-caret-position="-85">
+              <caret line="82" column="53" lean-forward="false" selection-start-line="82" selection-start-column="53" selection-end-line="82" selection-end-column="53" />
               <folding>
                 <element signature="e#270#288#0" expanded="true" />
               </folding>
@@ -101,8 +99,9 @@
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$USER_HOME$/SkyDrive/Document/Study/Presentation &amp; Publication/2018/プラズマ核融合学会講座/predator_prey.py" />
         <option value="$PROJECT_DIR$/SpeedTest.py" />
-        <option value="$PROJECT_DIR$/STFT_IF_FAST.py" />
         <option value="$PROJECT_DIR$/RT1DataBrowser.py" />
+        <option value="$APPLICATION_CONFIG_DIR$/pycharm.vmoptions" />
+        <option value="$PROJECT_DIR$/STFT_IF_FAST.py" />
       </list>
     </option>
   </component>
@@ -130,7 +129,7 @@
     <panes />
   </component>
   <component name="PropertiesComponent">
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RunDashboard">
@@ -145,7 +144,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.RT1DataBrowser">
+  <component name="RunManager" selected="Python.STFT_IF_FAST">
     <configuration name="Nosetests for SpeedTest.NumericalPythonTipsTest.test_numpy_martirx" type="tests" factoryName="Nosetests" temporary="true" nameIsGenerated="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -298,8 +297,8 @@
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Python.RT1DataBrowser" />
-        <item index="1" class="java.lang.String" itemvalue="Python.STFT_IF_FAST" />
+        <item index="0" class="java.lang.String" itemvalue="Python.STFT_IF_FAST" />
+        <item index="1" class="java.lang.String" itemvalue="Python.RT1DataBrowser" />
         <item index="2" class="java.lang.String" itemvalue="Python.SpeedTest" />
         <item index="3" class="java.lang.String" itemvalue="Python tests.Nosetests in SpeedTest.py" />
         <item index="4" class="java.lang.String" itemvalue="Python tests.Nosetests for SpeedTest.NumericalPythonTipsTest.test_numpy_martirx" />
@@ -527,7 +526,14 @@
       <option name="project" value="LOCAL" />
       <updated>1511943606481</updated>
     </task>
-    <option name="localTasksCounter" value="31" />
+    <task id="LOCAL-00031" summary="IFの較正データをdataによって場合分けすることにした">
+      <created>1511998793502</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1511998793502</updated>
+    </task>
+    <option name="localTasksCounter" value="32" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -562,7 +568,7 @@
       <configuration name="Nosetests in SpeedTest.py" configurationId="tests" />
     </history-entry>
   </component>
-  <component name="TodoView">
+  <component name="TodoView" selected-index="2">
     <todo-panel id="selected-file">
       <is-autoscroll-to-source value="true" />
     </todo-panel>
@@ -573,24 +579,25 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="1280" y="23" width="1280" height="1412" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.35056543" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32877752" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3272589" sideWeight="0.31260097" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3272589" sideWeight="0.687399" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32801822" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26648095" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.26979" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22247532" sideWeight="0.49346405" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2103265" sideWeight="0.49019608" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2103265" sideWeight="0.49019608" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Data View" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -646,42 +653,11 @@
     <MESSAGE value="commit test4" />
     <MESSAGE value="test5" />
     <MESSAGE value="test6" />
-    <option name="LAST_COMMIT_MESSAGE" value="test6" />
+    <MESSAGE value="IFの較正データをdataによって場合分けすることにした" />
+    <option name="LAST_COMMIT_MESSAGE" value="IFの較正データをdataによって場合分けすることにした" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/RT1DataBrowser.py</url>
-          <line>37</line>
-          <option name="timeStamp" value="15" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/RT1DataBrowser.py</url>
-          <line>33</line>
-          <option name="timeStamp" value="16" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/RT1DataBrowser.py</url>
-          <line>29</line>
-          <option name="timeStamp" value="17" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/RT1DataBrowser.py</url>
-          <line>43</line>
-          <option name="timeStamp" value="18" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/RT1DataBrowser.py</url>
-          <line>45</line>
-          <option name="timeStamp" value="19" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/RT1DataBrowser.py</url>
-          <line>48</line>
-          <option name="timeStamp" value="21" />
-        </line-breakpoint>
-      </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
@@ -692,28 +668,11 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="22" />
+      <option name="time" value="33" />
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/BeamWaist.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/RT1DataBrowser.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
         <state split_layout="SPLIT">
@@ -1112,19 +1071,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="120">
-            <caret line="8" column="26" lean-forward="false" selection-start-line="8" selection-start-column="26" selection-end-line="8" selection-end-column="26" />
-            <folding />
-          </first_editor>
-          <second_editor>
-            <js_state />
-          </second_editor>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/SpeedTest.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1965">
@@ -1154,10 +1100,47 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/SkyDrive/Document/Study/Presentation &amp; Publication/2018/プラズマ核融合学会講座/reStructuredText/numpy_scipy4.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="120">
+            <caret line="8" column="26" lean-forward="false" selection-start-line="8" selection-start-column="26" selection-end-line="8" selection-end-column="26" />
+            <folding />
+          </first_editor>
+          <second_editor>
+            <js_state />
+          </second_editor>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/pycharm.vmoptions">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="7" lean-forward="false" selection-start-line="1" selection-start-column="7" selection-end-line="1" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RT1DataBrowser.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="335" column="0" lean-forward="false" selection-start-line="335" selection-start-column="0" selection-end-line="335" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/read_wvf.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2340">
-          <caret line="162" column="24" lean-forward="false" selection-start-line="162" selection-start-column="24" selection-end-line="162" selection-end-column="24" />
+        <state relative-caret-position="-85">
+          <caret line="82" column="53" lean-forward="false" selection-start-line="82" selection-start-column="53" selection-end-line="82" selection-end-column="53" />
           <folding>
             <element signature="e#270#288#0" expanded="true" />
           </folding>
@@ -1166,21 +1149,9 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/STFT_IF_FAST.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1650">
-          <caret line="115" column="55" lean-forward="false" selection-start-line="115" selection-start-column="55" selection-end-line="115" selection-end-column="55" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/RT1DataBrowser.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="720">
-          <caret line="48" column="0" lean-forward="false" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="3300">
+          <caret line="165" column="31" lean-forward="false" selection-start-line="165" selection-start-column="31" selection-end-line="165" selection-end-column="31" />
+          <folding />
         </state>
       </provider>
     </entry>
