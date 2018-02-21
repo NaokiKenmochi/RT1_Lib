@@ -1,3 +1,4 @@
+from RT1DataBrowser import DataBrowser
 import sys
 sys.path.append('/Users/kemmochi/PycharmProjects/ControlCosmoZ')
 
@@ -10,15 +11,18 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker
 from matplotlib.colors import LogNorm
 from mpl_toolkits.axes_grid1 import make_axes_locatable
+import matplotlib as mpl
+#mpl.use('Qt4Agg')
 
 
-class STFT_FAST:
+class STFT_FAST(DataBrowser):
     def __init__(self, date, shotNo, LOCALorPPL):
         """
 
         :param date:
         :param shotNo:
         """
+        super().__init__(date, shotNo, LOCALorPPL)
         self.date = date
         self.shotnum = shotNo
         self.LOCALorPPL = LOCALorPPL
@@ -111,36 +115,121 @@ class STFT_FAST:
         plt.title("Date: %s, Shot No.: %d" % (self.date, self.shotnum), loc='right', fontsize=20, fontname="Times New Roman")
         plt.show()
 
-    def stft(self):
-        data_SX, time_SX = self.load_SX_CosmoZ(self.LOCALorPPL)
-        time_SX_10M = np.linspace(0, 2, 2e7)
-        data_SX_10M = np.zeros(2e7)
-        data_SX_10M[[i for i in time_SX*1e7]] = data_SX
-        y = data_SX_10M
-        x = time_SX_10M
-        MAXFREQ = 1e6
-        N = np.abs(1/(x[1]-x[2]))
+    def moving_average(self, x, N):
+        # Take a moving average along axis=1 with window width N.
+        x = np.pad(x, ((0, 0), (N, 0)), mode='constant')
+        cumsum = np.cumsum(x, axis=1)
+        return (cumsum[:, N:] - cumsum[:, :-N]) / N
+
+    def cross_spectrum(self):
+        data_ep01 = self.load_ep01("PPL")
+        data_ep01 = self.adj_gain(data_ep01)
+        data_ep01 = self.calib_IF(data_ep01)
+        IF = data_ep01[9:12:2, :].T
+        N = np.abs(1/(data_ep01[0, 1]-data_ep01[0, 2]))
+        sampling_time = 1/N
+
+        #IF_FAST = self.load_IF_FAST("PPL")
+        #IF = IF_FAST[1:3, :].T
+        #sampling_time = 1e-6
+        #f, t, Pxx = sig.spectrogram(IF, axis=0, fs=1/sampling_time, window='hamming', nperseg=128, noverlap=64, mode='complex')
+        #f, t, Pxx = sig.spectrogram(IF, axis=0, fs=1/sampling_time, window='hamming', nperseg=2**15, noverlap=512, mode='complex')
+        f, t, Pxx = sig.spectrogram(IF, axis=0, fs=1/sampling_time, window='hamming', nperseg=2**9, noverlap=16, mode='complex')
+        #Pxx_run = self.moving_average(Pxx[:, 0] * np.conj(Pxx[:, 1]), 8)
+        Pxx_run = self.moving_average(Pxx[:, 0] * np.conj(Pxx[:, 1]), 2)
+
+        DPhase = 180/np.pi*np.arctan2(Pxx_run.imag, Pxx_run.real)
+
+        plt.pcolormesh(t, f, np.log(np.abs(Pxx_run)))
+        #plt.pcolormesh(t, f, DPhase)
+        plt.xlim(0.5, 2.5)
+        #plt.clim(-16, -13)
+        plt.clim(-28, -25)
+        plt.ylim(0, 2000)
+        plt.colorbar()
+        plt.xlabel('Time [sec]')
+        plt.ylabel('Frequency [Hz]')
+        plt.show()
+
+    def stft(self, IForMPorSX="IF"):
 
         plt.figure(figsize=(8, 5))
-        f, t, Zxx =sig.spectrogram(y, fs=N, window='hamming', nperseg=500000)
-        vmin = 0.0
-        vmax = 5e-1
+
+        if(IForMPorSX=="IF"):
+            data_ep01 = self.load_ep01("PPL")
+            data_ep01 = self.adj_gain(data_ep01)
+            data_ep01 = self.calib_IF(data_ep01)
+
+            num_IF = 3
+            y = data_ep01[num_IF + 9, :]
+            x = data_ep01[0, :]
+            plt.ylabel("Frequency of IF%d [Hz]" % (num_IF))
+            filename = "STFT_ep01_IF%d_%s_%d" % (num_IF, self.date, self.shotnum)
+            vmin = 0.0
+            vmax = 1e-5
+            NPERSEG = 2**9
+            plt.xlim(0.5, 2.5)
+
+        if(IForMPorSX=="IF_FAST"):
+            IF_FAST = self.load_IF_FAST("PPL")
+            num_IF = 1
+            y = IF_FAST[num_IF, :]
+            x = np.linspace(0, 2, 2000000)
+            plt.ylabel("Frequency of IF%d [Hz]" % (num_IF))
+            filename = "STFT_IF%d_%s_%d" % (num_IF, self.date, self.shotnum)
+            vmin = 0.0
+            vmax = 5e-8
+            NPERSEG = 50000
+        if(IForMPorSX=="MP"):
+            MP_FAST = self.load_MP_FAST("PPL")
+            num_MP = 3
+            y = MP_FAST[num_MP, :]
+            x = MP_FAST[0, :]
+            plt.ylabel("Frequency of MP%d [Hz]" % (num_MP))
+            filename = "STFT_MP%d_%s_%d" % (num_MP, self.date, self.shotnum)
+            vmin = 0.0
+            vmax = 5e-8
+            NPERSEG = 25000
+            #plt.plot(x, MP_FAST[1, :]+1, label="MP1")
+            #plt.plot(x, MP_FAST[2, :], label="MP2")
+            #plt.plot(x, MP_FAST[3, :]-1, label="MP3")
+            #plt.legend()
+            #plt.show()
+        if(IForMPorSX=="SX"):
+            data_SX, time_SX = self.load_SX_CosmoZ(self.LOCALorPPL)
+            y = data_SX[:, 4]
+            x = data_SX[:, 0]
+            time_SX_10M = np.linspace(0, 2, 2e7)
+            data_SX_10M = np.zeros(2e7)
+            data_SX_10M[[i for i in time_SX*1e7]] = data_SX
+            y = data_SX_10M
+            x = time_SX_10M
+            #plt.plot(x, y)
+            #plt.show()
+            plt.ylabel("Frequency of SX [Hz]")
+            filename = "STFT_SX4_%s_%d" % (self.date, self.shotnum)
+
+        N = np.abs(1/(x[1]-x[2]))
+
+        f, t, Zxx =sig.spectrogram(y, fs=N, window='hamming', nperseg=NPERSEG)
+        #plt.contourf(t+0.76316, f, np.abs(Zxx), 10, norm=LogNorm(), vmax=2e-7)
         plt.pcolormesh(t, f, np.abs(Zxx), vmin=vmin, vmax=vmax)
         sfmt=matplotlib.ticker.ScalarFormatter(useMathText=True)
         cbar = plt.colorbar(format=sfmt)
         cbar.ax.tick_params(labelsize=12)
         cbar.formatter.set_powerlimits((0, 0))
         cbar.update_ticks()
-        plt.ylabel("Frequency of SX [Hz]")
         plt.xlabel("Time [sec]")
-        plt.ylim([0, MAXFREQ])
+        #plt.ylim([0, MAXFREQ])
+        plt.ylim([0, 2000])
         plt.title("Date: %s, Shot No.: %d" % (self.date, self.shotnum), loc='right', fontsize=20, fontname="Times New Roman")
         filepath = "figure/"
-        filename = "STFT_SX_20171110_19"
-        plt.savefig(filepath + filename)
+        #plt.savefig(filepath + filename)
+        plt.show()
         plt.clf()
 
 if __name__ == "__main__":
-    stft = STFT_FAST(date="20171110", shotNo=19, LOCALorPPL="LOCAL")
-    stft.stft()
+    stft = STFT_FAST(date="20171223", shotNo=97, LOCALorPPL="PPL")
+    #stft.stft(IForMPorSX="IF")
     #stft.cwt()
+    stft.cross_spectrum()
