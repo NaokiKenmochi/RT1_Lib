@@ -70,7 +70,7 @@ class DataManager:
             # Groupの数
             self.GROUP_NUM = 8
             if(platform.system() == 'Darwin'):
-                self._base_dir = os.path.expanduser('~/mount_point/exp_ep01')
+                self._base_dir = os.path.expanduser('/Volumes/WEDATA')
             elif(platform.system() == 'Windows'):
                 self._base_dir = os.path.expanduser('//EXP_EP01/d/WEDATA')  #for windows(in same Network)
 

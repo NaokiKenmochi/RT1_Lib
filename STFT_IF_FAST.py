@@ -70,6 +70,19 @@ class STFT_FAST(DataBrowser):
 
         return data_ep02_MP
 
+    def load_SX_FAST(self, LOCALorPPL):
+        if LOCALorPPL == "PPL":
+            dm_ep02_SX = read_wvf.DataManager("exp_ep02", "SX", self.date)
+            data_ep02_SX = dm_ep02_SX.fetch_raw_data(self.shotnum)
+            print("Load SX from PPL")
+
+        else:
+            data = np.load("SX123_%s_%d.npz" % (self.date, self.shotnum))
+            data_ep02_MP = data["data_ep02_SX"]
+            print("Load SX from local")
+
+        return data_ep02_SX
+
     def load_SX_CosmoZ(self, LOCALorPPL):
         if LOCALorPPL == "PPL":
             data = czdec.CosmoZ_DataBrowser(filepath= '/Volumes/share/Cosmo_Z_xray/', filename="", date=self.date, shotnum=self.shotnum)
@@ -178,8 +191,9 @@ class STFT_FAST(DataBrowser):
             plt.ylabel("Frequency of IF%d [Hz]" % (num_IF))
             filename = "STFT_IF%d_%s_%d" % (num_IF, self.date, self.shotnum)
             vmin = 0.0
-            vmax = 5e-8
+            vmax = 5e-7
             NPERSEG = 50000
+
         if(IForMPorSX=="MP"):
             MP_FAST = self.load_MP_FAST("PPL")
             num_MP = 3
@@ -188,13 +202,14 @@ class STFT_FAST(DataBrowser):
             plt.ylabel("Frequency of MP%d [Hz]" % (num_MP))
             filename = "STFT_MP%d_%s_%d" % (num_MP, self.date, self.shotnum)
             vmin = 0.0
-            vmax = 5e-8
-            NPERSEG = 25000
+            vmax = 1e-7
+            NPERSEG = 1024
             #plt.plot(x, MP_FAST[1, :]+1, label="MP1")
             #plt.plot(x, MP_FAST[2, :], label="MP2")
             #plt.plot(x, MP_FAST[3, :]-1, label="MP3")
             #plt.legend()
             #plt.show()
+
         if(IForMPorSX=="SX"):
             data_SX, time_SX = self.load_SX_CosmoZ(self.LOCALorPPL)
             y = data_SX[:, 4]
@@ -208,6 +223,22 @@ class STFT_FAST(DataBrowser):
             #plt.show()
             plt.ylabel("Frequency of SX [Hz]")
             filename = "STFT_SX4_%s_%d" % (self.date, self.shotnum)
+
+        if(IForMPorSX=="REF"):
+            SX_FAST = self.load_SX_FAST("PPL")
+            num_SX = 2
+            y = SX_FAST[num_SX+2, :]
+            x = SX_FAST[0, :]
+            plt.ylabel("Frequency of SX%d [Hz]" % (num_SX))
+            filename = "STFT_SX%d_%s_%d" % (num_SX, self.date, self.shotnum)
+            vmin = 0.0
+            vmax = 5e-7
+            NPERSEG = 2**14
+            #plt.plot(x, SX_FAST[3, :]+1, label="REF_COS")
+            #plt.plot(x, SX_FAST[4, :], label="REF_SIN")
+            #plt.plot(SX_FAST[3, ::10000], SX_FAST[4, ::10000])
+            #plt.legend()
+            #plt.show()
 
         N = np.abs(1/(x[1]-x[2]))
 
@@ -229,7 +260,7 @@ class STFT_FAST(DataBrowser):
         plt.clf()
 
 if __name__ == "__main__":
-    stft = STFT_FAST(date="20171223", shotNo=97, LOCALorPPL="PPL")
-    #stft.stft(IForMPorSX="IF")
+    stft = STFT_FAST(date="20171223", shotNo=83, LOCALorPPL="PPL")
+    stft.stft(IForMPorSX="REF")
     #stft.cwt()
-    stft.cross_spectrum()
+    #stft.cross_spectrum()

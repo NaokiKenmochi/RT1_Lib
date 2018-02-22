@@ -380,6 +380,6 @@ if __name__ == "__main__":
 #        db = DataBrowser(data="20170608", shotNo=i, LOCALorPPL="PPL")
 #        db.plt_IFwfit(LOCALorPPL="PPL", pltstart=11200)
 #        db.load_FAST(LOCALorPPL="PPL")
-    db = DataBrowser(date="20180221", shotNo=3, LOCALorPPL="PPL")
+    db = DataBrowser(date="20180221", shotNo=70, LOCALorPPL="PPL")
     db.multiplot()
 #    db.plt_IFwfit(LOCALorPPL="PPL", pltstart=12200)
