@@ -1,4 +1,5 @@
 from RT1DataBrowser import DataBrowser
+from matplotlib import gridspec
 import sys
 sys.path.append('/Users/kemmochi/PycharmProjects/ControlCosmoZ')
 
@@ -185,7 +186,7 @@ class STFT_FAST(DataBrowser):
 
         if(IForMPorSX=="IF_FAST"):
             IF_FAST = self.load_IF_FAST("PPL")
-            num_IF = 1
+            num_IF = 3
             y = IF_FAST[num_IF, :]
             x = np.linspace(0, 2, 2000000)
             plt.ylabel("Frequency of IF%d [Hz]" % (num_IF))
@@ -229,8 +230,8 @@ class STFT_FAST(DataBrowser):
             num_SX = 2
             y = SX_FAST[num_SX+2, :]
             x = SX_FAST[0, :]
-            plt.ylabel("Frequency of SX%d [Hz]" % (num_SX))
-            filename = "STFT_SX%d_%s_%d" % (num_SX, self.date, self.shotnum)
+            plt.ylabel("Frequency of REF%d [Hz]" % (num_SX))
+            filename = "STFT_REF%d_%s_%d" % (num_SX, self.date, self.shotnum)
             vmin = 0.0
             vmax = 5e-7
             NPERSEG = 2**14
@@ -242,6 +243,11 @@ class STFT_FAST(DataBrowser):
 
         N = np.abs(1/(x[1]-x[2]))
 
+        gs = gridspec.GridSpec(4, 1)
+        gs.update(hspace=0.4)
+        ax0 = plt.subplot(gs[0:3, 0])
+        #plt.title("%s, Date: %s, Shot No.: %d" % (IForMPorSX, self.date, self.shotnum), loc='right', fontsize=20, fontname="Times New Roman")
+        plt.title("%s" % (filename), loc='right', fontsize=20, fontname="Times New Roman")
         f, t, Zxx =sig.spectrogram(y, fs=N, window='hamming', nperseg=NPERSEG)
         #plt.contourf(t+0.76316, f, np.abs(Zxx), 10, norm=LogNorm(), vmax=2e-7)
         plt.pcolormesh(t, f, np.abs(Zxx), vmin=vmin, vmax=vmax)
@@ -250,17 +256,23 @@ class STFT_FAST(DataBrowser):
         cbar.ax.tick_params(labelsize=12)
         cbar.formatter.set_powerlimits((0, 0))
         cbar.update_ticks()
-        plt.xlabel("Time [sec]")
+        ax0.set_xlabel("Time [sec]")
+        ax0.set_ylabel("Frequency [Hz]")
+        ax0.set_xlim(0.5, 2.5)
         #plt.ylim([0, MAXFREQ])
         plt.ylim([0, 2000])
-        plt.title("Date: %s, Shot No.: %d" % (self.date, self.shotnum), loc='right', fontsize=20, fontname="Times New Roman")
+
+        ax1 = plt.subplot(gs[3, 0])
+        ax1.plot(x, y)
+        ax1.set_xlabel("Time [sec]")
+        ax1.set_xlim(0.5, 3.0)
         filepath = "figure/"
-        #plt.savefig(filepath + filename)
-        plt.show()
-        plt.clf()
+        plt.savefig(filepath + filename)
+        #plt.show()
+        #plt.clf()
 
 if __name__ == "__main__":
-    stft = STFT_FAST(date="20171223", shotNo=83, LOCALorPPL="PPL")
-    stft.stft(IForMPorSX="REF")
+    stft = STFT_FAST(date="20180222", shotNo=45, LOCALorPPL="PPL")
+    stft.stft(IForMPorSX="MP")
     #stft.cwt()
     #stft.cross_spectrum()

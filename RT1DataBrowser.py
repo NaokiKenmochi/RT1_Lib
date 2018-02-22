@@ -55,7 +55,7 @@ class DataBrowser:
         elif(np.int(date) >= 20171012 and np.int(date)<20180222):
             self.b3 = 0.28      #12 Oct 2017
         elif(np.int(date) >= 20180222):
-            self.b1 = 0.29
+            self.b3 = 0.29
 
         #グラフ描写のstep数
         self.num_step = 20
@@ -187,7 +187,7 @@ class DataBrowser:
                 plt.title("Date: %s, Shot No.: %d" % (self.date, self.shotnum), loc='right', fontsize=36, fontname="Times New Roman")
 
         ax1 = fig.add_subplot(6,2,4)
-        self.stft(data_ep02_MP[0,:], data_ep02_MP[3,:], self.data_pos_name_ep02[2,1], nperseg=512, vmax=3e-4)
+        self.stft(data_ep02_MP[0,:], data_ep02_MP[3,:], self.data_pos_name_ep02[2,1], nperseg=512, vmax=1e-4)
         ax1 = fig.add_subplot(6,2,8)
         self.stft(data_ep02_SX[0,:], data_ep02_SX[2,:], self.data_pos_name_ep02[4,1], nperseg=25000, vmax=8e-4)
         filepath = "figure/"
@@ -368,7 +368,7 @@ class DataBrowser:
             #dm_ep02_SX = read_wvf.DataManager("exp_ep02", "SX", self.data)
             #data_ep02_SX = dm_ep02_SX.fetch_raw_data(self.shotnum)
             #np.savez("data_%s_%d" % (self.data, self.shotnum), data_ep01=data_ep01, data_ep02_MP=data_ep02_MP, data_ep02_SX=data_ep02_SX)
-            dm_ep02_MP = read_wvf.DataManager("exp_ep02", "MP", self.date)
+            dm_ep02_MP = read_wvf.DataManager("exp_e02", "MP", self.date)
             data_ep02_MP = dm_ep02_MP.fetch_raw_data(self.shotnum)
             print("Load data from PPL")
 
@@ -388,6 +388,6 @@ if __name__ == "__main__":
 #        db = DataBrowser(data="20170608", shotNo=i, LOCALorPPL="PPL")
 #        db.plt_IFwfit(LOCALorPPL="PPL", pltstart=11200)
 #        db.load_FAST(LOCALorPPL="PPL")
-    db = DataBrowser(date="20180221", shotNo=70, LOCALorPPL="PPL")
+    db = DataBrowser(date="20180222", shotNo=66, LOCALorPPL="PPL")
     db.multiplot()
 #    db.plt_IFwfit(LOCALorPPL="PPL", pltstart=12200)
