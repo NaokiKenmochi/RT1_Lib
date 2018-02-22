@@ -24,8 +24,14 @@ class DataBrowser:
         if(np.int(date)<20171222):
             self.a1 = 0.00
             self.b1 = 0.29
-        elif(np.int(date) >= 20171222):
+        elif(np.int(date) >= 20171222 and np.int(date)<20171223):
             self.a1 = 0.004
+            self.b1 = 0.30
+        elif(np.int(date) >= 20171223 and np.int(date)<20180222):
+            self.a1 = 0.002
+            self.b1 = 0.136
+        elif(np.int(date) >= 20180222):
+            self.a1 = 0.002
             self.b1 = 0.30
 
         #for IF2
@@ -46,8 +52,10 @@ class DataBrowser:
         self.a3 = 0.00
         if(np.int(date)>=20160718 and np.int(date)<20171012):
             self.b3 = 0.30     #18 July 2016
-        elif(np.int(date) >= 20171012):
+        elif(np.int(date) >= 20171012 and np.int(date)<20180222):
             self.b3 = 0.28      #12 Oct 2017
+        elif(np.int(date) >= 20180222):
+            self.b1 = 0.29
 
         #グラフ描写のstep数
         self.num_step = 20
