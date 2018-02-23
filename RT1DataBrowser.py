@@ -95,14 +95,14 @@ class DataBrowser:
                                             [1, "mlt2", ""],
                                             [1, "mlt3", "diamag [mWb]"]])
 
-        self.data_pos_name_ep02 = np.array([[2, "MP1", ""],
-                                            [2, "MP2", ""],
-                                            [2, "MP3", ""],
-                                            [2, "MP4", ""],
-                                            [6, "IF_FAST", ""],
-                                            [6, "IF2_FAST", ""],
-                                            [10, "REFcos_FAST", ""],
-                                            [10, "REFsin_FAST", ""]])
+        self.data_pos_name_ep02 = np.array([[2, "MP1", "", 0.75],
+                                            [2, "MP2", "", 0.75],
+                                            [2, "MP3", "", 0.75],
+                                            [2, "MP4", "", 0.75],
+                                            [6, "IF_FAST", "", 0.75],
+                                            [6, "IF2_FAST", "", 0.75],
+                                            [10, "REFcos_FAST", "", 0.75],
+                                            [10, "REFsin_FAST", "", 0.75]])
 
     def load_date(self, LOCALorPPL):
         """
@@ -169,7 +169,8 @@ class DataBrowser:
         #############################
         for j in range(1,5):
             ax1 = fig.add_subplot(6,2, int(self.data_pos_name_ep02[j+3,0]), sharex=None, sharey=None)
-            ax1.plot(data_ep02_SX[0,::20*self.num_step]+0.5,data_ep02_SX[j,::20*self.num_step]+0.1-0.10*j, label=self.data_pos_name_ep02[j+3, 1])
+            ax1.set_xlim(0.5, 2.5)
+            ax1.plot(data_ep02_SX[0,::20*self.num_step]+1.25,data_ep02_SX[j,::20*self.num_step]+0.1-0.10*j, label=self.data_pos_name_ep02[j+3, 1])
             plt.subplots_adjust(left=0.05, right=0.97, bottom=0.05, top=0.95, wspace=0.15, hspace=0.15)
             ax1.legend(fontsize=10)
 
@@ -178,8 +179,9 @@ class DataBrowser:
         #############################
         for j in range(1,5):
             ax1 = fig.add_subplot(6,2, int(self.data_pos_name_ep02[j-1,0]), sharex=None, sharey=None)
+            ax1.set_xlim(0.5, 2.5)
             #ax1.plot(data_ep02_MP[0,::20*self.num_step]+0.5,data_ep02_MP[j,::20*self.num_step]+0.2-0.10*j, label=self.data_pos_name_ep02[j-1, 1])
-            ax1.plot(data_ep02_MP[0,::self.num_step]+0.5,data_ep02_MP[j,::self.num_step]+0.2-0.10*j, label=self.data_pos_name_ep02[j-1, 1])
+            ax1.plot(data_ep02_MP[0,::self.num_step]+1.25,data_ep02_MP[j,::self.num_step]+0.2-0.10*j, label=self.data_pos_name_ep02[j-1, 1])
             #ax1.plot(time_ep02_MP[::100], data_ep02_MP[j,::100]+0.5-0.25*j, label=self.data_name_ep02[j-1])
             plt.subplots_adjust(left=0.05, right=0.97, bottom=0.05, top=0.95, wspace=0.15, hspace=0.15)
             ax1.legend(fontsize=10)
@@ -187,9 +189,9 @@ class DataBrowser:
                 plt.title("Date: %s, Shot No.: %d" % (self.date, self.shotnum), loc='right', fontsize=36, fontname="Times New Roman")
 
         ax1 = fig.add_subplot(6,2,4)
-        self.stft(data_ep02_MP[0,:], data_ep02_MP[3,:], self.data_pos_name_ep02[2,1], nperseg=512, vmax=1e-4)
+        self.stft(data_ep02_MP[0,:], data_ep02_MP[3,:], self.data_pos_name_ep02[2,1], nperseg=512, vmax=1e-4, time_offset=0.25)
         ax1 = fig.add_subplot(6,2,8)
-        self.stft(data_ep02_SX[0,:], data_ep02_SX[2,:], self.data_pos_name_ep02[4,1], nperseg=25000, vmax=8e-4)
+        self.stft(data_ep02_SX[0,:], data_ep02_SX[2,:], self.data_pos_name_ep02[4,1], nperseg=25000, vmax=8e-4, time_offset=0.75)
         filepath = "figure/"
         filename = "RT1_%s_%d" % (self.date, self.shotnum)
         plt.savefig(filepath + filename)
@@ -271,15 +273,16 @@ class DataBrowser:
 
         return data_ep01
 
-    def stft(self, x, y, label, nperseg, vmax):
+    def stft(self, x, y, label, nperseg, vmax, time_offset):
         MAXFREQ = 1e0
         N = 1e-3*np.abs(1/(x[1]-x[2]))
         f, t, Zxx =sig.spectrogram(y, fs=N, window='hamming', nperseg=nperseg)
         #plt.xlim(0, 1.0)
-        plt.pcolormesh(t, f, np.abs(Zxx), vmin=0, vmax=vmax)
+        plt.pcolormesh(t*1e-3+time_offset, f, np.abs(Zxx), vmin=0, vmax=vmax)
         #plt.contourf(t, f, np.abs(Zxx), 200, norm=LogNorm())# vmax=1e-7)
         plt.ylabel(label + "\nFrequency [kHz]")
         plt.ylim([0, MAXFREQ])
+        plt.xlim([0.5, 2.5])
 
     def fit_func(self, parameter, x, y, t0):
         y0 = parameter[0]
@@ -388,6 +391,6 @@ if __name__ == "__main__":
 #        db = DataBrowser(data="20170608", shotNo=i, LOCALorPPL="PPL")
 #        db.plt_IFwfit(LOCALorPPL="PPL", pltstart=11200)
 #        db.load_FAST(LOCALorPPL="PPL")
-    db = DataBrowser(date="20180222", shotNo=66, LOCALorPPL="PPL")
+    db = DataBrowser(date="20180223", shotNo=6, LOCALorPPL="PPL")
     db.multiplot()
 #    db.plt_IFwfit(LOCALorPPL="PPL", pltstart=12200)

@@ -167,6 +167,7 @@ class STFT_RT1(DataBrowser):
 
     def stft(self, IForMPorSX="IF", num_ch=1):
 
+        time_offset_stft = 0.0
         if(IForMPorSX=="IF"):
             data_ep01 = self.load_ep01("PPL")
             data_ep01 = self.adj_gain(data_ep01)
@@ -174,22 +175,22 @@ class STFT_RT1(DataBrowser):
 
             y = data_ep01[10:, :]
             x = data_ep01[0, :]
-            filename = "STFT_ep01_IF_%s_%d" % (self.date, self.shotnum)
+            filename = "STFT_IF_%s_%d" % (self.date, self.shotnum)
             vmin = 0.0
             vmax = 1e-5
             NPERSEG = 2**9
             time_offset = 0.0
-            plt.xlim(0.5, 2.5)
 
         if(IForMPorSX=="IF_FAST"):
             IF_FAST = self.load_IF_FAST("PPL")
-            y = IF_FAST[:, :]
+            y = IF_FAST[1:, :]
             x = np.linspace(0, 2, 2000000)
-            filename = "STFT_IF_%s_%d" % (self.date, self.shotnum)
+            filename = "STFT_IF_FAST_%s_%d" % (self.date, self.shotnum)
             vmin = 0.0
             vmax = 5e-7
-            NPERSEG = 50000
-            time_offset = 0.0
+            NPERSEG = 2**15
+            time_offset = 0.75
+            time_offset_stft = 0.75
 
         if(IForMPorSX=="MP"):
             MP_FAST = self.load_MP_FAST("PPL")
@@ -199,7 +200,8 @@ class STFT_RT1(DataBrowser):
             vmin = 0.0
             vmax = 1e-7
             NPERSEG = 1024
-            time_offset = 1.0
+            time_offset = 1.25
+            time_offset_stft = 0.25
             #plt.plot(x, MP_FAST[1, :]+1, label="MP1")
             #plt.plot(x, MP_FAST[2, :], label="MP2")
             #plt.plot(x, MP_FAST[3, :]-1, label="MP3")
@@ -215,7 +217,8 @@ class STFT_RT1(DataBrowser):
             data_SX_10M[[i for i in time_SX*1e7]] = data_SX
             y = data_SX_10M
             x = time_SX_10M
-            time_offset = 1.0
+            time_offset_stft = 1.00
+            time_offset = 1.25
             #plt.plot(x, y)
             #plt.show()
             filename = "STFT_SX4_%s_%d" % (self.date, self.shotnum)
@@ -224,11 +227,12 @@ class STFT_RT1(DataBrowser):
             SX_FAST = self.load_SX_FAST("PPL")
             y = SX_FAST[3:, :]
             x = SX_FAST[0, :]
-            filename = "STFT_REF%d_%s_%d" % (num_ch, self.date, self.shotnum)
+            filename = "STFT_REF_%s_%d" % (self.date, self.shotnum)
             vmin = 0.0
             vmax = 5e-7
             NPERSEG = 2**14
-            time_offset = 1.0
+            time_offset_stft = 0.75
+            time_offset = 1.25
             #plt.plot(x, SX_FAST[3, :]+1, label="REF_COS")
             #plt.plot(x, SX_FAST[4, :], label="REF_SIN")
             #plt.plot(SX_FAST[3, ::10000], SX_FAST[4, ::10000])
@@ -245,7 +249,7 @@ class STFT_RT1(DataBrowser):
 
             ax0 = plt.subplot(gs[0:3, i])
             f, t, Zxx =sig.spectrogram(y[i, :], fs=N, window='hamming', nperseg=NPERSEG)
-            plt.pcolormesh(t, f, np.abs(Zxx), vmin=vmin, vmax=vmax)
+            plt.pcolormesh(t + time_offset_stft, f, np.abs(Zxx), vmin=vmin, vmax=vmax)
             sfmt=matplotlib.ticker.ScalarFormatter(useMathText=True)
             cbar = plt.colorbar(format=sfmt)
             cbar.ax.tick_params(labelsize=12)
@@ -267,8 +271,10 @@ class STFT_RT1(DataBrowser):
         plt.savefig(filepath + filename)
 
 if __name__ == "__main__":
-    for i in range(31, 67):
-        stft = STFT_RT1(date="20180222", shotNo=i, LOCALorPPL="PPL")
-        stft.stft(IForMPorSX="MP", num_ch=3)
+    #for i in range(66, 67):
+    #    stft = STFT_RT1(date="20180223", shotNo=i, LOCALorPPL="PPL")
+    #    stft.stft(IForMPorSX="IF_FAST", num_ch=2)
+    stft = STFT_RT1(date="20180223", shotNo=2, LOCALorPPL="PPL")
+    stft.stft(IForMPorSX="IF", num_ch=3)
     #stft.cwt()
     #stft.cross_spectrum()
