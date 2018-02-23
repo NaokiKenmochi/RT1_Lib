@@ -16,7 +16,7 @@ import matplotlib as mpl
 #mpl.use('Qt4Agg')
 
 
-class STFT_FAST(DataBrowser):
+class STFT_RT1(DataBrowser):
     def __init__(self, date, shotNo, LOCALorPPL):
         """
 
@@ -165,7 +165,7 @@ class STFT_FAST(DataBrowser):
         plt.ylabel('Frequency [Hz]')
         plt.show()
 
-    def stft(self, IForMPorSX="IF"):
+    def stft(self, IForMPorSX="IF", num_ch=1):
 
         plt.figure(figsize=(8, 5))
 
@@ -174,7 +174,7 @@ class STFT_FAST(DataBrowser):
             data_ep01 = self.adj_gain(data_ep01)
             data_ep01 = self.calib_IF(data_ep01)
 
-            num_IF = 3
+            num_IF = num_ch
             y = data_ep01[num_IF + 9, :]
             x = data_ep01[0, :]
             plt.ylabel("Frequency of IF%d [Hz]" % (num_IF))
@@ -186,7 +186,7 @@ class STFT_FAST(DataBrowser):
 
         if(IForMPorSX=="IF_FAST"):
             IF_FAST = self.load_IF_FAST("PPL")
-            num_IF = 3
+            num_IF = num_ch
             y = IF_FAST[num_IF, :]
             x = np.linspace(0, 2, 2000000)
             plt.ylabel("Frequency of IF%d [Hz]" % (num_IF))
@@ -197,7 +197,7 @@ class STFT_FAST(DataBrowser):
 
         if(IForMPorSX=="MP"):
             MP_FAST = self.load_MP_FAST("PPL")
-            num_MP = 3
+            num_MP = num_ch
             y = MP_FAST[num_MP, :]
             x = MP_FAST[0, :]
             plt.ylabel("Frequency of MP%d [Hz]" % (num_MP))
@@ -227,7 +227,7 @@ class STFT_FAST(DataBrowser):
 
         if(IForMPorSX=="REF"):
             SX_FAST = self.load_SX_FAST("PPL")
-            num_SX = 2
+            num_SX = num_ch
             y = SX_FAST[num_SX+2, :]
             x = SX_FAST[0, :]
             plt.ylabel("Frequency of REF%d [Hz]" % (num_SX))
@@ -272,7 +272,7 @@ class STFT_FAST(DataBrowser):
         #plt.clf()
 
 if __name__ == "__main__":
-    stft = STFT_FAST(date="20180222", shotNo=45, LOCALorPPL="PPL")
-    stft.stft(IForMPorSX="MP")
+    stft = STFT_RT1(date="20180222", shotNo=45, LOCALorPPL="PPL")
+    stft.stft(IForMPorSX="MP", num_ch=1)
     #stft.cwt()
     #stft.cross_spectrum()
