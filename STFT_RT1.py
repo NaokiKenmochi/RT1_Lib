@@ -167,44 +167,39 @@ class STFT_RT1(DataBrowser):
 
     def stft(self, IForMPorSX="IF", num_ch=1):
 
-        plt.figure(figsize=(8, 5))
-
         if(IForMPorSX=="IF"):
             data_ep01 = self.load_ep01("PPL")
             data_ep01 = self.adj_gain(data_ep01)
             data_ep01 = self.calib_IF(data_ep01)
 
-            num_IF = num_ch
-            y = data_ep01[num_IF + 9, :]
+            y = data_ep01[10:, :]
             x = data_ep01[0, :]
-            plt.ylabel("Frequency of IF%d [Hz]" % (num_IF))
-            filename = "STFT_ep01_IF%d_%s_%d" % (num_IF, self.date, self.shotnum)
+            filename = "STFT_ep01_IF_%s_%d" % (self.date, self.shotnum)
             vmin = 0.0
             vmax = 1e-5
             NPERSEG = 2**9
+            time_offset = 0.0
             plt.xlim(0.5, 2.5)
 
         if(IForMPorSX=="IF_FAST"):
             IF_FAST = self.load_IF_FAST("PPL")
-            num_IF = num_ch
-            y = IF_FAST[num_IF, :]
+            y = IF_FAST[:, :]
             x = np.linspace(0, 2, 2000000)
-            plt.ylabel("Frequency of IF%d [Hz]" % (num_IF))
-            filename = "STFT_IF%d_%s_%d" % (num_IF, self.date, self.shotnum)
+            filename = "STFT_IF_%s_%d" % (self.date, self.shotnum)
             vmin = 0.0
             vmax = 5e-7
             NPERSEG = 50000
+            time_offset = 0.0
 
         if(IForMPorSX=="MP"):
             MP_FAST = self.load_MP_FAST("PPL")
-            num_MP = num_ch
-            y = MP_FAST[num_MP, :]
+            y = MP_FAST[1:, :]
             x = MP_FAST[0, :]
-            plt.ylabel("Frequency of MP%d [Hz]" % (num_MP))
-            filename = "STFT_MP%d_%s_%d" % (num_MP, self.date, self.shotnum)
+            filename = "STFT_MP_%s_%d" % (self.date, self.shotnum)
             vmin = 0.0
             vmax = 1e-7
             NPERSEG = 1024
+            time_offset = 1.0
             #plt.plot(x, MP_FAST[1, :]+1, label="MP1")
             #plt.plot(x, MP_FAST[2, :], label="MP2")
             #plt.plot(x, MP_FAST[3, :]-1, label="MP3")
@@ -220,59 +215,60 @@ class STFT_RT1(DataBrowser):
             data_SX_10M[[i for i in time_SX*1e7]] = data_SX
             y = data_SX_10M
             x = time_SX_10M
+            time_offset = 1.0
             #plt.plot(x, y)
             #plt.show()
-            plt.ylabel("Frequency of SX [Hz]")
             filename = "STFT_SX4_%s_%d" % (self.date, self.shotnum)
 
         if(IForMPorSX=="REF"):
             SX_FAST = self.load_SX_FAST("PPL")
-            num_SX = num_ch
-            y = SX_FAST[num_SX+2, :]
+            y = SX_FAST[3:, :]
             x = SX_FAST[0, :]
-            plt.ylabel("Frequency of REF%d [Hz]" % (num_SX))
-            filename = "STFT_REF%d_%s_%d" % (num_SX, self.date, self.shotnum)
+            filename = "STFT_REF%d_%s_%d" % (num_ch, self.date, self.shotnum)
             vmin = 0.0
             vmax = 5e-7
             NPERSEG = 2**14
+            time_offset = 1.0
             #plt.plot(x, SX_FAST[3, :]+1, label="REF_COS")
             #plt.plot(x, SX_FAST[4, :], label="REF_SIN")
             #plt.plot(SX_FAST[3, ::10000], SX_FAST[4, ::10000])
             #plt.legend()
             #plt.show()
 
+
         N = np.abs(1/(x[1]-x[2]))
 
-        gs = gridspec.GridSpec(4, 1)
+        plt.figure(figsize=(16, 5))
+        gs = gridspec.GridSpec(4, num_ch)
         gs.update(hspace=0.4)
-        ax0 = plt.subplot(gs[0:3, 0])
-        #plt.title("%s, Date: %s, Shot No.: %d" % (IForMPorSX, self.date, self.shotnum), loc='right', fontsize=20, fontname="Times New Roman")
-        plt.title("%s" % (filename), loc='right', fontsize=20, fontname="Times New Roman")
-        f, t, Zxx =sig.spectrogram(y, fs=N, window='hamming', nperseg=NPERSEG)
-        #plt.contourf(t+0.76316, f, np.abs(Zxx), 10, norm=LogNorm(), vmax=2e-7)
-        plt.pcolormesh(t, f, np.abs(Zxx), vmin=vmin, vmax=vmax)
-        sfmt=matplotlib.ticker.ScalarFormatter(useMathText=True)
-        cbar = plt.colorbar(format=sfmt)
-        cbar.ax.tick_params(labelsize=12)
-        cbar.formatter.set_powerlimits((0, 0))
-        cbar.update_ticks()
-        ax0.set_xlabel("Time [sec]")
-        ax0.set_ylabel("Frequency [Hz]")
-        ax0.set_xlim(0.5, 2.5)
-        #plt.ylim([0, MAXFREQ])
-        plt.ylim([0, 2000])
+        for i in range(num_ch):
 
-        ax1 = plt.subplot(gs[3, 0])
-        ax1.plot(x, y)
-        ax1.set_xlabel("Time [sec]")
-        ax1.set_xlim(0.5, 3.0)
+            ax0 = plt.subplot(gs[0:3, i])
+            f, t, Zxx =sig.spectrogram(y[i, :], fs=N, window='hamming', nperseg=NPERSEG)
+            plt.pcolormesh(t, f, np.abs(Zxx), vmin=vmin, vmax=vmax)
+            sfmt=matplotlib.ticker.ScalarFormatter(useMathText=True)
+            cbar = plt.colorbar(format=sfmt)
+            cbar.ax.tick_params(labelsize=12)
+            cbar.formatter.set_powerlimits((0, 0))
+            cbar.update_ticks()
+            ax0.set_xlabel("Time [sec]")
+            ax0.set_ylabel("Frequency of %s%d [Hz]" % (IForMPorSX, i+1))
+            ax0.set_xlim(0.5, 2.5)
+            ax0.set_ylim([0, 2000])
+            if(i==num_ch-1):
+                plt.title("%s" % (filename), loc='right', fontsize=20, fontname="Times New Roman")
+
+            ax1 = plt.subplot(gs[3, i])
+            ax1.plot(x+time_offset, y[i, :])
+            ax1.set_xlabel("Time [sec]")
+            ax1.set_xlim(0.5, 3.0)
+        #plt.show()
         filepath = "figure/"
         plt.savefig(filepath + filename)
-        #plt.show()
-        #plt.clf()
 
 if __name__ == "__main__":
-    stft = STFT_RT1(date="20180222", shotNo=45, LOCALorPPL="PPL")
-    stft.stft(IForMPorSX="MP", num_ch=1)
+    for i in range(31, 67):
+        stft = STFT_RT1(date="20180222", shotNo=i, LOCALorPPL="PPL")
+        stft.stft(IForMPorSX="MP", num_ch=3)
     #stft.cwt()
     #stft.cross_spectrum()
