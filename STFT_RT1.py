@@ -173,11 +173,30 @@ class STFT_RT1(DataBrowser):
             data_ep01 = self.adj_gain(data_ep01)
             data_ep01 = self.calib_IF(data_ep01)
 
-            y = data_ep01[10:, :]
+            y = data_ep01[10:13, :]
             x = data_ep01[0, :]
             filename = "STFT_IF_%s_%d" % (self.date, self.shotnum)
             vmin = 0.0
             vmax = 1e-5
+            NPERSEG = 2**9
+            time_offset = 0.0
+
+        if(IForMPorSX=="POL"):
+            """
+            390nm, 730nm, 710nm, 450nmの順で格納
+            390nm, 450nmの比を用いて電子密度を計算
+            730nm, 710nmの比を用いて電子温度を計算
+            """
+            data_ep01 = self.load_ep01("PPL")
+            data_ep01 = self.adj_gain(data_ep01)
+
+            y_buf1 = np.array([data_ep01[13, :]])
+            y_buf2 = np.array(data_ep01[25:28, :])
+            y = np.r_[y_buf1, y_buf2]
+            x = data_ep01[0, :]
+            filename = "STFT_POL_%s_%d" % (self.date, self.shotnum)
+            vmin = 0.0
+            vmax = 3e-7
             NPERSEG = 2**9
             time_offset = 0.0
 
@@ -244,7 +263,7 @@ class STFT_RT1(DataBrowser):
 
         plt.figure(figsize=(16, 5))
         gs = gridspec.GridSpec(4, num_ch)
-        gs.update(hspace=0.4)
+        gs.update(hspace=0.4, wspace=0.3)
         for i in range(num_ch):
 
             ax0 = plt.subplot(gs[0:3, i])
@@ -271,10 +290,10 @@ class STFT_RT1(DataBrowser):
         plt.savefig(filepath + filename)
 
 if __name__ == "__main__":
-    #for i in range(66, 67):
-    #    stft = STFT_RT1(date="20180223", shotNo=i, LOCALorPPL="PPL")
-    #    stft.stft(IForMPorSX="IF_FAST", num_ch=2)
-    stft = STFT_RT1(date="20180223", shotNo=2, LOCALorPPL="PPL")
-    stft.stft(IForMPorSX="IF", num_ch=3)
+    for i in range(47, 87):
+        stft = STFT_RT1(date="20180223", shotNo=i, LOCALorPPL="PPL")
+        stft.stft(IForMPorSX="POL", num_ch=4)
+    #stft = STFT_RT1(date="20180223", shotNo=47, LOCALorPPL="PPL")
+    #stft.stft(IForMPorSX="IF", num_ch=3)
     #stft.cwt()
     #stft.cross_spectrum()

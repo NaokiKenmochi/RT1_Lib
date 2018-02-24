@@ -95,14 +95,14 @@ class DataBrowser:
                                             [1, "mlt2", ""],
                                             [1, "mlt3", "diamag [mWb]"]])
 
-        self.data_pos_name_ep02 = np.array([[2, "MP1", "", 0.75],
-                                            [2, "MP2", "", 0.75],
-                                            [2, "MP3", "", 0.75],
-                                            [2, "MP4", "", 0.75],
-                                            [6, "IF_FAST", "", 0.75],
-                                            [6, "IF2_FAST", "", 0.75],
-                                            [10, "REFcos_FAST", "", 0.75],
-                                            [10, "REFsin_FAST", "", 0.75]])
+        self.data_pos_name_ep02 = np.array([[2, "MP1", ""],
+                                            [2, "MP2", ""],
+                                            [2, "MP3", ""],
+                                            [2, "MP4", ""],
+                                            [6, "IF_FAST", ""],
+                                            [6, "IF2_FAST", ""],
+                                            [10, "REFcos_FAST", ""],
+                                            [10, "REFsin_FAST", ""]])
 
     def load_date(self, LOCALorPPL):
         """
@@ -117,7 +117,7 @@ class DataBrowser:
             data_ep01 = dm_ep01.fetch_raw_data(self.shotnum)
             data_ep02_MP = dm_ep02_MP.fetch_raw_data(self.shotnum)
             data_ep02_SX = dm_ep02_SX.fetch_raw_data(self.shotnum)
-            #np.savez("data_%s_%d" % (self.data, self.shotnum), data_ep01=data_ep01, data_ep02_MP=data_ep02_MP, data_ep02_SX=data_ep02_SX)
+            #np.savez("data_%s_%d" % (self.date, self.shotnum), data_ep01=data_ep01, data_ep02_MP=data_ep02_MP, data_ep02_SX=data_ep02_SX)
             print("Load data from PPL")
 
         else:
@@ -139,18 +139,6 @@ class DataBrowser:
         data_ep01 = self.adj_gain(data_ep01)
         data_ep01 = self.mag_loop(data_ep01)
         data_ep01 = self.calib_IF(data_ep01)
-        time_ep02_SX = np.arange(0,2,2/2000000)
-        time_ep02_MP = np.arange(0,2,2/1000000)
-
-#        #datafile = cbook.get_sample_data("LOGO_en_140.jpg", asfileobj=False)
-#        #im = image.imread("LOGO_en_140.jpg")
-#        im = image.imread("LOGO.png")
-#        #im = np.array(im)
-#        ax1 = fig.add_subplot(5,2,1, sharex=None, sharey=None)
-#        ax1.imshow(im, aspect='auto', extent=(0.5,1.1,0.0,0.1), alpha=1.0, zorder=-1)
-#        newax = fig.add_axes([0.0, 0.8, 0.1, 0.2], anchor='NE', zorder=-1)
-#        newax.imshow(im)
-#        newax.axis('off')
 
         #############################
         #   Date in exp_ep01        #
@@ -223,10 +211,6 @@ class DataBrowser:
         :param IF:
         :return:
         """
-        np.savetxt("IF_20170608_74_raw.txt", IF[11:13, :].T, delimiter=",")
-        #np.savetxt("IF2_20170629_68.txt", IF[11, :], delimiter="\n")
-        #np.savetxt("IF1_20170629_68.txt", IF[10, :], delimiter="\n")
-
         IF_offset = np.mean(np.arcsin((IF[10,:5000]-self.a1)/self.b1)*180/np.pi)
         #IF[10,:] = np.arcsin((IF[10,:]-self.a1)/self.b1)*180/np.pi - np.mean(np.arcsin((IF[10,:5000]-self.a1)/self.b1)*180/np.pi)
         IF[10,:] = np.arcsin((IF[10,:]-self.a1)/self.b1)*180/np.pi
@@ -238,13 +222,6 @@ class DataBrowser:
         IF[10,:] = IF[10,:]*5.58/360
         IF[11,:] = IF[11,:]*5.58/360
         IF[12,:] = IF[12,:]*5.58/360
-#        IF[10,:] = np.arcsin((IF[10,:]-self.a1)/self.b1)*180/np.pi
-#        IF[11,:] = np.arcsin((IF[11,:]-self.a2)/self.b2)*180/np.pi
-#        IF[12,:] = np.arcsin((IF[12,:]-self.a3)/self.b3)*180/np.pi
-#
-#        IF[10,:] -= np.mean(IF[10,:6000])
-#        IF[11,:] -= np.mean(IF[11,:6000])
-#        IF[12,:] -= np.mean(IF[12,:6000])
 
         return IF
 
@@ -277,7 +254,6 @@ class DataBrowser:
         MAXFREQ = 1e0
         N = 1e-3*np.abs(1/(x[1]-x[2]))
         f, t, Zxx =sig.spectrogram(y, fs=N, window='hamming', nperseg=nperseg)
-        #plt.xlim(0, 1.0)
         plt.pcolormesh(t*1e-3+time_offset, f, np.abs(Zxx), vmin=0, vmax=vmax)
         #plt.contourf(t, f, np.abs(Zxx), 200, norm=LogNorm())# vmax=1e-7)
         plt.ylabel(label + "\nFrequency [kHz]")
@@ -391,6 +367,6 @@ if __name__ == "__main__":
 #        db = DataBrowser(data="20170608", shotNo=i, LOCALorPPL="PPL")
 #        db.plt_IFwfit(LOCALorPPL="PPL", pltstart=11200)
 #        db.load_FAST(LOCALorPPL="PPL")
-    db = DataBrowser(date="20180223", shotNo=6, LOCALorPPL="PPL")
+    db = DataBrowser(date="20180223", shotNo=102, LOCALorPPL="PPL")
     db.multiplot()
 #    db.plt_IFwfit(LOCALorPPL="PPL", pltstart=12200)
