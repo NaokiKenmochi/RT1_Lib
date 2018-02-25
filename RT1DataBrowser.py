@@ -117,11 +117,11 @@ class DataBrowser:
             data_ep01 = dm_ep01.fetch_raw_data(self.shotnum)
             data_ep02_MP = dm_ep02_MP.fetch_raw_data(self.shotnum)
             data_ep02_SX = dm_ep02_SX.fetch_raw_data(self.shotnum)
-            #np.savez("data_%s_%d" % (self.date, self.shotnum), data_ep01=data_ep01, data_ep02_MP=data_ep02_MP, data_ep02_SX=data_ep02_SX)
+            #np.savez_compressed("data/data_%s_%d" % (self.date, self.shotnum), data_ep01=data_ep01, data_ep02_MP=data_ep02_MP, data_ep02_SX=data_ep02_SX)
             print("Load data from PPL")
 
         else:
-            data = np.load("data_%s_%d.npz" % (self.date, self.shotnum))
+            data = np.load("data/data_%s_%d.npz" % (self.date, self.shotnum))
             data_ep01 = data["data_ep01"]
             data_ep02_MP = data["data_ep02_MP"]
             data_ep02_SX = data["data_ep02_SX"]
@@ -260,113 +260,10 @@ class DataBrowser:
         plt.ylim([0, MAXFREQ])
         plt.xlim([0.5, 2.5])
 
-    def fit_func(self, parameter, x, y, t0):
-        y0 = parameter[0]
-        A = parameter[1]
-        tau = parameter[2]
-        x0 = t0#parameter[3]
-        #exp_XOffset = y - (y0 + A*np.exp(-(x-x0)/tau))
-        exp_XOffset = y - A*np.exp(-(x-x0)/tau)
-        return exp_XOffset
-
-    def get_tau(self, x, y, t0):
-        parameter0 = [0., 0., 0.1, 0.]
-        result = optimize.leastsq(self.fit_func, parameter0, args=(x, y, t0), maxfev=5000)
-        y0_fit = 0#result[0][0]
-        A_fit = result[0][1]
-        tau_fit = result[0][2]
-        x0_fit = t0#result[0][3]
-        print(self.shotnum, y0_fit, A_fit, tau_fit, x0_fit)
-        #plt.plot(x, y)
-        plt.plot(x, y0_fit + A_fit*np.exp(-(x-x0_fit)/tau_fit))
-        plt.text(0.9, 0.8*x0_fit, "y0 + A*np.exp(-(x-x0)/tau)", fontsize=12)
-        plt.text(0.9, 0.6*x0_fit, "y0=%f" % y0_fit, fontsize=12)
-        plt.text(0.9, 0.4*x0_fit, "A=%f" % A_fit, fontsize=12)
-        plt.text(0.9, 0.2*x0_fit, "tau=%f" % tau_fit, fontsize=12)
-        plt.text(0.9, 0.0*x0_fit, "x0=%f" % x0_fit, fontsize=12)
-        plt.xlabel("Time[sec]", fontsize=18)
-        plt.ylabel("$\mathbf{n_eL [10^{17}m^{-2}]}$", fontsize=18)
-        plt.tick_params(labelsize=18)
-
-    def plt_IFwfit(self, LOCALorPPL, pltstart, graph="SHOW_GRAPH"):
-        fig = plt.figure(figsize=(12,8))
-
-        if LOCALorPPL == "PPL":
-            dm_ep01 = read_wvf.DataManager("exp_ep01", 0, self.date)
-            data_ep01 = dm_ep01.fetch_raw_data(self.shotnum)
-            #np.savez("data_%s_%d" % (self.data, self.shotnum), data_ep01=data_ep01, data_ep02_MP=data_ep02_MP, data_ep02_SX=data_ep02_SX)
-            print("Load data from PPL")
-
-        else:
-            data = np.load("data_%s_%d.npz" % (self.date, self.shotnum))
-            data_ep01 = data["data_ep01"]
-            print("Load data from local")
-
-        data_ep01 = self.adj_gain(data_ep01)
-        data_ep01 = self.calib_IF(data_ep01)
-        data_ep01 = self.mag_loop(data_ep01)
-
-        if(graph == "SHOW_GRAPH"):
-            ax1=plt.subplot(311)
-            pltnum = 10
-            plt.plot(data_ep01[0, 10000:22000:self.num_step], data_ep01[pltnum, 10000:22000:self.num_step], label=self.data_pos_name_ep01[pltnum,1])
-            plt.legend()
-            self.get_tau(data_ep01[0, pltstart:18000:self.num_step], data_ep01[pltnum, pltstart:18000:self.num_step], pltstart/10000)
-            plt.title("Date: %s, Shot No.: %d" % (self.date, self.shotnum), loc='right', fontsize=20, fontname="Times New Roman")
-            ax1=plt.subplot(312)
-            pltnum = 11
-            plt.plot(data_ep01[0, 10000:22000:self.num_step], data_ep01[pltnum, 10000:22000:self.num_step], label=self.data_pos_name_ep01[pltnum,1])
-            plt.legend()
-            self.get_tau(data_ep01[0, pltstart:18000:self.num_step], data_ep01[pltnum, pltstart:18000:self.num_step], pltstart/10000)
-            ax1=plt.subplot(313)
-            pltnum = 12
-            plt.plot(data_ep01[0, 10000:22000:self.num_step], data_ep01[pltnum, 10000:22000:self.num_step], label=self.data_pos_name_ep01[pltnum,1])
-            plt.legend()
-            self.get_tau(data_ep01[0, pltstart:18000:self.num_step], data_ep01[pltnum, pltstart:18000:self.num_step], pltstart/10000)
-
-            filepath = "figure/"
-            filename = "GP1_%s_%d_IF1_IF2_IF3_y0" % (self.date, self.shotnum)
-            plt.savefig(filepath + filename)
-            plt.clf()
-
-        #filename2 = "GP1_%s_%d_IF1IF2IF3_all.txt" % (self.data, self.shotnum)
-        #filename3 = "GP1_%s_%d_ml3.txt" % (self.data, self.shotnum)
-        #filename4 = "GP1_%s_%d_2GPf.txt" % (self.data, self.shotnum)
-        filename5 = "GP1_%s_%d_IF1IF2FAST.txt" % (self.date, self.shotnum)
-        #IF1IF2IF3 = np.zeros((len(data_ep01[0]), 4))
-        #IF1IF2IF3[:, :] = data_ep01[9:13, :].T
-        #np.savetxt(filename2, IF1IF2IF3, delimiter=",")
-        #np.savetxt(filename3, data_ep01[19, :].T, delimiter=",")
-        #np.savetxt(filename4, data_ep01[3, :].T, delimiter=",")
-        np.savetxt(filename5, data_ep02[3, :].T, delimiter=",")
-
-
-    def load_FAST(self, LOCALorPPL):
-
-        if LOCALorPPL == "PPL":
-            #dm_ep02_SX = read_wvf.DataManager("exp_ep02", "SX", self.data)
-            #data_ep02_SX = dm_ep02_SX.fetch_raw_data(self.shotnum)
-            #np.savez("data_%s_%d" % (self.data, self.shotnum), data_ep01=data_ep01, data_ep02_MP=data_ep02_MP, data_ep02_SX=data_ep02_SX)
-            dm_ep02_MP = read_wvf.DataManager("exp_e02", "MP", self.date)
-            data_ep02_MP = dm_ep02_MP.fetch_raw_data(self.shotnum)
-            print("Load data from PPL")
-
-        else:
-            data = np.load("data_%s_%d.npz" % (self.date, self.shotnum))
-            data_ep02 = data["data_ep02"]
-            print("Load data from local")
-
-
-        filename5 = "GP1_%s_%d_IF1IF2FAST.txt" % (self.date, self.shotnum)
-        filename6 = "GP1_%s_%d_MP123FAST.txt" % (self.date, self.shotnum)
-        np.savez("MP123_%s_%d" % (self.date, self.shotnum), data_ep02_MP=data_ep02_MP)
-        #np.savetxt(filename5, data_ep02_SX[1:3, :].T, delimiter=",")
 
 if __name__ == "__main__":
-#    for i in range(107, 108):
-#        db = DataBrowser(data="20170608", shotNo=i, LOCALorPPL="PPL")
-#        db.plt_IFwfit(LOCALorPPL="PPL", pltstart=11200)
-#        db.load_FAST(LOCALorPPL="PPL")
-    db = DataBrowser(date="20180223", shotNo=102, LOCALorPPL="PPL")
+#    for i in range(47, 103):
+#        db = DataBrowser(date="20180223", shotNo=i, LOCALorPPL="PPL")
+#        db.load_date(LOCALorPPL="PPL")
+    db = DataBrowser(date="20180223", shotNo=101, LOCALorPPL="LOCAL")
     db.multiplot()
-#    db.plt_IFwfit(LOCALorPPL="PPL", pltstart=12200)
