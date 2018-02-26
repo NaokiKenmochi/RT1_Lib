@@ -28,6 +28,9 @@ class STFT_RT1(DataBrowser):
         self.shotnum = shotNo
         self.LOCALorPPL = LOCALorPPL
 
+        self.r_pol = np.array([379, 432, 484, 535, 583, 630, 689, 745, 820])
+        self.num_shots = np.array([87, 54, 89, 91, 93, 95, 97, 99, 101])
+
     def load_ep01(self, LOCALorPPL):
         if LOCALorPPL == "PPL":
             dm_ep01 = read_wvf.DataManager("exp_ep01", 0, self.date)
@@ -261,14 +264,24 @@ class STFT_RT1(DataBrowser):
 
         N = np.abs(1/(x[1]-x[2]))
 
+        for i in range(num_ch):
+
+            f, t, Zxx =sig.spectrogram(y[i, :], fs=N, window='hamming', nperseg=NPERSEG)
+            if(i == 0):
+                Zxx_3D = np.zeros((np.shape(Zxx)[0], np.shape(Zxx)[1], num_ch))
+            Zxx_3D[:, :, i] = Zxx
+
+        return filename, vmax, vmin, time_offset, time_offset_stft, x, y, f, t, Zxx_3D
+
+    def plot_stft(self, IForMPorSX="IF", num_ch=4):
+        filename, vmax, vmin, time_offset, time_offset_stft, x, y, f, t, Zxx_3D = self.stft(IForMPorSX=IForMPorSX, num_ch=num_ch)
+
         plt.figure(figsize=(16, 5))
         gs = gridspec.GridSpec(4, num_ch)
         gs.update(hspace=0.4, wspace=0.3)
         for i in range(num_ch):
-
             ax0 = plt.subplot(gs[0:3, i])
-            f, t, Zxx =sig.spectrogram(y[i, :], fs=N, window='hamming', nperseg=NPERSEG)
-            plt.pcolormesh(t + time_offset_stft, f, np.abs(Zxx), vmin=vmin, vmax=vmax)
+            plt.pcolormesh(t + time_offset_stft, f, np.abs(Zxx_3D[:, :, i]), vmin=vmin, vmax=vmax)
             sfmt=matplotlib.ticker.ScalarFormatter(useMathText=True)
             cbar = plt.colorbar(format=sfmt)
             cbar.ax.tick_params(labelsize=12)
@@ -285,15 +298,18 @@ class STFT_RT1(DataBrowser):
             ax1.plot(x+time_offset, y[i, :])
             ax1.set_xlabel("Time [sec]")
             ax1.set_xlim(0.5, 3.0)
-        #plt.show()
-        filepath = "figure/"
-        plt.savefig(filepath + filename)
+        plt.show()
+        #filepath = "figure/"
+        #plt.savefig(filepath + filename)
+
+    def make_stft_profile(self):
+        pass
 
 if __name__ == "__main__":
-    for i in range(47, 87):
-        stft = STFT_RT1(date="20180223", shotNo=i, LOCALorPPL="PPL")
-        stft.stft(IForMPorSX="POL", num_ch=4)
-    #stft = STFT_RT1(date="20180223", shotNo=47, LOCALorPPL="PPL")
-    #stft.stft(IForMPorSX="IF", num_ch=3)
+    #for i in range(47, 87):
+    #    stft = STFT_RT1(date="20180223", shotNo=i, LOCALorPPL="PPL")
+    #    stft.stft(IForMPorSX="POL", num_ch=4)
+    stft = STFT_RT1(date="20180223", shotNo=47, LOCALorPPL="PPL")
+    stft.plot_stft(IForMPorSX="POL", num_ch=4)
     #stft.cwt()
     #stft.cross_spectrum()
