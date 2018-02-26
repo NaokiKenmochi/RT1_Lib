@@ -28,9 +28,6 @@ class STFT_RT1(DataBrowser):
         self.shotnum = shotNo
         self.LOCALorPPL = LOCALorPPL
 
-        self.r_pol = np.array([379, 432, 484, 535, 583, 630, 689, 745, 820])
-        self.num_shots = np.array([87, 54, 89, 91, 93, 95, 97, 99, 101])
-
     def load_ep01(self, LOCALorPPL):
         if LOCALorPPL == "PPL":
             dm_ep01 = read_wvf.DataManager("exp_ep01", 0, self.date)
@@ -271,10 +268,10 @@ class STFT_RT1(DataBrowser):
                 Zxx_3D = np.zeros((np.shape(Zxx)[0], np.shape(Zxx)[1], num_ch))
             Zxx_3D[:, :, i] = Zxx
 
-        return filename, vmax, vmin, time_offset, time_offset_stft, x, y, f, t, Zxx_3D
+        return f, t, Zxx_3D, filename, vmax, vmin, time_offset, time_offset_stft, x, y
 
     def plot_stft(self, IForMPorSX="IF", num_ch=4):
-        filename, vmax, vmin, time_offset, time_offset_stft, x, y, f, t, Zxx_3D = self.stft(IForMPorSX=IForMPorSX, num_ch=num_ch)
+        f, t, Zxx_3D, filename, vmax, vmin, time_offset, time_offset_stft, x, y = self.stft(IForMPorSX=IForMPorSX, num_ch=num_ch)
 
         plt.figure(figsize=(16, 5))
         gs = gridspec.GridSpec(4, num_ch)
@@ -302,14 +299,25 @@ class STFT_RT1(DataBrowser):
         #filepath = "figure/"
         #plt.savefig(filepath + filename)
 
-    def make_stft_profile(self):
-        pass
+def make_stft_profile(date):
+    r_pol = np.array([379, 432, 484, 535, 583, 630, 689, 745, 820])
+    num_shots = np.array([87, 54, 89, 91, 93, 95, 97, 99, 101])
+
+    for i in range(9):
+        stft = STFT_RT1(date=date, shotNo=num_shots[i], LOCALorPPL="PPL")
+        f, t, Zxx_3D,_,_,_,_,_,_,_ = stft.stft(IForMPorSX="POL", num_ch=4)
+        if(i == 0):
+            Zxx_4D = np.zeros((np.shape(Zxx_3D)[0], np.shape(Zxx_3D)[1], np.shape(Zxx_3D)[2], r_pol.__len__()))
+        Zxx_4D[:, :, :, i] = Zxx_3D
+
+        return f, t, Zxx_4D
 
 if __name__ == "__main__":
     #for i in range(47, 87):
     #    stft = STFT_RT1(date="20180223", shotNo=i, LOCALorPPL="PPL")
     #    stft.stft(IForMPorSX="POL", num_ch=4)
-    stft = STFT_RT1(date="20180223", shotNo=47, LOCALorPPL="PPL")
-    stft.plot_stft(IForMPorSX="POL", num_ch=4)
+    #stft = STFT_RT1(date="20180223", shotNo=47, LOCALorPPL="PPL")
+    #stft.plot_stft(IForMPorSX="POL", num_ch=4)
+    make_stft_profile(date="20180223")
     #stft.cwt()
     #stft.cross_spectrum()
