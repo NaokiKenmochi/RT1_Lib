@@ -1,12 +1,7 @@
 import read_wvf
 import matplotlib.pyplot as plt
-from matplotlib.colors import LogNorm
 import numpy as np
-import matplotlib.cbook as cbook
-import matplotlib.image as image
-from PIL import Image
 import scipy.signal as sig
-from scipy import optimize
 
 
 class DataBrowser:
@@ -106,6 +101,11 @@ class DataBrowser:
 
     def load_date(self, LOCALorPPL):
         """
+        LOCALorPPL == "PPL"の場合:
+            exp_ep01, exp_ep01から実験データをロードします
+
+        LOCALorPPL == "LOCAL"の場合:
+            ローカルに保存してあるデータを読み込みます
 
         :param LOCALorPPL:
         :return:
@@ -131,6 +131,7 @@ class DataBrowser:
 
     def multiplot(self):
         """
+        exp_ep01, exp_ep02に保存してあるRT-1の実験データを全て描写します
 
         :return:
         """
@@ -188,6 +189,7 @@ class DataBrowser:
 
     def mag_loop(self, ml):
         """
+        磁気ループの信号を反磁性信号（単位はWb）に較正します
 
         :param ml:
         :return:
@@ -207,6 +209,8 @@ class DataBrowser:
 
     def calib_IF(self, IF):
         """
+        マイクロ波干渉計の位相差信号を，密度の値に較正します
+        （フリンジジャンプの補正は未実装）
 
         :param IF:
         :return:
@@ -251,6 +255,16 @@ class DataBrowser:
         return data_ep01
 
     def stft(self, x, y, label, nperseg, vmax, time_offset):
+        """
+        短時間フーリエ変換を行います
+        :param x:
+        :param y:
+        :param label:
+        :param nperseg:
+        :param vmax:
+        :param time_offset:
+        :return:
+        """
         MAXFREQ = 1e0
         N = 1e-3*np.abs(1/(x[1]-x[2]))
         f, t, Zxx =sig.spectrogram(y, fs=N, window='hamming', nperseg=nperseg)

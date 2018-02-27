@@ -266,7 +266,7 @@ class STFT_RT1(DataBrowser):
             f, t, Zxx =sig.spectrogram(y[i, :], fs=N, window='hamming', nperseg=NPERSEG)
             if(i == 0):
                 Zxx_3D = np.zeros((np.shape(Zxx)[0], np.shape(Zxx)[1], num_ch))
-            Zxx_3D[:, :, i] = Zxx
+            Zxx_3D[:, :, i] = Zxx[:, :]
 
         return f, t, Zxx_3D, filename, vmax, vmin, time_offset, time_offset_stft, x, y
 
@@ -310,7 +310,9 @@ def make_stft_profile(date):
             Zxx_4D = np.zeros((np.shape(Zxx_3D)[0], np.shape(Zxx_3D)[1], np.shape(Zxx_3D)[2], r_pol.__len__()))
         Zxx_4D[:, :, :, i] = Zxx_3D
 
-        return f, t, Zxx_4D
+    filename = 'Pol_stft_%s_%dto%d.npz' % (date, num_shots[0], num_shots[-1])
+    np.savez_compressed(filename, r_pol=r_pol, f=f, t=t, Zxx_4D=Zxx_4D)
+
 
 if __name__ == "__main__":
     #for i in range(47, 87):
