@@ -196,8 +196,26 @@ class STFT_RT1(DataBrowser):
             x = data_ep01[0, :]
             filename = "STFT_POL_%s_%d" % (self.date, self.shotnum)
             vmin = 0.0
-            vmax = 3e-7
+            vmax = 3e-3
             NPERSEG = 2**9
+            time_offset = 0.0
+
+        if(IForMPorSX=="POL_RATIO"):
+            """
+            390nm, 450nmの比を用いて電子密度を計算
+            730nm, 710nmの比を用いて電子温度を計算
+            """
+            data_ep01 = self.load_ep01("PPL")
+            data_ep01 = self.adj_gain(data_ep01)
+
+            y_Te = np.array([(data_ep01[27, :]+1.0)/(data_ep01[13, :]+1.0)])
+            y_ne = np.array([(data_ep01[25, :]+1.0)/(data_ep01[26, :]+1.0)])
+            y = np.r_[y_Te, y_ne]
+            x = data_ep01[0, :]
+            filename = "STFT_POL_RATIO_woffset_%s_%d" % (self.date, self.shotnum)
+            vmin = 0.0
+            vmax = 3e-7
+            NPERSEG = 2**8
             time_offset = 0.0
 
         if(IForMPorSX=="IF_FAST"):
@@ -263,9 +281,12 @@ class STFT_RT1(DataBrowser):
 
         for i in range(num_ch):
 
-            f, t, Zxx =sig.spectrogram(y[i, :], fs=N, window='hamming', nperseg=NPERSEG)
+            f, t, Zxx =sig.spectrogram(y[i, :], fs=N, window='hamming', nperseg=NPERSEG, mode='complex')
+            #f, t, Zxx =sig.spectrogram(y[i, :], fs=N, window='hamming', nperseg=NPERSEG)
+            #f, t, Zxx =sig.stft(y[i, :], fs=N, window='hamming', nperseg=NPERSEG)
             if(i == 0):
-                Zxx_3D = np.zeros((np.shape(Zxx)[0], np.shape(Zxx)[1], num_ch))
+                Zxx_3D = np.zeros((np.shape(Zxx)[0], np.shape(Zxx)[1], num_ch), dtype=complex)
+                #Zxx_3D = np.zeros((np.shape(Zxx)[0], np.shape(Zxx)[1], num_ch))
             Zxx_3D[:, :, i] = Zxx[:, :]
 
         return f, t, Zxx_3D, filename, vmax, vmin, time_offset, time_offset_stft, x, y
@@ -301,25 +322,27 @@ class STFT_RT1(DataBrowser):
 
 def make_stft_profile(date):
     r_pol = np.array([379, 432, 484, 535, 583, 630, 689, 745, 820])
-    num_shots = np.array([87, 54, 89, 91, 93, 95, 97, 99, 101])
+    #num_shots = np.array([80, 68, 69, 70, 71, 72, 73, 74, 75])      #For 23Dec2017
+    num_shots = np.array([87, 54, 89, 91, 93, 95, 97, 99, 101])    #For 23Feb2018
 
     for i in range(9):
         stft = STFT_RT1(date=date, shotNo=num_shots[i], LOCALorPPL="PPL")
-        f, t, Zxx_3D,_,_,_,_,_,_,_ = stft.stft(IForMPorSX="POL", num_ch=4)
+        #f, t, Zxx_3D,_,_,_,_,_,_,_ = stft.stft(IForMPorSX="POL", num_ch=4)
+        f, t, Zxx_3D,_,_,_,_,_,_,_ = stft.stft(IForMPorSX="POL_RATIO", num_ch=2)
         if(i == 0):
+            #Zxx_4D = np.zeros((np.shape(Zxx_3D)[0], np.shape(Zxx_3D)[1], np.shape(Zxx_3D)[2], r_pol.__len__()), dtype=complex)
             Zxx_4D = np.zeros((np.shape(Zxx_3D)[0], np.shape(Zxx_3D)[1], np.shape(Zxx_3D)[2], r_pol.__len__()))
         Zxx_4D[:, :, :, i] = Zxx_3D
 
-    filename = 'Pol_stft_%s_%dto%d.npz' % (date, num_shots[0], num_shots[-1])
+    filename = 'Pol_ratio_woffset_stft_%s_%dto%d.npz' % (date, num_shots[0], num_shots[-1])
     np.savez_compressed(filename, r_pol=r_pol, f=f, t=t, Zxx_4D=Zxx_4D)
-
 
 if __name__ == "__main__":
     #for i in range(47, 87):
     #    stft = STFT_RT1(date="20180223", shotNo=i, LOCALorPPL="PPL")
     #    stft.stft(IForMPorSX="POL", num_ch=4)
-    #stft = STFT_RT1(date="20180223", shotNo=47, LOCALorPPL="PPL")
-    #stft.plot_stft(IForMPorSX="POL", num_ch=4)
-    make_stft_profile(date="20180223")
+    stft = STFT_RT1(date="20180223", shotNo=101, LOCALorPPL="PPL")
+    stft.plot_stft(IForMPorSX="POL", num_ch=4)
+    #make_stft_profile(date="20180223")
     #stft.cwt()
     #stft.cross_spectrum()

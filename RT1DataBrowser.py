@@ -274,10 +274,83 @@ class DataBrowser:
         plt.ylim([0, MAXFREQ])
         plt.xlim([0.5, 2.5])
 
+    def get_max_tmax(self):
+        data_ep01, data_ep02_MP, data_ep02_SX = self.load_date(self.LOCALorPPL)
+        data_ep01 = self.adj_gain(data_ep01)
+        data_ep01 = self.mag_loop(data_ep01)
+        data_ep01 = self.calib_IF(data_ep01)
+
+        t_st = 1.1
+        t_ed = 2.0
+        st_idx = np.abs(np.asarray(data_ep01[0, :]) - t_st).argmin()
+        ed_idx = np.abs(np.asarray(data_ep01[0, :]) - t_ed).argmin()
+
+        IF_convolved = np.zeros((data_ep01[0, :].__len__(), 3))
+        IF_max_tmax = np.zeros((3, 2))
+        for i in range(3):
+            num_convolve = 1000
+            b = np.ones(num_convolve)/num_convolve
+            IF_convolved[:, i] = np.convolve(data_ep01[10+i, :], b, mode='same')
+        IF_max_tmax[:, 0] = np.max(IF_convolved[st_idx: ed_idx, :], axis=0)
+        IF_max_tmax[:, 1] = np.argmax(IF_convolved[st_idx: ed_idx, :], axis=0) + st_idx
+        #plt.plot(IF_convolved)
+        #plt.show()
+
+        return IF_max_tmax
+
+def make_shotlog(date):
+    arr_shotnum = np.arange(47, 87)
+    IF_max_tmax = np.zeros((arr_shotnum.__len__(), 3, 2))
+    for i, shotnum in enumerate(arr_shotnum):
+        db = DataBrowser(date=date, shotNo=shotnum, LOCALorPPL="LOCAL")
+        IF_max_tmax[i, :, :] = db.get_max_tmax()
+
+    np.savez_compressed("data/IF123_max_tmax_%s_%dto%d.npz" % (date, arr_shotnum[0], arr_shotnum[-1]),
+                        arr_shotnum=arr_shotnum, IF_max_tmax=IF_max_tmax)
+
+    return arr_shotnum, IF_max_tmax
+
+def plot_shotlog():
+    data = np.load("data/IF123_max_tmax_20180223_47to86.npz")
+    arr_shotnum = data["arr_shotnum"]
+    IF_max_tmax = data["IF_max_tmax"]
+    #arr_pulse_width = np.loadtxt("data/pulse_width_20180223_47to86.csv", delimiter=" ")
+    arr_pulse_width = np.loadtxt("data/test.txt", delimiter="\t")
+    arr_pulse_width[4] = np.nan
+
+    plt.subplot(411)
+    plt.plot(arr_pulse_width, IF_max_tmax[:, 0, 1]*1e-4, "o", label="IF1", color="red")
+    plt.ylim(1.1, 1.4)
+    plt.xlim(5, 30)
+    plt.ylabel("Time(max) [sec]")
+    plt.legend()
+    plt.subplot(412)
+    plt.plot(arr_pulse_width, IF_max_tmax[:, 1, 1]*1e-4, "v", label="IF2", color="green")
+    plt.ylim(1.1, 1.4)
+    plt.xlim(5, 30)
+    plt.ylabel("Time(max) [sec]")
+    plt.legend()
+    plt.subplot(413)
+    plt.plot(arr_pulse_width, IF_max_tmax[:, 2, 1]*1e-4, "^", label="IF3", color="blue")
+    plt.ylim(1.1, 1.4)
+    plt.xlim(5, 30)
+    plt.ylabel("Time(max) [sec]")
+    plt.legend()
+    plt.subplot(414)
+    plt.plot(arr_pulse_width, IF_max_tmax[:, 0, 0], "o", label="IF1", color="red")
+    plt.plot(arr_pulse_width, IF_max_tmax[:, 1, 0], "v", label="IF2", color="green")
+    plt.plot(arr_pulse_width, IF_max_tmax[:, 2, 0], "^", label="IF3", color="blue")
+    plt.ylim(0, 3.5)
+    plt.xlim(5, 30)
+    plt.ylabel("Density(max)")
+    plt.xlabel("Pulse Width [msec]")
+    plt.legend()
+    plt.show()
 
 if __name__ == "__main__":
 #    for i in range(47, 103):
 #        db = DataBrowser(date="20180223", shotNo=i, LOCALorPPL="PPL")
 #        db.load_date(LOCALorPPL="PPL")
-    db = DataBrowser(date="20180223", shotNo=101, LOCALorPPL="LOCAL")
-    db.multiplot()
+    #db = DataBrowser(date="20180223", shotNo=101, LOCALorPPL="LOCAL")
+    #db.multiplot()
+    plot_shotlog()
