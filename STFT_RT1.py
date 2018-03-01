@@ -178,6 +178,7 @@ class STFT_RT1(DataBrowser):
             filename = "STFT_IF_%s_%d" % (self.date, self.shotnum)
             vmin = 0.0
             vmax = 1e-5
+            coef_vmax = 0.8
             NPERSEG = 2**9
             time_offset = 0.0
 
@@ -197,6 +198,7 @@ class STFT_RT1(DataBrowser):
             filename = "STFT_POL_%s_%d" % (self.date, self.shotnum)
             vmin = 0.0
             vmax = 3e-3
+            coef_vmax = 0.8
             NPERSEG = 2**9
             time_offset = 0.0
 
@@ -215,6 +217,7 @@ class STFT_RT1(DataBrowser):
             filename = "STFT_POL_RATIO_woffset_%s_%d" % (self.date, self.shotnum)
             vmin = 0.0
             vmax = 1e-6
+            coef_vmax = 1.0e2
             NPERSEG = 2**8
             time_offset = 0.0
 
@@ -225,6 +228,7 @@ class STFT_RT1(DataBrowser):
             filename = "STFT_IF_FAST_%s_%d" % (self.date, self.shotnum)
             vmin = 0.0
             vmax = 5e-7
+            coef_vmax = 0.8
             NPERSEG = 2**15
             time_offset = 0.75
             time_offset_stft = 0.75
@@ -236,6 +240,7 @@ class STFT_RT1(DataBrowser):
             filename = "STFT_MP_%s_%d" % (self.date, self.shotnum)
             vmin = 0.0
             vmax = 1e-7
+            coef_vmax = 0.8
             NPERSEG = 2**14
             #NPERSEG = 1024
             time_offset = 1.25
@@ -260,6 +265,9 @@ class STFT_RT1(DataBrowser):
             #plt.plot(x, y)
             #plt.show()
             filename = "STFT_SX4_%s_%d" % (self.date, self.shotnum)
+            vmin = 0.0
+            vmax = 1e-7
+            coef_vmax = 0.8
 
         if(IForMPorSX=="REF"):
             SX_FAST = self.load_SX_FAST("PPL")
@@ -268,6 +276,7 @@ class STFT_RT1(DataBrowser):
             filename = "STFT_REF_%s_%d" % (self.date, self.shotnum)
             vmin = 0.0
             vmax = 5e-7
+            coef_vmax = 0.8
             NPERSEG = 2**14
             time_offset_stft = 0.75
             time_offset = 1.25
@@ -290,10 +299,10 @@ class STFT_RT1(DataBrowser):
                 Zxx_3D = np.zeros((np.shape(Zxx)[0], np.shape(Zxx)[1], num_ch))
             Zxx_3D[:, :, i] = Zxx[:, :]
 
-        return f, t, Zxx_3D, filename, vmax, vmin, time_offset, time_offset_stft, x, y
+        return f, t, Zxx_3D, filename, vmax, coef_vmax,  vmin, time_offset, time_offset_stft, x, y
 
     def plot_stft(self, IForMPorSX="IF", num_ch=4):
-        f, t, Zxx_3D, filename, vmax, vmin, time_offset, time_offset_stft, x, y = self.stft(IForMPorSX=IForMPorSX, num_ch=num_ch)
+        f, t, Zxx_3D, filename, vmax, coef_vmax, vmin, time_offset, time_offset_stft, x, y = self.stft(IForMPorSX=IForMPorSX, num_ch=num_ch)
 
         #vmaxを求める際の時間(t)，周波数(f)の範囲とそのindexを取得
         t_st = 1.2
@@ -310,9 +319,8 @@ class STFT_RT1(DataBrowser):
         gs.update(hspace=0.4, wspace=0.3)
         for i in range(num_ch):
             ax0 = plt.subplot(gs[0:3, i])
-            vmax = np.max(np.abs(Zxx_3D[idx_fst:idx_fed, idx_tst:idx_ted, i])) * 0.8
-            #vmax = np.max(np.abs(Zxx_3D[20:40, 25:35, i])) *1.0e2
-            plt.pcolormesh(t + time_offset_stft, f, np.abs(Zxx_3D[:, :, i]), vmin=vmin, vmax=vmax)
+            vmax_in_range = np.max(np.abs(Zxx_3D[idx_fst:idx_fed, idx_tst:idx_ted, i])) * coef_vmax
+            plt.pcolormesh(t + time_offset_stft, f, np.abs(Zxx_3D[:, :, i]), vmin=vmin, vmax=vmax_in_range)
             sfmt=matplotlib.ticker.ScalarFormatter(useMathText=True)
             cbar = plt.colorbar(format=sfmt)
             cbar.ax.tick_params(labelsize=12)
