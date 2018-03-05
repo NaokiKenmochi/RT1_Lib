@@ -351,6 +351,6 @@ if __name__ == "__main__":
 #    for i in range(47, 103):
 #        db = DataBrowser(date="20180223", shotNo=i, LOCALorPPL="PPL")
 #        db.load_date(LOCALorPPL="PPL")
-    #db = DataBrowser(date="20180223", shotNo=101, LOCALorPPL="LOCAL")
-    #db.multiplot()
-    plot_shotlog()
+    db = DataBrowser(date="20180223", shotNo=101, LOCALorPPL="PPL")
+    db.multiplot()
+#plot_shotlog()

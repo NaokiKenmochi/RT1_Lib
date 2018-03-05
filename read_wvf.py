@@ -63,6 +63,7 @@ class DataManager:
         self.exp_ep01or02 = exp_ep01or02
         self.MPorSX = MPorSX
 #        self._set_date()
+        self._mount()
 
         if(self.exp_ep01or02 == 'exp_ep01'):
             # チャンネル数(固定)
@@ -70,7 +71,8 @@ class DataManager:
             # Groupの数
             self.GROUP_NUM = 8
             if(platform.system() == 'Darwin'):
-                self._base_dir = os.path.expanduser('/Volumes/WEDATA')
+                #self._base_dir = os.path.expanduser('/Volumes/WEDATA')
+                self._base_dir = os.path.expanduser('~/mount_point/exp_ep01/WEDATA')
             elif(platform.system() == 'Windows'):
                 self._base_dir = os.path.expanduser('//EXP_EP01/d/WEDATA')  #for windows(in same Network)
 
@@ -80,7 +82,8 @@ class DataManager:
             # Groupの数
             self.GROUP_NUM = 1
             if(platform.system() == 'Darwin'):
-                self._base_dir = os.path.expanduser('/Volumes/D/WEDATA')
+                #self._base_dir = os.path.expanduser('/Volumes/D/WEDATA')
+                self._base_dir = os.path.expanduser('~/mount_point/exp_ep02/WEDATA')
             elif(platform.system() == 'Windows'):
                 self._base_dir = os.path.expanduser('//Exp_ep02/D/WEDATA')  #for windows in same network
 
@@ -152,8 +155,26 @@ class DataManager:
         self.date = date
 
     def _mount(self):
-        cmd = 'mount_smbfs //rt-1:ringtrap@exp_ep01/WEDATA ~/mount_point/exp_ep01'
-        subprocess.check_call(cmd.split(" "), shell=True)
+        try:
+            if(self.exp_ep01or02 == 'exp_ep01'):
+                if(platform.system() == 'Darwin'):
+                    cmd = 'mount_smbfs //rt-1:ringtrap@exp_ep01/WEDATA ~/mount_point/exp_ep01/WEDATA'
+                    subprocess.check_call(cmd, shell=True)
+                    #subprocess.check_call(cmd.split(" "), shell=True)
+
+            elif(self.exp_ep01or02 == 'exp_ep02'):
+                if(platform.system() == 'Darwin'):
+                    cmd = 'mount_smbfs //rt-1:ringtrap@exp_ep02/D/WEDATA ~/mount_point/exp_ep02/WEDATA'
+                    subprocess.check_call(cmd, shell=True)
+        except Exception as e:
+            if(e.args[0] == 64):
+                print("!!!%s is already mouted !!!" % self.exp_ep01or02)
+            elif(e.args[0] == 68):
+                print("Error; mount_smbfs: server connection failed: No route to host")
+            else:
+                print("!!!!!!!!!!!!!!!!! ERROR !!!!!!!!!!!!!!!!!!!!")
+                print(e.args)
+                print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 
     def _set_dir(self):
         if(self.exp_ep01or02 == "exp_ep01"):
@@ -258,3 +279,7 @@ $PrivateInfo
 RefFileNumber     0
 
 '''
+
+if __name__ == "__main__":
+    dm = DataManager(exp_ep01or02="exp_ep01", MPorSX="MP", date="20180223")
+    dm._mount()
