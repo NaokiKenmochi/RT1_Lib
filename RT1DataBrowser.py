@@ -117,7 +117,7 @@ class DataBrowser:
             data_ep01 = dm_ep01.fetch_raw_data(self.shotnum)
             data_ep02_MP = dm_ep02_MP.fetch_raw_data(self.shotnum)
             data_ep02_SX = dm_ep02_SX.fetch_raw_data(self.shotnum)
-            #np.savez_compressed("data/data_%s_%d" % (self.date, self.shotnum), data_ep01=data_ep01, data_ep02_MP=data_ep02_MP, data_ep02_SX=data_ep02_SX)
+            np.savez_compressed("data/data_%s_%d" % (self.date, self.shotnum), data_ep01=data_ep01, data_ep02_MP=data_ep02_MP, data_ep02_SX=data_ep02_SX)
             print("Load data from PPL")
 
         else:
@@ -170,7 +170,8 @@ class DataBrowser:
             ax1 = fig.add_subplot(6,2, int(self.data_pos_name_ep02[j-1,0]), sharex=None, sharey=None)
             ax1.set_xlim(0.5, 2.5)
             #ax1.plot(data_ep02_MP[0,::20*self.num_step]+0.5,data_ep02_MP[j,::20*self.num_step]+0.2-0.10*j, label=self.data_pos_name_ep02[j-1, 1])
-            ax1.plot(data_ep02_MP[0,::self.num_step]+1.25,data_ep02_MP[j,::self.num_step]+0.2-0.10*j, label=self.data_pos_name_ep02[j-1, 1])
+            #ax1.plot(data_ep02_MP[0,::self.num_step]+1.25,data_ep02_MP[j,::self.num_step]+0.2-0.10*j, label=self.data_pos_name_ep02[j-1, 1])
+            ax1.plot(data_ep02_MP[0,::self.num_step/5]+1.25,data_ep02_MP[j,::self.num_step/5]+0.2-0.10*j, label=self.data_pos_name_ep02[j-1, 1])
             #ax1.plot(time_ep02_MP[::100], data_ep02_MP[j,::100]+0.5-0.25*j, label=self.data_name_ep02[j-1])
             plt.subplots_adjust(left=0.05, right=0.97, bottom=0.05, top=0.95, wspace=0.15, hspace=0.15)
             ax1.legend(fontsize=10)
@@ -178,12 +179,18 @@ class DataBrowser:
                 plt.title("Date: %s, Shot No.: %d" % (self.date, self.shotnum), loc='right', fontsize=36, fontname="Times New Roman")
 
         ax1 = fig.add_subplot(6,2,4)
-        self.stft(data_ep02_MP[0,:], data_ep02_MP[3,:], self.data_pos_name_ep02[2,1], nperseg=512, vmax=1e-4, time_offset=0.25)
+        self.stft(data_ep02_MP[0,:], data_ep02_MP[4,:], self.data_pos_name_ep02[3,1], nperseg=512, vmax=1e-5, time_offset=0.25)
         ax1 = fig.add_subplot(6,2,8)
         self.stft(data_ep02_SX[0,:], data_ep02_SX[2,:], self.data_pos_name_ep02[4,1], nperseg=25000, vmax=8e-4, time_offset=0.75)
         filepath = "figure/"
         filename = "RT1_%s_%d" % (self.date, self.shotnum)
         plt.savefig(filepath + filename)
+
+        filename_data = "time_IF123_ml3_2GPf_%s_%d.txt" % (self.date, self.shotnum)
+        data = np.c_[data_ep01[0, :].T, data_ep01[10:13, :].T]
+        data = np.c_[data, data_ep01[20, :].T]
+        data = np.c_[data, data_ep01[3, :].T]
+        np.savetxt(filename_data, data, delimiter=',')
 
 #        plt.show()
 
@@ -280,8 +287,8 @@ class DataBrowser:
         data_ep01 = self.mag_loop(data_ep01)
         data_ep01 = self.calib_IF(data_ep01)
 
-        t_st = 1.1
-        t_ed = 2.0
+        t_st = 1.26#1.1
+        t_ed = 1.27#2.0
         st_idx = np.abs(np.asarray(data_ep01[0, :]) - t_st).argmin()
         ed_idx = np.abs(np.asarray(data_ep01[0, :]) - t_ed).argmin()
 
@@ -299,18 +306,20 @@ class DataBrowser:
         return IF_max_tmax
 
 def make_shotlog(date):
-    arr_shotnum = np.arange(47, 87)
+    #arr_shotnum = np.arange(47, 87)
+    arr_shotnum = np.arange(63, 65)
     IF_max_tmax = np.zeros((arr_shotnum.__len__(), 3, 2))
     for i, shotnum in enumerate(arr_shotnum):
         db = DataBrowser(date=date, shotNo=shotnum, LOCALorPPL="LOCAL")
         IF_max_tmax[i, :, :] = db.get_max_tmax()
 
-    np.savez_compressed("data/IF123_max_tmax_%s_%dto%d.npz" % (date, arr_shotnum[0], arr_shotnum[-1]),
+    np.savez_compressed("data/IF123_t126_%s_%dto%d.npz" % (date, arr_shotnum[0], arr_shotnum[-1]),
                         arr_shotnum=arr_shotnum, IF_max_tmax=IF_max_tmax)
 
     return arr_shotnum, IF_max_tmax
 
 def plot_shotlog():
+    #data = np.load("data/IF123_t1_0_20180223_47to86.npz")
     data = np.load("data/IF123_max_tmax_20180223_47to86.npz")
     arr_shotnum = data["arr_shotnum"]
     IF_max_tmax = data["IF_max_tmax"]
@@ -351,6 +360,7 @@ if __name__ == "__main__":
 #    for i in range(47, 103):
 #        db = DataBrowser(date="20180223", shotNo=i, LOCALorPPL="PPL")
 #        db.load_date(LOCALorPPL="PPL")
-    db = DataBrowser(date="20180223", shotNo=100, LOCALorPPL="PPL")
+    db = DataBrowser(date="20180515", shotNo=37, LOCALorPPL="PPL")
     db.multiplot()
-#plot_shotlog()
+    #make_shotlog(date="20180223")
+    #plot_shotlog()
