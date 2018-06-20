@@ -155,6 +155,12 @@ class DataManager:
         self.date = date
 
     def _mount(self):
+        """
+        Mac OSでexp_ep01, exp_ep02を自動でマウントする処理
+        始めに，ロールのホームディレクトリに"~/mount_point/exp_ep01/WEDATA", "~/mount_point/exp_ep02/WEDATA"を作成しておく
+        場合によっては，"mount_smbfs..."のPC名（exp_ep01, exp_ep02）をそれぞれのIPアドレスに変更する
+        :return:
+        """
         try:
             if(self.exp_ep01or02 == 'exp_ep01'):
                 if(platform.system() == 'Darwin'):
@@ -168,7 +174,7 @@ class DataManager:
                     subprocess.check_call(cmd, shell=True)
         except Exception as e:
             if(e.args[0] == 64):
-                print("!!!%s is already mouted !!!" % self.exp_ep01or02)
+                print("!!!%s is already mounted !!!" % self.exp_ep01or02)
             elif(e.args[0] == 68):
                 print("Error; mount_smbfs: server connection failed: No route to host")
             else:
