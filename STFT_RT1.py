@@ -146,9 +146,11 @@ class STFT_RT1(DataBrowser):
         #plt.show()
         IF = data_ep01[10:13:2, :].T
         IF_MP = np.zeros((14000, 2))
-        IF_MP[:, 0] = data_ep01[10, 8000:22000].T
+        #IF_MP[:, 0] = data_ep01[10, 8000:22000].T
         #IF_MP[:, 1] = data_ep01[12, 8000:22000].T
-        IF_MP[:, 1] = MP_FAST[3, 265000:965000:50].T
+        #IF_MP[:, 1] = MP_FAST[3, 265000:965000:50].T
+        IF_MP[:, 0] = MP_FAST[1, 10500:38500:2].T
+        IF_MP[:, 1] = MP_FAST[3, 10500:38500:2].T
         IF = IF_MP
         #IF = data_ep01[11:13, :].T
         N = np.abs(1/(data_ep01[0, 1]-data_ep01[0, 2]))
@@ -171,7 +173,7 @@ class STFT_RT1(DataBrowser):
         plt.pcolormesh(t+0.8, f, np.log(np.abs(Pxx_run)))
         #plt.pcolormesh(t, f, DPhase)
         #plt.xlim(0.5, 2.5)
-        plt.clim(-15, -14.0)
+        plt.clim(-16, -14.5)
         #plt.clim(-26, -24.5)
         plt.ylim(0, 2000)
         plt.colorbar()
@@ -271,7 +273,7 @@ class STFT_RT1(DataBrowser):
             filename = "STFT_POL_RATIO_woffset_%s_%d" % (self.date, self.shotnum)
             vmin = 0.0
             vmax = 1e-6
-            coef_vmax = 1.0e2
+            coef_vmax = 1.0e0
             NPERSEG = 2**8
             time_offset = 0.0
 
@@ -284,8 +286,8 @@ class STFT_RT1(DataBrowser):
             vmin = 0.0
             vmax = 1e-7
             coef_vmax = 0.8
-            NPERSEG = 2**14
-            #NPERSEG = 2**10
+            #NPERSEG = 2**14
+            NPERSEG = 2**10
             #NPERSEG = 1024
             time_offset = 1.25
             time_offset_stft = 0.25
@@ -366,7 +368,7 @@ class STFT_RT1(DataBrowser):
             try:
                 vmax_in_range = np.max(np.abs(Zxx_3D[idx_fst:idx_fed, idx_tst:idx_ted, i])) * coef_vmax
             except ValueError:
-                vmax_in_range = 1e-9
+                vmax_in_range = 1e-10
             plt.pcolormesh(t + time_offset_stft, f, np.abs(Zxx_3D[:, :, i]), vmin=vmin, vmax=vmax_in_range)
             sfmt=matplotlib.ticker.ScalarFormatter(useMathText=True)
             cbar = plt.colorbar(format=sfmt)
@@ -417,8 +419,9 @@ if __name__ == "__main__":
     #for i in range(109, 110):
     #    stft = STFT_RT1(date="20171110", shotNo=i, LOCALorPPL="PPL")
     #    stft.plot_stft(IForMPorSX="IF", num_ch=3)
-    stft = STFT_RT1(date="20171223", shotNo=94, LOCALorPPL="PPL")
-    #stft.plot_stft(IForMPorSX="MP", num_ch=4)
+    stft = STFT_RT1(date="20180622", shotNo=106, LOCALorPPL="PPL")
+    stft.plot_stft(IForMPorSX="IF", num_ch=3)
+    stft.plot_stft(IForMPorSX="MP", num_ch=4)
+    stft.plot_stft(IForMPorSX="POL_RATIO", num_ch=2)
     #make_stft_profile(date="20180223")
-    #stft.cwt()
-    stft.cross_spectrum()
+    #stft.cross_spectrum()

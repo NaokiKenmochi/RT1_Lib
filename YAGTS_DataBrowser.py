@@ -468,7 +468,7 @@ if __name__ == "__main__":
     #ytdb.open_with_pandas()
     #ytdb.show_graph()
     #make_shotlog(date=20180327, num_st=0, num_ed=120)
-    integrate_SL(date=20180619, num_st=1, num_ed=4, isSerial=False)
+    integrate_SL(date=20180622, num_st=34, num_ed=42, isSerial=True)
     #subtract_straylight()
     #get_Te()
     #get_ne(40.3, 40.3, 40.3, 0.6546303, 0.6546303, 0.6546303)
