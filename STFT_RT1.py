@@ -1,6 +1,5 @@
 from RT1DataBrowser import DataBrowser
 from matplotlib import gridspec
-from matplotlib import mlab
 import sys
 sys.path.append('/Users/kemmochi/PycharmProjects/ControlCosmoZ')
 
@@ -140,74 +139,31 @@ class STFT_RT1(DataBrowser):
         data_ep01 = self.load_ep01("PPL")
         data_ep01 = self.adj_gain(data_ep01)
         data_ep01 = self.calib_IF(data_ep01)
-        MP_FAST = self.load_MP_FAST("PPL")
-        #plt.plot(MP_FAST[0, :], MP_FAST[3, :])
-        #plt.plot(MP_FAST[3, :])
-        #plt.show()
-        IF = data_ep01[10:13:2, :].T
-        IF_MP = np.zeros((14000, 2))
-        #IF_MP[:, 0] = data_ep01[10, 8000:22000].T
-        #IF_MP[:, 1] = data_ep01[12, 8000:22000].T
-        #IF_MP[:, 1] = MP_FAST[3, 265000:965000:50].T
-        IF_MP[:, 0] = MP_FAST[1, 10500:38500:2].T
-        IF_MP[:, 1] = MP_FAST[3, 10500:38500:2].T
-        IF = IF_MP
-        #IF = data_ep01[11:13, :].T
+        IF = data_ep01[9:12:2, :].T
         N = np.abs(1/(data_ep01[0, 1]-data_ep01[0, 2]))
         sampling_time = 1/N
-        plt.plot(IF)
-        plt.show()
 
         #IF_FAST = self.load_IF_FAST("PPL")
         #IF = IF_FAST[1:3, :].T
         #sampling_time = 1e-6
         #f, t, Pxx = sig.spectrogram(IF, axis=0, fs=1/sampling_time, window='hamming', nperseg=128, noverlap=64, mode='complex')
         #f, t, Pxx = sig.spectrogram(IF, axis=0, fs=1/sampling_time, window='hamming', nperseg=2**15, noverlap=512, mode='complex')
-        f, t, Pxx = sig.spectrogram(IF, axis=0, fs=1/sampling_time, window='hamming', nperseg=2**7, noverlap=16, mode='complex')
+        f, t, Pxx = sig.spectrogram(IF, axis=0, fs=1/sampling_time, window='hamming', nperseg=2**9, noverlap=16, mode='complex')
         #Pxx_run = self.moving_average(Pxx[:, 0] * np.conj(Pxx[:, 1]), 8)
         Pxx_run = self.moving_average(Pxx[:, 0] * np.conj(Pxx[:, 1]), 2)
 
         DPhase = 180/np.pi*np.arctan2(Pxx_run.imag, Pxx_run.real)
 
-        #plt.pcolormesh(t, f, np.abs(Pxx[:, 0]))
-        plt.pcolormesh(t+0.8, f, np.log(np.abs(Pxx_run)))
+        plt.pcolormesh(t, f, np.log(np.abs(Pxx_run)))
         #plt.pcolormesh(t, f, DPhase)
-        #plt.xlim(0.5, 2.5)
-        plt.clim(-16, -14.5)
-        #plt.clim(-26, -24.5)
+        plt.xlim(0.5, 2.5)
+        #plt.clim(-16, -13)
+        plt.clim(-28, -25)
         plt.ylim(0, 2000)
         plt.colorbar()
         plt.xlabel('Time [sec]')
         plt.ylabel('Frequency [Hz]')
         plt.show()
-
-        f, t, Zxx =sig.spectrogram(IF_MP[:,1], fs=N, window='hamming', nperseg=2**7)
-        #FS = 1/(MP_FAST[0, 1] - MP_FAST[0, 0])
-        #f, t, Zxx =sig.spectrogram(MP_FAST[3, :], fs=FS, window='hamming', nperseg=2**14)
-        plt.pcolormesh(t, f, Zxx, vmax=2e-7)
-        plt.show()
-
-        for i in range(40):
-            #f, Cxy = sig.coherence(IF_MP[2000+i*500:2500+i*500, 0], IF_MP[2000+i*500:2500+i*500, 1], N, nperseg=2**6)
-            f, Cxy = sig.coherence(IF_MP[2000+i*250:2250+i*250, 0], IF_MP[2000+i*250:2250+i*250, 1], N, nperseg=2**6)
-            if i == 0:
-                Cxy_buf = Cxy
-            else:
-                Cxy_buf = np.c_[Cxy_buf, Cxy]
-            plt.plot(f, Cxy_buf)
-        t = np.arange(1, 2, 0.025)
-        T, F = np.meshgrid(t, f)
-        plt.pcolormesh(T, F, Cxy_buf)
-        plt.xlim(1, 2)
-        plt.colorbar(orientation="vertical")
-        plt.show()
-        f, Cxy = sig.coherence(IF_MP[4000:5000, 0], IF_MP[4000:5000, 1], N, nperseg=2**7)
-        #f, Cxy = sig.coherence(data_ep01[10, 12000:14000], data_ep01[11, 12000:14000], N, nperseg=2**8)
-        #f, Cxy = sig.coherence(data_ep01[10, 12000:13000], MP_FAST[3, 390000:400000:10], N, nperseg=2**8)
-        #plt.semilogy(f, Cxy)
-        plt.plot(f, Cxy)
-        plt.show()
-
 
     def stft(self, IForMPorSX="IF", num_ch=1):
 
@@ -226,19 +182,7 @@ class STFT_RT1(DataBrowser):
             NPERSEG = 2**9
             time_offset = 0.0
 
-        elif(IForMPorSX=="IF_FAST"):
-            IF_FAST = self.load_IF_FAST("PPL")
-            y = IF_FAST[1:, :]
-            x = np.linspace(0, 2, 2000000)
-            filename = "STFT_IF_FAST_%s_%d" % (self.date, self.shotnum)
-            vmin = 0.0
-            vmax = 5e-7
-            coef_vmax = 0.8
-            NPERSEG = 2**15
-            time_offset = 0.75
-            time_offset_stft = 0.75
-
-        elif(IForMPorSX=="POL"):
+        if(IForMPorSX=="POL"):
             """
             390nm, 730nm, 710nm, 450nmの順で格納
             390nm, 450nmの比を用いて電子密度を計算
@@ -258,7 +202,7 @@ class STFT_RT1(DataBrowser):
             NPERSEG = 2**9
             time_offset = 0.0
 
-        elif(IForMPorSX=="POL_RATIO"):
+        if(IForMPorSX=="POL_RATIO"):
             """
             390nm, 450nmの比を用いて電子密度を計算
             730nm, 710nmの比を用いて電子温度を計算
@@ -273,12 +217,23 @@ class STFT_RT1(DataBrowser):
             filename = "STFT_POL_RATIO_woffset_%s_%d" % (self.date, self.shotnum)
             vmin = 0.0
             vmax = 1e-6
-            coef_vmax = 1.0e0
+            coef_vmax = 1.0e2
             NPERSEG = 2**8
             time_offset = 0.0
 
+        if(IForMPorSX=="IF_FAST"):
+            IF_FAST = self.load_IF_FAST("PPL")
+            y = IF_FAST[1:, :]
+            x = np.linspace(0, 2, 2000000)
+            filename = "STFT_IF_FAST_%s_%d" % (self.date, self.shotnum)
+            vmin = 0.0
+            vmax = 5e-7
+            coef_vmax = 0.8
+            NPERSEG = 2**15
+            time_offset = 0.75
+            time_offset_stft = 0.75
 
-        elif(IForMPorSX=="MP"):
+        if(IForMPorSX=="MP"):
             MP_FAST = self.load_MP_FAST("PPL")
             y = MP_FAST[1:, :]
             x = MP_FAST[0, :]
@@ -286,8 +241,7 @@ class STFT_RT1(DataBrowser):
             vmin = 0.0
             vmax = 1e-7
             coef_vmax = 0.8
-            #NPERSEG = 2**14
-            NPERSEG = 2**10
+            NPERSEG = 2**14
             #NPERSEG = 1024
             time_offset = 1.25
             time_offset_stft = 0.25
@@ -297,7 +251,7 @@ class STFT_RT1(DataBrowser):
             #plt.legend()
             #plt.show()
 
-        elif(IForMPorSX=="SX"):
+        if(IForMPorSX=="SX"):
             data_SX, time_SX = self.load_SX_CosmoZ(self.LOCALorPPL)
             y = data_SX[:, 4]
             x = data_SX[:, 0]
@@ -315,7 +269,7 @@ class STFT_RT1(DataBrowser):
             vmax = 1e-7
             coef_vmax = 0.8
 
-        elif(IForMPorSX=="REF"):
+        if(IForMPorSX=="REF"):
             SX_FAST = self.load_SX_FAST("PPL")
             y = SX_FAST[3:, :]
             x = SX_FAST[0, :]
@@ -365,10 +319,7 @@ class STFT_RT1(DataBrowser):
         gs.update(hspace=0.4, wspace=0.3)
         for i in range(num_ch):
             ax0 = plt.subplot(gs[0:3, i])
-            try:
-                vmax_in_range = np.max(np.abs(Zxx_3D[idx_fst:idx_fed, idx_tst:idx_ted, i])) * coef_vmax
-            except ValueError:
-                vmax_in_range = 1e-10
+            vmax_in_range = np.max(np.abs(Zxx_3D[idx_fst:idx_fed, idx_tst:idx_ted, i])) * coef_vmax
             plt.pcolormesh(t + time_offset_stft, f, np.abs(Zxx_3D[:, :, i]), vmin=vmin, vmax=vmax_in_range)
             sfmt=matplotlib.ticker.ScalarFormatter(useMathText=True)
             cbar = plt.colorbar(format=sfmt)
@@ -386,42 +337,33 @@ class STFT_RT1(DataBrowser):
             ax1.plot(x+time_offset, y[i, :])
             ax1.set_xlabel("Time [sec]")
             ax1.set_xlim(0.5, 3.0)
-        #plt.show()
-        filepath = "figure/"
-        plt.savefig(filepath + filename)
+        plt.show()
+        #filepath = "figure/"
+        #plt.savefig(filepath + filename)
 
 def make_stft_profile(date):
     r_pol = np.array([379, 432, 484, 535, 583, 630, 689, 745, 820])
-    #num_shots = np.array([97, 68, 69, 70, 71, 72, 73, 74, 75])      #For 23Dec2017
-    num_shots = np.array([87, 54, 89, 91, 93, 95, 97, 99, 101])    #For 23Feb2018
+    num_shots = np.array([80, 68, 69, 70, 71, 72, 73, 74, 75])      #For 23Dec2017
+    #num_shots = np.array([87, 54, 89, 91, 93, 95, 97, 99, 101])    #For 23Feb2018
 
     for i in range(9):
         stft = STFT_RT1(date=date, shotNo=num_shots[i], LOCALorPPL="PPL")
-        #f, t, Zxx_3D,_,_,_,_,_,_,_,_ = stft.stft(IForMPorSX="POL", num_ch=4)
-        f, t, Zxx_3D,_,_,_,_,_,_,_,y = stft.stft(IForMPorSX="POL_RATIO", num_ch=2)
-        if i == 0:
-            y_profile = np.zeros((2, y[0].__len__(), 9))
-        y_profile[:, :, i] = y
+        #f, t, Zxx_3D,_,_,_,_,_,_,_ = stft.stft(IForMPorSX="POL", num_ch=4)
+        f, t, Zxx_3D,_,_,_,_,_,_,_ = stft.stft(IForMPorSX="POL", num_ch=4)
         if(i == 0):
             #Zxx_4D = np.zeros((np.shape(Zxx_3D)[0], np.shape(Zxx_3D)[1], np.shape(Zxx_3D)[2], r_pol.__len__()), dtype=complex)
             Zxx_4D = np.zeros((np.shape(Zxx_3D)[0], np.shape(Zxx_3D)[1], np.shape(Zxx_3D)[2], r_pol.__len__()))
         Zxx_4D[:, :, :, i] = Zxx_3D
 
-    #filename = 'Pol_ratio_woffset_stft_%s_%dto%d.npz' % (date, num_shots[0], num_shots[-1])
-    #np.savez_compressed(filename, r_pol=r_pol, f=f, t=t, Zxx_4D=Zxx_4D)
-
-    N = 10000
-    f, Cxy = sig.coherence(y_profile[1, 15000:16000, 8], y_profile[1, 15000:16000, 2], N, nperseg=2**7)
-    plt.plot(f, Cxy)
-    plt.show()
+    filename = 'Pol_woffset_stft_%s_%dto%d.npz' % (date, num_shots[0], num_shots[-1])
+    np.savez_compressed(filename, r_pol=r_pol, f=f, t=t, Zxx_4D=Zxx_4D)
 
 if __name__ == "__main__":
-    #for i in range(109, 110):
-    #    stft = STFT_RT1(date="20171110", shotNo=i, LOCALorPPL="PPL")
-    #    stft.plot_stft(IForMPorSX="IF", num_ch=3)
-    stft = STFT_RT1(date="20180622", shotNo=106, LOCALorPPL="PPL")
-    stft.plot_stft(IForMPorSX="IF", num_ch=3)
-    stft.plot_stft(IForMPorSX="MP", num_ch=4)
-    stft.plot_stft(IForMPorSX="POL_RATIO", num_ch=2)
-    #make_stft_profile(date="20180223")
+    for i in range(109, 110):
+        stft = STFT_RT1(date="20171110", shotNo=i, LOCALorPPL="PPL")
+        stft.plot_stft(IForMPorSX="IF", num_ch=3)
+    #stft = STFT_RT1(date="20171110", shotNo=100, LOCALorPPL="PPL")
+    #stft.plot_stft(IForMPorSX="POL", num_ch=4)
+    #make_stft_profile(date="20171223")
+    #stft.cwt()
     #stft.cross_spectrum()
