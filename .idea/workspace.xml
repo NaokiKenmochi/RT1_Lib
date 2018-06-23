@@ -3,9 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="38b4f2c5-f5ec-46d1-a1cd-c2deed0afcaf" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RT1DataBrowser.py" beforeDir="false" afterPath="$PROJECT_DIR$/RT1DataBrowser.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/STFT_RT1.py" beforeDir="false" afterPath="$PROJECT_DIR$/STFT_RT1.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/YAGTS_DataBrowser.py" beforeDir="false" afterPath="$PROJECT_DIR$/YAGTS_DataBrowser.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -34,8 +32,8 @@
       <file leaf-file-name="STFT_RT1.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/STFT_RT1.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="265">
-              <caret line="382" column="63" selection-start-line="382" selection-start-column="63" selection-end-line="382" selection-end-column="63" />
+            <state relative-caret-position="-1550">
+              <caret line="321" column="29" selection-start-line="321" selection-start-column="29" selection-end-line="321" selection-end-column="29" />
               <folding>
                 <element signature="e#0#38#0" expanded="true" />
               </folding>
@@ -110,7 +108,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="develop/1.2.0" />
       </map>
     </option>
   </component>
@@ -138,7 +136,7 @@
   <component name="ProjectFrameBounds">
     <option name="x" value="960" />
     <option name="y" value="23" />
-    <option name="width" value="960" />
+    <option name="width" value="959" />
     <option name="height" value="1177" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -644,7 +642,21 @@
       <option name="project" value="LOCAL" />
       <updated>1529460861957</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="ppl内で解析するため，現状をcommitする">
+      <created>1529672932455</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1529672932455</updated>
+    </task>
+    <task id="LOCAL-00045" summary="磁気プローブアレイを用いて位相差を計算する処理を追加">
+      <created>1529758300538</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1529758300538</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -689,14 +701,13 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="960" y="23" width="960" height="1177" extended-state="0" />
-    <editor active="true" />
+    <frame x="960" y="23" width="959" height="1177" extended-state="0" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.13185067" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3271719" />
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.31260097" side_tool="true" weight="0.3272589" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.26524955" />
-      <window_info anchor="bottom" id="Version Control" order="10" sideWeight="0.687399" weight="0.32592592" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="10" sideWeight="0.687399" visible="true" weight="0.32592592" />
       <window_info anchor="bottom" id="Python Console" order="8" weight="0.21574074" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.26943558" />
       <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49346405" weight="0.26759258" />
@@ -763,8 +774,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="STFTの周波数をkHz単位に変更" />
-    <MESSAGE value="diamagの単位をmWbに変更" />
     <MESSAGE value="このバージョンを管田君に渡した．windowsの場合はnetwork元のディレクトリ指定に￥￥￥￥を最初につける．これからread_wvfを一つにまとめる．OSを判定して動作させる" />
     <MESSAGE value="README.mdを追加" />
     <MESSAGE value="read_wvf.pyの中にOSを判定する文を追加" />
@@ -788,7 +797,9 @@
     <MESSAGE value="vmaxの係数を変数として与える処理を追加" />
     <MESSAGE value="read_wvf.pyにexp_epをマウントさせる処理を追加．例外処理も加えてエラー対応" />
     <MESSAGE value="YAGTS_DataBrowser.pyをgitに追加" />
-    <option name="LAST_COMMIT_MESSAGE" value="YAGTS_DataBrowser.pyをgitに追加" />
+    <MESSAGE value="ppl内で解析するため，現状をcommitする" />
+    <MESSAGE value="磁気プローブアレイを用いて位相差を計算する処理を追加" />
+    <option name="LAST_COMMIT_MESSAGE" value="磁気プローブアレイを用いて位相差を計算する処理を追加" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -802,7 +813,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="116" />
+      <option name="time" value="121" />
     </breakpoint-manager>
   </component>
   <component name="debuggerHistoryManager">
@@ -1151,8 +1162,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/STFT_RT1.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="265">
-          <caret line="382" column="63" selection-start-line="382" selection-start-column="63" selection-end-line="382" selection-end-column="63" />
+        <state relative-caret-position="-1550">
+          <caret line="321" column="29" selection-start-line="321" selection-start-column="29" selection-end-line="321" selection-end-column="29" />
           <folding>
             <element signature="e#0#38#0" expanded="true" />
           </folding>

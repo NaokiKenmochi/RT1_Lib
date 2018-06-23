@@ -1,6 +1,7 @@
 from RT1DataBrowser import DataBrowser
 from matplotlib import gridspec
 from matplotlib import mlab
+from scipy.fftpack import fft
 import sys
 sys.path.append('/Users/kemmochi/PycharmProjects/ControlCosmoZ')
 
@@ -208,6 +209,63 @@ class STFT_RT1(DataBrowser):
         plt.plot(f, Cxy)
         plt.show()
 
+    def phase_diff(self, y, f, t, t_offset):
+        plt.plot(t+t_offset, y[0])
+        plt.plot(t+t_offset, y[2])
+        plt.show()
+        f, t, Sxx1 = sig.spectrogram(y[0], f, mode='phase', window='hamming', nperseg=2**11)
+        f, t, Sxx2 = sig.spectrogram(y[1], f, mode='phase', window='hamming', nperseg=2**11)
+        plt.pcolormesh(t+t_offset, f, Sxx1)
+        plt.ylim(0, 2000)
+        plt.show()
+        plt.pcolormesh(t+t_offset, f, Sxx2)
+        plt.ylim(0, 2000)
+        plt.show()
+        phase_diff = Sxx1-Sxx2#np.angle(Sxx2) - np.angle(Sxx1)
+        plt.pcolormesh(t, f, phase_diff, vmin=-np.pi, vmax=np.pi)
+        #plt.pcolormesh(t, f, np.angle(Sxx2-Sxx1))
+        plt.colorbar()
+        plt.ylim(0, 2000)
+        plt.show()
+
+    def phase_diff_test(self):
+        fs = 2e5
+        N = 2e5
+        time = np.arange(N)/float(fs)
+        x1 = np.sin(2*np.pi*600*time)
+        x2 = np.sin(2*np.pi*600*(time-0.0002))
+        x1[1e5:] = 0
+        x2[1e5:] = 0
+
+        #yf1 = fft(x1)
+        #yf2 = fft(x2)
+
+        #plt.plot(np.linspace(1, N, N), np.angle(yf1) - np.angle(yf2))
+        #plt.axis('tight')
+        #plt.xlim(0, 2000)
+        #plt.xlabel("data number")
+        #plt.ylabel("phase[deg]")
+        #plt.show()
+
+        plt.plot(time, x1)
+        plt.plot(time, x2)
+        plt.xlim(0, 0.01)
+        plt.show()
+        f, t, Sxx1 = sig.spectrogram(x1, fs, mode='phase', window='hamming', nperseg=2**11)
+        f, t, Sxx2 = sig.spectrogram(x2, fs, mode='phase', window='hamming', nperseg=2**11)
+        plt.pcolormesh(t, f, Sxx1)
+        plt.ylim(0, 2000)
+        plt.show()
+        #plt.pcolormesh(t, f, np.angle(Sxx2))
+        plt.pcolormesh(t, f, Sxx2)
+        plt.ylim(0, 2000)
+        plt.show()
+        phase_diff = Sxx1-Sxx2#np.angle(Sxx2) - np.angle(Sxx1)
+        plt.pcolormesh(t, f, phase_diff, vmin=-np.pi, vmax=np.pi)
+        #plt.pcolormesh(t, f, np.angle(Sxx2-Sxx1))
+        plt.colorbar()
+        plt.ylim(0, 2000)
+        plt.show()
 
     def stft(self, IForMPorSX="IF", num_ch=1):
 
@@ -420,8 +478,10 @@ if __name__ == "__main__":
     #    stft = STFT_RT1(date="20171110", shotNo=i, LOCALorPPL="PPL")
     #    stft.plot_stft(IForMPorSX="IF", num_ch=3)
     stft = STFT_RT1(date="20180622", shotNo=106, LOCALorPPL="PPL")
-    stft.plot_stft(IForMPorSX="IF", num_ch=3)
-    stft.plot_stft(IForMPorSX="MP", num_ch=4)
-    stft.plot_stft(IForMPorSX="POL_RATIO", num_ch=2)
+    #stft.phase_diff()
+    #stft.plot_stft(IForMPorSX="IF", num_ch=3)
+    f, t,_,_,_,_,_, time_offset,_,_, y = stft.plot_stft(IForMPorSX="MP", num_ch=4)
+    stft.phase_diff(f, t, time_offset)
+    #stft.plot_stft(IForMPorSX="POL_RATIO", num_ch=2)
     #make_stft_profile(date="20180223")
     #stft.cross_spectrum()
