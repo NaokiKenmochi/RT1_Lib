@@ -3,12 +3,12 @@ from matplotlib import gridspec
 from matplotlib import mlab
 from scipy.fftpack import fft
 import sys
-#sys.path.append('/Users/kemmochi/PycharmProjects/ControlCosmoZ')
+sys.path.append('/Users/kemmochi/PycharmProjects/ControlCosmoZ')
 
 import numpy as np
 import pywt
 import read_wvf
-#import czdec
+import czdec
 import scipy.signal as sig
 import matplotlib.pyplot as plt
 import matplotlib.ticker
@@ -145,124 +145,84 @@ class STFT_RT1(DataBrowser):
         #plt.plot(MP_FAST[0, :], MP_FAST[3, :])
         #plt.plot(MP_FAST[3, :])
         #plt.show()
-        #IF = data_ep01[11:13:1, :].T
-        IF = data_ep01[11:13:1, :].T
-        #IF[:,0] *= -1
-        IF_MP = np.zeros((28000, 2))
+        IF = data_ep01[10:13:2, :].T
+        IF_MP = np.zeros((14000, 2))
         #IF_MP[:, 0] = data_ep01[10, 8000:22000].T
         #IF_MP[:, 1] = data_ep01[12, 8000:22000].T
         #IF_MP[:, 1] = MP_FAST[3, 265000:965000:50].T
-
-        #fs = 2e4
-        #N = 2.8e4
-        #time = np.arange(N)/float(fs)
-        #x1 = np.sin(2*np.pi*600*time)
-        #x2 = np.sin(2*np.pi*600*(time-0.00005))
-
-        #IF_MP[:, 0] = x1[::1]
-        #IF_MP[:, 1] = x2[::1]
-        IF_MP[:, 0] = MP_FAST[1, 10500:38500:1].T
-        IF_MP[:, 1] = MP_FAST[3, 10500:38500:1].T
-        #IF = IF_MP
+        IF_MP[:, 0] = MP_FAST[1, 10500:38500:2].T
+        IF_MP[:, 1] = MP_FAST[3, 10500:38500:2].T
+        IF = IF_MP
         #IF = data_ep01[11:13, :].T
-        #N = 2*np.abs(1/(data_ep01[0, 1]-data_ep01[0, 2]))
         N = np.abs(1/(data_ep01[0, 1]-data_ep01[0, 2]))
         sampling_time = 1/N
-        #plt.plot(IF, label="IF")
-        #plt.legend()
-        #plt.show()
+        plt.plot(IF)
+        plt.show()
 
         #IF_FAST = self.load_IF_FAST("PPL")
         #IF = IF_FAST[1:3, :].T
         #sampling_time = 1e-6
         #f, t, Pxx = sig.spectrogram(IF, axis=0, fs=1/sampling_time, window='hamming', nperseg=128, noverlap=64, mode='complex')
         #f, t, Pxx = sig.spectrogram(IF, axis=0, fs=1/sampling_time, window='hamming', nperseg=2**15, noverlap=512, mode='complex')
-        f, t, Pxx = sig.spectrogram(IF, axis=0, fs=1/sampling_time, window='hamming', nperseg=2**8, noverlap=16, mode='complex')
+        f, t, Pxx = sig.spectrogram(IF, axis=0, fs=1/sampling_time, window='hamming', nperseg=2**7, noverlap=16, mode='complex')
         #Pxx_run = self.moving_average(Pxx[:, 0] * np.conj(Pxx[:, 1]), 8)
-        Pxx_run = self.moving_average(Pxx[:, 0] * np.conj(Pxx[:, 1]), 8)
-        weight = Pxx_run
-        #weight = np.where(np.log(np.abs(Pxx_run)) > -16.5, 1, 0)
-        weight = np.where(np.log(np.abs(Pxx_run)) > -14.5, 1, 0)
+        Pxx_run = self.moving_average(Pxx[:, 0] * np.conj(Pxx[:, 1]), 2)
 
-        #２列目の位相が進んでいる場合にDPhaseは正になる
         DPhase = 180/np.pi*np.arctan2(Pxx_run.imag, Pxx_run.real)
 
         #plt.pcolormesh(t, f, np.abs(Pxx[:, 0]))
-        plt.subplot(211)
-        plt.title("Date: %s, Shot No.: %d" % (self.date, self.shotnum), loc='right', fontsize=16, fontname="Times New Roman")
-        plt.pcolormesh(t, f, np.log(np.abs(Pxx_run)), vmin=-14.5, vmax=-14)
-        #plt.pcolormesh(t+0.8, f, np.log(np.abs(Pxx_run)), vmin=-17, vmax=-16)
-        plt.ylim(0, 2000)
-        plt.xlim(0.5, 2.5)
-        #plt.ylabel('Cross-Spectrum b/w MP13 \nFrequency [Hz]')
-        plt.ylabel('Cross-Spectrum b/w IF23 \nFrequency [Hz]')
-        plt.colorbar()
-        plt.subplot(212)
-        plt.pcolormesh(t, f, DPhase*weight, cmap='bwr', vmin=-180, vmax=180)
-        #plt.pcolormesh(t+0.8, f, 120/(DPhase*weight), cmap='Set1', vmin=-8, vmax=8)
-        #plt.pcolormesh(t+0.8, f, weight)
+        plt.pcolormesh(t+0.8, f, np.log(np.abs(Pxx_run)))
+        #plt.pcolormesh(t, f, DPhase)
         #plt.xlim(0.5, 2.5)
-        #plt.clim(-16, -14.5)
+        plt.clim(-16, -14.5)
         #plt.clim(-26, -24.5)
         plt.ylim(0, 2000)
-        plt.xlim(0.5, 2.5)
         plt.colorbar()
         plt.xlabel('Time [sec]')
-        #plt.ylabel('Phase Difference b/w MP13 \nFrequency [Hz]')
-        plt.ylabel('Phase Difference b/w IF23 \nFrequency [Hz]')
-        filepath = "figure/"
-        filename = "CSD_PD_IF23_%s_%d" % (self.date, self.shotnum)
-        plt.savefig(filepath + filename)
-        #plt.show()
-        plt.clf()
-
-        #f, t, Zxx =sig.spectrogram(IF_MP[:,1], fs=N, window='hamming', nperseg=2**8)
-        ##FS = 1/(MP_FAST[0, 1] - MP_FAST[0, 0])
-        ##f, t, Zxx =sig.spectrogram(MP_FAST[3, :], fs=FS, window='hamming', nperseg=2**14)
-        #plt.pcolormesh(t, f, Zxx, vmax=2e-7)
-        #plt.ylim(0, 2000)
-        #plt.show()
-
-        #for i in range(80):
-        #    #f, Cxy = sig.coherence(IF_MP[2000+i*500:2500+i*500, 0], IF_MP[2000+i*500:2500+i*500, 1], N, nperseg=2**6)
-        #    f, Cxy = sig.coherence(IF_MP[4000+i*250:4250+i*250, 0], IF_MP[4000+i*250:4250+i*250, 1], N, nperseg=2**7)
-        #    if i == 0:
-        #        Cxy_buf = Cxy
-        #    else:
-        #        Cxy_buf = np.c_[Cxy_buf, Cxy]
-        #    plt.plot(f, Cxy_buf)
-        #t = np.arange(1, 2, 0.0125)
-        #T, F = np.meshgrid(t, f)
-        #plt.pcolormesh(T, F, Cxy_buf)
-        #plt.xlim(1, 2)
-        #plt.ylim(0, 2000)
-        #plt.colorbar(orientation="vertical")
-        #plt.show()
-        #f, Cxy = sig.coherence(IF_MP[4000:5000, 0], IF_MP[4000:5000, 1], N, nperseg=2**7)
-        ##f, Cxy = sig.coherence(data_ep01[10, 12000:14000], data_ep01[11, 12000:14000], N, nperseg=2**8)
-        ##f, Cxy = sig.coherence(data_ep01[10, 12000:13000], MP_FAST[3, 390000:400000:10], N, nperseg=2**8)
-        ##plt.semilogy(f, Cxy)
-        #plt.plot(f, Cxy)
-        #plt.title("coherence")
-        #plt.show()
-
-    def phase_diff(self, x, y, f, t, t_offset):
-        N = np.abs(1/(x[1]-x[2]))
-        plt.plot(y[0])
-        plt.plot(y[2])
+        plt.ylabel('Frequency [Hz]')
         plt.show()
-        f, t, Sxx1 = sig.spectrogram(y[0], fs=N, mode='angle', window='hamming', nperseg=2**10)
-        f, t, Sxx2 = sig.spectrogram(y[1], fs=N, mode='angle', window='hamming', nperseg=2**10)
+
+        f, t, Zxx =sig.spectrogram(IF_MP[:,1], fs=N, window='hamming', nperseg=2**7)
+        #FS = 1/(MP_FAST[0, 1] - MP_FAST[0, 0])
+        #f, t, Zxx =sig.spectrogram(MP_FAST[3, :], fs=FS, window='hamming', nperseg=2**14)
+        plt.pcolormesh(t, f, Zxx, vmax=2e-7)
+        plt.show()
+
+        for i in range(40):
+            #f, Cxy = sig.coherence(IF_MP[2000+i*500:2500+i*500, 0], IF_MP[2000+i*500:2500+i*500, 1], N, nperseg=2**6)
+            f, Cxy = sig.coherence(IF_MP[2000+i*250:2250+i*250, 0], IF_MP[2000+i*250:2250+i*250, 1], N, nperseg=2**6)
+            if i == 0:
+                Cxy_buf = Cxy
+            else:
+                Cxy_buf = np.c_[Cxy_buf, Cxy]
+            plt.plot(f, Cxy_buf)
+        t = np.arange(1, 2, 0.025)
+        T, F = np.meshgrid(t, f)
+        plt.pcolormesh(T, F, Cxy_buf)
+        plt.xlim(1, 2)
+        plt.colorbar(orientation="vertical")
+        plt.show()
+        f, Cxy = sig.coherence(IF_MP[4000:5000, 0], IF_MP[4000:5000, 1], N, nperseg=2**7)
+        #f, Cxy = sig.coherence(data_ep01[10, 12000:14000], data_ep01[11, 12000:14000], N, nperseg=2**8)
+        #f, Cxy = sig.coherence(data_ep01[10, 12000:13000], MP_FAST[3, 390000:400000:10], N, nperseg=2**8)
+        #plt.semilogy(f, Cxy)
+        plt.plot(f, Cxy)
+        plt.show()
+
+    def phase_diff(self, y, f, t, t_offset):
+        plt.plot(t+t_offset, y[0])
+        plt.plot(t+t_offset, y[2])
+        plt.show()
+        f, t, Sxx1 = sig.spectrogram(y[0], f, mode='phase', window='hamming', nperseg=2**11)
+        f, t, Sxx2 = sig.spectrogram(y[1], f, mode='phase', window='hamming', nperseg=2**11)
         plt.pcolormesh(t+t_offset, f, Sxx1)
-        plt.colorbar()
         plt.ylim(0, 2000)
         plt.show()
         plt.pcolormesh(t+t_offset, f, Sxx2)
-        plt.colorbar()
         plt.ylim(0, 2000)
         plt.show()
         phase_diff = Sxx1-Sxx2#np.angle(Sxx2) - np.angle(Sxx1)
-        plt.pcolormesh(t+t_offset, f, phase_diff)#, vmin=-np.pi, vmax=np.pi)
+        plt.pcolormesh(t, f, phase_diff, vmin=-np.pi, vmax=np.pi)
         #plt.pcolormesh(t, f, np.angle(Sxx2-Sxx1))
         plt.colorbar()
         plt.ylim(0, 2000)
@@ -291,19 +251,18 @@ class STFT_RT1(DataBrowser):
         plt.plot(time, x2)
         plt.xlim(0, 0.01)
         plt.show()
-        f, t, Sxx1 = sig.spectrogram(x1, fs, mode='phase', window='hamming', nperseg=2**11)
-        f, t, Sxx2 = sig.spectrogram(x2, fs, mode='phase', window='hamming', nperseg=2**11)
-        plt.pcolormesh(t, f, Sxx1)
-        plt.colorbar()
+        f, t, Sxx1 = sig.spectrogram(x1, fs, mode='complex', window='hamming', nperseg=2**11)
+        f, t, Sxx2 = sig.spectrogram(x2, fs, mode='complex', window='hamming', nperseg=2**11)
+        plt.pcolormesh(t, f, np.angle(Sxx1))
+       # plt.pcolormesh(t, f, Sxx1)
         plt.ylim(0, 2000)
         plt.show()
-        #plt.pcolormesh(t, f, np.angle(Sxx2))
-        plt.pcolormesh(t, f, Sxx2)
-        plt.colorbar()
+        plt.pcolormesh(t, f, np.angle(Sxx2))
+        #plt.pcolormesh(t, f, Sxx2)
         plt.ylim(0, 2000)
         plt.show()
-        phase_diff = Sxx1-Sxx2#np.angle(Sxx2) - np.angle(Sxx1)
-        plt.pcolormesh(t, f, phase_diff, vmin=-np.pi, vmax=np.pi)
+        phase_diff = np.angle(Sxx2) - np.angle(Sxx1)
+        plt.pcolormesh(t, f, phase_diff)#, vmin=-np.pi, vmax=np.pi)
         #plt.pcolormesh(t, f, np.angle(Sxx2-Sxx1))
         plt.colorbar()
         plt.ylim(0, 2000)
@@ -516,18 +475,15 @@ def make_stft_profile(date):
     plt.show()
 
 if __name__ == "__main__":
-    for i in range(46,105):
-        stft = STFT_RT1(date="20180622", shotNo=i, LOCALorPPL="PPL")
-        stft.cross_spectrum()
+    #for i in range(109, 110):
+    #    stft = STFT_RT1(date="20171110", shotNo=i, LOCALorPPL="PPL")
     #    stft.plot_stft(IForMPorSX="IF", num_ch=3)
-    #    stft.plot_stft(IForMPorSX="MP", num_ch=4)
-    #    stft.plot_stft(IForMPorSX="POL", num_ch=4)
-    #    stft.plot_stft(IForMPorSX="POL_RATIO", num_ch=2)
-    #stft = STFT_RT1(date="20171223", shotNo=95, LOCALorPPL="PPL")
+    stft = STFT_RT1(date="20180625", shotNo=65, LOCALorPPL="PPL")
     #stft.phase_diff()
-    #stft.plot_stft(IForMPorSX="IF", num_ch=3)
-    #f, t,_,_,_,_,_,_,time_offset_stft, x, y = stft.stft(IForMPorSX="MP", num_ch=4)
-    #stft.phase_diff(x, y, f, t, time_offset_stft)
+    stft.plot_stft(IForMPorSX="MP", num_ch=4)
+    #f, t,_,_,_,_,_, time_offset,_,_, y = stft.plot_stft(IForMPorSX="MP", num_ch=4)
+    #stft.phase_diff(f, t, time_offset)
+    #stft.phase_diff_test()
     #stft.plot_stft(IForMPorSX="POL_RATIO", num_ch=2)
     #make_stft_profile(date="20180223")
     #stft.cross_spectrum()

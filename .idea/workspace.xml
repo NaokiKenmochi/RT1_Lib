@@ -1,0 +1,1146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="38b4f2c5-f5ec-46d1-a1cd-c2deed0afcaf" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/RT1_PTA.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/RT1_PTA.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/STFT_RT1.py" beforeDir="false" afterPath="$PROJECT_DIR$/STFT_RT1.py" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="RT1DataBrowser" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="RT1DataBrowser.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/RT1DataBrowser.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="4155">
+              <caret line="277" column="15" selection-start-line="277" selection-start-column="15" selection-end-line="277" selection-end-column="15" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="STFT_RT1.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/STFT_RT1.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-179">
+              <caret line="139" column="8" selection-start-line="139" selection-start-column="8" selection-end-line="139" selection-end-column="8" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="read_wvf.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/read_wvf.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-377">
+              <caret line="156" selection-start-line="156" selection-end-line="156" />
+              <folding>
+                <element signature="e#270#288#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Polychromator_DataBrowser.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Polychromator_DataBrowser.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1305">
+              <caret line="87" column="14" selection-start-line="87" selection-start-column="14" selection-end-line="87" selection-end-column="14" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="135">
+                <caret line="9" selection-start-line="9" selection-end-line="9" />
+              </first_editor>
+              <second_editor>
+                <markdownNavigatorState />
+              </second_editor>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>shot</find>
+      <find>nn</find>
+      <find>title</find>
+    </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="develop/1.3.0" />
+      </map>
+    </option>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/read_wvf_ep02.py" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$USER_HOME$/SkyDrive/Document/Study/Presentation &amp; Publication/2018/プラズマ核融合学会講座/predator_prey.py" />
+        <option value="$PROJECT_DIR$/SpeedTest.py" />
+        <option value="$APPLICATION_CONFIG_DIR$/pycharm.vmoptions" />
+        <option value="$PROJECT_DIR$/CT_orbit.py" />
+        <option value="$PROJECT_DIR$/pydulum.py" />
+        <option value="$PROJECT_DIR$/STFT_IF_FAST.py" />
+        <option value="$PROJECT_DIR$/test_dataBrowser.py" />
+        <option value="$PROJECT_DIR$/test_STFT_RT1.py" />
+        <option value="$PROJECT_DIR$/Polychromator_DataBrowser.py" />
+        <option value="$PROJECT_DIR$/read_wvf.py" />
+        <option value="$PROJECT_DIR$/RT1DataBrowser.py" />
+        <option value="$PROJECT_DIR$/YAGTS_DataBrowser.py" />
+        <option value="$PROJECT_DIR$/STFT_RT1.py" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="x" value="1280" />
+    <option name="y" value="23" />
+    <option name="width" value="1280" />
+    <option name="height" value="1417" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="RT1DataBrowser" type="b2602c69:ProjectViewProjectNode" />
+              <item name="RT1DataBrowser" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="full.screen.before.presentation.mode" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Python.STFT_RT1">
+    <configuration name="Polychromator_DataBrowser" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="RT1_PTA" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Polychromator_DataBrowser.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <configuration name="RT1DataBrowser" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="RT1_PTA" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/RT1DataBrowser.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <configuration name="STFT_RT1" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="RT1_PTA" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/STFT_RT1.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <configuration name="YAGTS_DataBrowser" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="RT1_PTA" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/YAGTS_DataBrowser.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <module name="RT1DataBrowser" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <configuration name="read_wvf" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="RT1_PTA" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/read_wvf.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+    </configuration>
+    <configuration default="true" type="Tox" factoryName="Tox">
+      <module name="RT1DataBrowser" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Doctests">
+      <module name="RT1DataBrowser" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Nosetests">
+      <module name="RT1DataBrowser" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_regexPattern" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;.&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.STFT_RT1" />
+      <item itemvalue="Python.RT1DataBrowser" />
+      <item itemvalue="Python.read_wvf" />
+      <item itemvalue="Python.YAGTS_DataBrowser" />
+      <item itemvalue="Python.Polychromator_DataBrowser" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.STFT_RT1" />
+        <item itemvalue="Python.YAGTS_DataBrowser" />
+        <item itemvalue="Python.RT1DataBrowser" />
+        <item itemvalue="Python.Polychromator_DataBrowser" />
+        <item itemvalue="Python.read_wvf" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="38b4f2c5-f5ec-46d1-a1cd-c2deed0afcaf" name="Default" comment="" />
+      <created>1498008702274</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1498008702274</updated>
+    </task>
+    <task id="LOCAL-00001" summary="First Commit">
+      <created>1498009081063</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1498009081063</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Second Commit">
+      <created>1498009154010</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1498009154010</updated>
+    </task>
+    <task id="LOCAL-00003" summary="WE7000のゲインを調整する">
+      <created>1498029703256</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1498029703256</updated>
+    </task>
+    <task id="LOCAL-00004" summary="WE7000のゲインを調整する part2">
+      <created>1498029791112</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1498029791112</updated>
+    </task>
+    <task id="LOCAL-00005" summary="read_wvf_ep02.pyを修正．パスの指定部分のミスを直した">
+      <created>1498031921235</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1498031921235</updated>
+    </task>
+    <task id="LOCAL-00006" summary="MPとSXのSTFTを表示してみる">
+      <created>1498439557163</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1498439557163</updated>
+    </task>
+    <task id="LOCAL-00007" summary="タイトルなどを微調整">
+      <created>1498563972961</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1498563972961</updated>
+    </task>
+    <task id="LOCAL-00008" summary="タイトルなどを微調整">
+      <created>1498564020423</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1498564020423</updated>
+    </task>
+    <task id="LOCAL-00009" summary="STFTの周波数をkHz単位に変更">
+      <created>1498609038322</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1498609038322</updated>
+    </task>
+    <task id="LOCAL-00010" summary="diamagの単位をmWbに変更">
+      <created>1498616874957</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1498616874957</updated>
+    </task>
+    <task id="LOCAL-00011" summary="このバージョンを管田君に渡した．windowsの場合はnetwork元のディレクトリ指定に￥￥￥￥を最初につける．これからread_wvfを一つにまとめる．OSを判定して動作させる">
+      <created>1498738026086</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1498738026086</updated>
+    </task>
+    <task id="LOCAL-00012" summary="README.mdを追加">
+      <created>1498781254303</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1498781254303</updated>
+    </task>
+    <task id="LOCAL-00013" summary="read_wvf.pyの中にOSを判定する文を追加">
+      <created>1498785899755</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1498785899755</updated>
+    </task>
+    <task id="LOCAL-00014" summary="read_wvf.pyを統合．Mac/Windowsを判定して動作させる">
+      <created>1498787790269</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1498787790269</updated>
+    </task>
+    <task id="LOCAL-00015" summary="README.mdにRT-1の写真を掲載">
+      <created>1498789845265</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1498789845265</updated>
+    </task>
+    <task id="LOCAL-00016" summary="README.mdにDataBrowserのサンプルを掲載">
+      <created>1498795674402</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1498795674402</updated>
+    </task>
+    <task id="LOCAL-00017" summary="README.mdにDataBrowserのサンプルを掲載">
+      <created>1498796167786</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1498796167786</updated>
+    </task>
+    <task id="LOCAL-00018" summary="README.mdにUsageを掲載">
+      <created>1498796645331</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1498796645331</updated>
+    </task>
+    <task id="LOCAL-00019" summary="README.mdにUsageを掲載">
+      <created>1498796693741</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1498796693741</updated>
+    </task>
+    <task id="LOCAL-00020" summary="README.mdにUsageを掲載">
+      <created>1498796995250</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1498796995250</updated>
+    </task>
+    <task id="LOCAL-00021" summary="1shotGPで閉じ込め時間を計算するプログラムを追加，干渉計の較正値を更新した">
+      <created>1507954088345</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1507954088345</updated>
+    </task>
+    <task id="LOCAL-00022" summary="1shotGPで閉じ込め時間を計算するプログラムを追加，干渉計の較正値を更新した">
+      <created>1507954300161</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1507954300161</updated>
+    </task>
+    <task id="LOCAL-00023" summary="1shotGPで閉じ込め時間を計算するプログラムを追加，干渉計の較正値を更新した">
+      <created>1507954647910</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1507954647910</updated>
+    </task>
+    <task id="LOCAL-00024" summary="テキストの表示位置を調整">
+      <created>1508054133224</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1508054133224</updated>
+    </task>
+    <task id="LOCAL-00025" summary="テキストの表示位置を調整">
+      <created>1510374187283</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1510374187283</updated>
+    </task>
+    <task id="LOCAL-00026" summary="commit test4">
+      <created>1510786955602</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1510786955602</updated>
+    </task>
+    <task id="LOCAL-00027" summary="commit test4">
+      <created>1511839600466</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1511839600466</updated>
+    </task>
+    <task id="LOCAL-00028" summary="test5">
+      <created>1511921390469</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1511921390469</updated>
+    </task>
+    <task id="LOCAL-00029" summary="test6">
+      <created>1511943588988</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1511943588988</updated>
+    </task>
+    <task id="LOCAL-00030" summary="test6">
+      <created>1511943606481</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1511943606481</updated>
+    </task>
+    <task id="LOCAL-00031" summary="IFの較正データをdataによって場合分けすることにした">
+      <created>1511998793502</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1511998793502</updated>
+    </task>
+    <task id="LOCAL-00032" summary="STFTのプログラムを追加">
+      <created>1512112569766</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1512112569766</updated>
+    </task>
+    <task id="LOCAL-00033" summary="SX解析以外の部分を削除">
+      <created>1512114267323</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1512114267323</updated>
+    </task>
+    <task id="LOCAL-00034" summary="MP4(50回巻きZ方向）のデータも表示するように変更">
+      <created>1519186979215</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1519186979215</updated>
+    </task>
+    <task id="LOCAL-00035" summary="ネットワークから手動でマウントするように変更">
+      <created>1519269292707</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1519269292707</updated>
+    </task>
+    <task id="LOCAL-00036" summary="リリース前のコミット">
+      <created>1519692929683</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1519692929683</updated>
+    </task>
+    <task id="LOCAL-00037" summary="干渉計の最大値のショットログをとる処理を追加">
+      <created>1519807356477</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1519807356477</updated>
+    </task>
+    <task id="LOCAL-00038" summary="stftのvmaxを指定するのに，選択範囲内の最大値をvmaxとして取得してくる処理を追加">
+      <created>1519888551220</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1519888551220</updated>
+    </task>
+    <task id="LOCAL-00039" summary="vmaxの係数を変数として与える処理を追加">
+      <created>1519892663134</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1519892663134</updated>
+    </task>
+    <task id="LOCAL-00040" summary="read_wvf.pyにexp_epをマウントさせる処理を追加．例外処理も加えてエラー対応">
+      <created>1520215864697</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1520215864697</updated>
+    </task>
+    <task id="LOCAL-00041" summary="read_wvf.pyにexp_epをマウントさせる処理を追加．例外処理も加えてエラー対応">
+      <created>1520216446745</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1520216446745</updated>
+    </task>
+    <task id="LOCAL-00042" summary="read_wvf.pyにexp_epをマウントさせる処理を追加．例外処理も加えてエラー対応">
+      <created>1526432776675</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1526432776675</updated>
+    </task>
+    <task id="LOCAL-00043" summary="YAGTS_DataBrowser.pyをgitに追加">
+      <created>1529460861957</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1529460861957</updated>
+    </task>
+    <task id="LOCAL-00044" summary="ppl内で解析するため，現状をcommitする">
+      <created>1529672932455</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1529672932455</updated>
+    </task>
+    <task id="LOCAL-00045" summary="磁気プローブアレイを用いて位相差を計算する処理を追加">
+      <created>1529758300538</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1529758300538</updated>
+    </task>
+    <task id="LOCAL-00046" summary="磁気プローブアレイを用いて位相差を計算する処理を追加">
+      <created>1529758598782</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1529758598782</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
+    <servers />
+  </component>
+  <component name="TestHistory">
+    <history-entry file="Nosetests_for_test_STFT_RT1_TestSTFT_RT1_test_stft - 2018.03.01 at 09h 45m 38s.xml">
+      <configuration name="Nosetests for test_STFT_RT1.TestSTFT_RT1.test_stft" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Nosetests_in_SpeedTest_py - 2017.11.09 at 21h 50m 04s.xml">
+      <configuration name="Nosetests in SpeedTest.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Nosetests_in_SpeedTest_py - 2017.11.09 at 21h 50m 10s.xml">
+      <configuration name="Nosetests in SpeedTest.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Nosetests_in_SpeedTest_py - 2017.11.09 at 21h 50m 14s.xml">
+      <configuration name="Nosetests in SpeedTest.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Nosetests_in_SpeedTest_py - 2017.11.09 at 21h 50m 38s.xml">
+      <configuration name="Nosetests in SpeedTest.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Nosetests_in_SpeedTest_py - 2017.11.09 at 21h 52m 04s.xml">
+      <configuration name="Nosetests in SpeedTest.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Nosetests_in_SpeedTest_py - 2017.11.10 at 09h 40m 09s.xml">
+      <configuration name="Nosetests in SpeedTest.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Nosetests_in_SpeedTest_py - 2017.11.10 at 09h 51m 17s.xml">
+      <configuration name="Nosetests in SpeedTest.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Nosetests_in_SpeedTest_py - 2017.11.10 at 09h 51m 19s.xml">
+      <configuration name="Nosetests in SpeedTest.py" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Nosetests_in_test_STFT_RT1_py - 2018.03.01 at 09h 50m 11s.xml">
+      <configuration name="Nosetests in test_STFT_RT1.py" configurationId="tests" />
+    </history-entry>
+  </component>
+  <component name="TodoView" selected-index="2">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="1280" y="23" width="1280" height="1417" extended-state="0" />
+    <layout>
+      <window_info content_ui="combo" id="Project" order="0" weight="0.13185067" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.3271719" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.31260097" side_tool="true" weight="0.3272589" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.26524955" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="10" sideWeight="0.687399" visible="true" weight="0.3242424" />
+      <window_info anchor="bottom" id="Python Console" order="8" weight="0.21515152" />
+      <window_info id="Structure" order="1" side_tool="true" visible="true" weight="0.26926133" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49346405" weight="0.26759258" />
+      <window_info anchor="bottom" x="1290" y="592" width="1259" height="279" id="Debug" order="3" sideWeight="0.49019608" weight="0.1621212" />
+      <window_info id="Favorites" order="2" side_tool="true" weight="0.32962668" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.26524955" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.13185067" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.26943558" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.3271719" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="10" sideWeight="0.687399" visible="true" weight="0.32575756" />
+      <window_info anchor="right" id="Data View" order="3" />
+      <window_info anchor="bottom" x="1290" y="592" width="1259" height="279" id="Debug" order="3" sideWeight="0.49019608" weight="0.16363636" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.31260097" side_tool="true" weight="0.3272589" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" weight="0.32962668" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49346405" weight="0.26759258" />
+      <window_info anchor="bottom" id="Python Console" order="8" weight="0.21515152" />
+    </layout>
+    <layout-to-restore>
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.1796875" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.26617375" />
+      <window_info anchor="right" id="Data View" order="3" />
+      <window_info id="Structure" order="1" weight="0.26943558" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32829046" />
+      <window_info anchor="bottom" id="Version Control" order="10" sideWeight="0.687399" weight="0.3267776" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" content_ui="combo" x="1290" y="592" width="1259" height="279" id="Debug" order="3" sideWeight="0.49019608" visible="true" weight="0.21104388" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49346405" weight="0.2193646" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.31260097" side_tool="true" weight="0.3272589" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" weight="0.32962668" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Python Console" order="8" weight="0.32753405" />
+    </layout-to-restore>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="BEK_SORT_TYPE" value="1" />
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+              <option name="COLUMN_ORDER">
+                <list>
+                  <option value="0" />
+                  <option value="1" />
+                  <option value="2" />
+                  <option value="3" />
+                </list>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="このバージョンを管田君に渡した．windowsの場合はnetwork元のディレクトリ指定に￥￥￥￥を最初につける．これからread_wvfを一つにまとめる．OSを判定して動作させる" />
+    <MESSAGE value="README.mdを追加" />
+    <MESSAGE value="read_wvf.pyの中にOSを判定する文を追加" />
+    <MESSAGE value="read_wvf.pyを統合．Mac/Windowsを判定して動作させる" />
+    <MESSAGE value="README.mdにRT-1の写真を掲載" />
+    <MESSAGE value="README.mdにDataBrowserのサンプルを掲載" />
+    <MESSAGE value="README.mdにUsageを掲載" />
+    <MESSAGE value="1shotGPで閉じ込め時間を計算するプログラムを追加，干渉計の較正値を更新した" />
+    <MESSAGE value="テキストの表示位置を調整" />
+    <MESSAGE value="commit test4" />
+    <MESSAGE value="test5" />
+    <MESSAGE value="test6" />
+    <MESSAGE value="IFの較正データをdataによって場合分けすることにした" />
+    <MESSAGE value="STFTのプログラムを追加" />
+    <MESSAGE value="SX解析以外の部分を削除" />
+    <MESSAGE value="MP4(50回巻きZ方向）のデータも表示するように変更" />
+    <MESSAGE value="ネットワークから手動でマウントするように変更" />
+    <MESSAGE value="リリース前のコミット" />
+    <MESSAGE value="干渉計の最大値のショットログをとる処理を追加" />
+    <MESSAGE value="stftのvmaxを指定するのに，選択範囲内の最大値をvmaxとして取得してくる処理を追加" />
+    <MESSAGE value="vmaxの係数を変数として与える処理を追加" />
+    <MESSAGE value="read_wvf.pyにexp_epをマウントさせる処理を追加．例外処理も加えてエラー対応" />
+    <MESSAGE value="YAGTS_DataBrowser.pyをgitに追加" />
+    <MESSAGE value="ppl内で解析するため，現状をcommitする" />
+    <MESSAGE value="磁気プローブアレイを用いて位相差を計算する処理を追加" />
+    <option name="LAST_COMMIT_MESSAGE" value="磁気プローブアレイを用いて位相差を計算する処理を追加" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/STFT_RT1.py</url>
+          <line>268</line>
+          <option name="timeStamp" value="122" />
+        </line-breakpoint>
+      </breakpoints>
+      <breakpoints-dialog>
+        <breakpoints-dialog />
+      </breakpoints-dialog>
+      <default-breakpoints>
+        <breakpoint type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
+      <option name="time" value="123" />
+    </breakpoint-manager>
+  </component>
+  <component name="debuggerHistoryManager">
+    <expressions id="breakpointCondition">
+      <expression>
+        <expression-string>i = 1</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>i == 1</expression-string>
+        <language-id>Python</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+    </expressions>
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/BeamWaist.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RT1DataBrowser.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="720">
+          <caret line="90" column="46" selection-start-line="90" selection-start-column="46" selection-end-line="90" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="120">
+            <caret line="8" column="26" selection-start-line="8" selection-start-column="26" selection-end-line="8" selection-end-column="26" />
+          </first_editor>
+          <second_editor>
+            <markdownNavigatorState />
+          </second_editor>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/read_wvf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1725">
+          <caret line="121" column="26" selection-start-line="121" selection-start-column="26" selection-end-line="121" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BeamWaist.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RT1DataBrowser.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="120">
+            <caret line="8" column="26" selection-start-line="8" selection-start-column="26" selection-end-line="8" selection-end-column="26" />
+          </first_editor>
+          <second_editor>
+            <markdownNavigatorState />
+          </second_editor>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/read_wvf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1725">
+          <caret line="121" column="26" selection-start-line="121" selection-start-column="26" selection-end-line="121" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BeamWaist.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RT1DataBrowser.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="120">
+            <caret line="8" column="26" selection-start-line="8" selection-start-column="26" selection-end-line="8" selection-end-column="26" />
+          </first_editor>
+          <second_editor>
+            <markdownNavigatorState />
+          </second_editor>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/read_wvf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1725">
+          <caret line="121" column="26" selection-start-line="121" selection-start-column="26" selection-end-line="121" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BeamWaist.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RT1DataBrowser.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="120">
+            <caret line="8" column="26" selection-start-line="8" selection-start-column="26" selection-end-line="8" selection-end-column="26" />
+          </first_editor>
+          <second_editor>
+            <markdownNavigatorState />
+          </second_editor>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/read_wvf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1020">
+          <caret line="74" column="46" selection-start-line="74" selection-start-column="46" selection-end-line="74" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BeamWaist.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RT1DataBrowser.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3570">
+          <caret line="245" column="45" selection-start-line="245" selection-start-column="45" selection-end-line="245" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="120">
+            <caret line="8" column="26" selection-start-line="8" selection-start-column="26" selection-end-line="8" selection-end-column="26" />
+          </first_editor>
+          <second_editor>
+            <markdownNavigatorState />
+          </second_editor>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/read_wvf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1020">
+          <caret line="74" column="46" selection-start-line="74" selection-start-column="46" selection-end-line="74" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BeamWaist.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RT1DataBrowser.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="120">
+            <caret line="8" column="26" selection-start-line="8" selection-start-column="26" selection-end-line="8" selection-end-column="26" />
+          </first_editor>
+          <second_editor>
+            <markdownNavigatorState />
+          </second_editor>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/read_wvf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1020">
+          <caret line="74" column="46" selection-start-line="74" selection-start-column="46" selection-end-line="74" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BeamWaist.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RT1DataBrowser.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3525">
+          <caret line="243" column="25" selection-start-line="243" selection-start-column="25" selection-end-line="243" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/read_wvf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1890">
+          <caret line="131" selection-start-line="131" selection-end-line="131" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/read_wvf_ep02.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="735">
+          <caret line="54" column="53" selection-start-line="54" selection-start-column="53" selection-end-line="54" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/BeamWaist.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$USER_HOME$/Library/Caches/PyCharmCE2017.1/python_stubs/87342146/builtins.py" />
+    <entry file="file://$PROJECT_DIR$/SpeedTest.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1965">
+          <caret line="131" column="35" selection-start-line="131" selection-start-column="35" selection-end-line="131" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/SkyDrive/Document/Study/Presentation &amp; Publication/2018/プラズマ核融合学会講座/predator_prey.py" />
+    <entry file="file://$PROJECT_DIR$/BeamWaist.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$USER_HOME$/SkyDrive/Document/Study/Presentation &amp; Publication/2018/プラズマ核融合学会講座/reStructuredText/numpy_scipy4.rst" />
+    <entry file="file://$APPLICATION_CONFIG_DIR$/pycharm.vmoptions">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" column="7" selection-start-line="1" selection-start-column="7" selection-end-line="1" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/SkyDrive/Document/Study/Presentation &amp; Publication/2018/プラズマ核融合学会講座/numpy_scipy.rst" />
+    <entry file="file://$PROJECT_DIR$/read_wvf_ep02.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="124">
+          <caret line="41" column="12" selection-start-line="41" selection-start-column="12" selection-end-line="41" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/STFT_IF_FAST.py" />
+    <entry file="file://$USER_HOME$/.pyenv/versions/anaconda3-2.5.0/lib/python3.5/site-packages/numpy/lib/npyio.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-538">
+          <caret line="576" column="4" selection-start-line="576" selection-start-column="4" selection-end-line="576" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.pyenv/versions/anaconda3-2.5.0/lib/python3.5/site-packages/numpy/core/function_base.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="4" selection-start-line="8" selection-start-column="4" selection-end-line="8" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test_STFT_RT1.py" />
+    <entry file="file://$PROJECT_DIR$/test_dataBrowser.py" />
+    <entry file="file://$PROJECT_DIR$/pydulum.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="30" column="30" selection-start-line="30" selection-start-column="30" selection-end-line="30" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CT_orbit.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="24" column="39" selection-start-line="24" selection-start-column="39" selection-end-line="24" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="135">
+            <caret line="9" selection-start-line="9" selection-end-line="9" />
+          </first_editor>
+          <second_editor>
+            <markdownNavigatorState />
+          </second_editor>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Polychromator_DataBrowser.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1305">
+          <caret line="87" column="14" selection-start-line="87" selection-start-column="14" selection-end-line="87" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/RT1DataBrowser.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4155">
+          <caret line="277" column="15" selection-start-line="277" selection-start-column="15" selection-end-line="277" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/YAGTS_DataBrowser.py" />
+    <entry file="file://$PROJECT_DIR$/read_wvf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-377">
+          <caret line="156" selection-start-line="156" selection-end-line="156" />
+          <folding>
+            <element signature="e#270#288#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/STFT_RT1.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-179">
+          <caret line="139" column="8" selection-start-line="139" selection-start-column="8" selection-end-line="139" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>
