@@ -21,6 +21,7 @@ class ChangeHandler(FileSystemEventHandler, DataBrowser):
             shotNo=filename[:5].lstrip("0")
             if shotNo == "":
                 shotNo = int(0)
+            time.sleep(15)
             db = DataBrowser(date=self.date, shotNo=int(shotNo), LOCALorPPL=self.LOCALorPPL)
             db.multiplot()
 
@@ -53,4 +54,4 @@ def main(date):
         observer.join()
 
 if __name__ in '__main__':
-    main(date="20180625")
+    main(date="20180730")

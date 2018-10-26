@@ -142,6 +142,7 @@ class STFT_RT1(DataBrowser):
         data_ep01 = self.adj_gain(data_ep01)
         data_ep01 = self.calib_IF(data_ep01)
         MP_FAST = self.load_MP_FAST("PPL")
+        IF_FAST = self.load_IF_FAST("PPL")
         #plt.plot(MP_FAST[0, :], MP_FAST[3, :])
         #plt.plot(MP_FAST[3, :])
         #plt.show()
@@ -162,27 +163,27 @@ class STFT_RT1(DataBrowser):
         #IF_MP[:, 0] = x1[::1]
         #IF_MP[:, 1] = x2[::1]
         IF_MP[:, 0] = MP_FAST[1, 10500:38500:1].T
-        IF_MP[:, 1] = MP_FAST[3, 10500:38500:1].T
-        #IF = IF_MP
+        IF_MP[:, 1] = MP_FAST[6, 10500:38500:1].T
+        IF = IF_MP
+        IF = IF_FAST[1:4:2, :].T
         #IF = data_ep01[11:13, :].T
-        #N = 2*np.abs(1/(data_ep01[0, 1]-data_ep01[0, 2]))
-        N = np.abs(1/(data_ep01[0, 1]-data_ep01[0, 2]))
+        N = 2*np.abs(1/(data_ep01[0, 1]-data_ep01[0, 2]))
+        N = 1e6 #IF_FAST
+        #N = np.abs(1/(data_ep01[0, 1]-data_ep01[0, 2]))
         sampling_time = 1/N
-        #plt.plot(IF, label="IF")
-        #plt.legend()
-        #plt.show()
+        plt.plot(IF, label="IF")
+        plt.legend()
+        plt.show()
 
-        #IF_FAST = self.load_IF_FAST("PPL")
-        #IF = IF_FAST[1:3, :].T
         #sampling_time = 1e-6
         #f, t, Pxx = sig.spectrogram(IF, axis=0, fs=1/sampling_time, window='hamming', nperseg=128, noverlap=64, mode='complex')
         #f, t, Pxx = sig.spectrogram(IF, axis=0, fs=1/sampling_time, window='hamming', nperseg=2**15, noverlap=512, mode='complex')
-        f, t, Pxx = sig.spectrogram(IF, axis=0, fs=1/sampling_time, window='hamming', nperseg=2**8, noverlap=16, mode='complex')
-        #Pxx_run = self.moving_average(Pxx[:, 0] * np.conj(Pxx[:, 1]), 8)
+        #f, t, Pxx = sig.spectrogram(IF, axis=0, fs=1/sampling_time, window='hamming', nperseg=2**8, noverlap=16, mode='complex')    #MP
+        f, t, Pxx = sig.spectrogram(IF, axis=0, fs=1/sampling_time, window='hamming', nperseg=2**14, noverlap=16, mode='complex')    #IF_FAST
         Pxx_run = self.moving_average(Pxx[:, 0] * np.conj(Pxx[:, 1]), 8)
         weight = Pxx_run
-        #weight = np.where(np.log(np.abs(Pxx_run)) > -16.5, 1, 0)
-        weight = np.where(np.log(np.abs(Pxx_run)) > -14.5, 1, 0)
+        weight = np.where(np.log(np.abs(Pxx_run)) > -17.0, 1, 0)
+        #weight = np.where(np.log(np.abs(Pxx_run)) > -14.5, 1, 0)
 
         #２列目の位相が進んでいる場合にDPhaseは正になる
         DPhase = 180/np.pi*np.arctan2(Pxx_run.imag, Pxx_run.real)
@@ -190,15 +191,16 @@ class STFT_RT1(DataBrowser):
         #plt.pcolormesh(t, f, np.abs(Pxx[:, 0]))
         plt.subplot(211)
         plt.title("Date: %s, Shot No.: %d" % (self.date, self.shotnum), loc='right', fontsize=16, fontname="Times New Roman")
-        plt.pcolormesh(t, f, np.log(np.abs(Pxx_run)), vmin=-14.5, vmax=-14)
-        #plt.pcolormesh(t+0.8, f, np.log(np.abs(Pxx_run)), vmin=-17, vmax=-16)
+        #plt.pcolormesh(t, f, np.log(np.abs(Pxx_run)), vmin=-18.5, vmax=-17)
+        plt.pcolormesh(t+0.8, f, np.log(np.abs(Pxx_run)), vmin=-17, vmax=-16)
+        #plt.pcolormesh(t+0.8, f, np.log(np.abs(Pxx_run)))
         plt.ylim(0, 2000)
         plt.xlim(0.5, 2.5)
-        #plt.ylabel('Cross-Spectrum b/w MP13 \nFrequency [Hz]')
-        plt.ylabel('Cross-Spectrum b/w IF23 \nFrequency [Hz]')
+        plt.ylabel('Cross-Spectrum b/w IF2 and REF \nFrequency [Hz]')
+        #plt.ylabel('Cross-Spectrum b/w IF23 \nFrequency [Hz]')
         plt.colorbar()
         plt.subplot(212)
-        plt.pcolormesh(t, f, DPhase*weight, cmap='bwr', vmin=-180, vmax=180)
+        plt.pcolormesh(t+0.8, f, DPhase*weight, cmap='bwr', vmin=-180, vmax=180)
         #plt.pcolormesh(t+0.8, f, 120/(DPhase*weight), cmap='Set1', vmin=-8, vmax=8)
         #plt.pcolormesh(t+0.8, f, weight)
         #plt.xlim(0.5, 2.5)
@@ -208,10 +210,10 @@ class STFT_RT1(DataBrowser):
         plt.xlim(0.5, 2.5)
         plt.colorbar()
         plt.xlabel('Time [sec]')
-        #plt.ylabel('Phase Difference b/w MP13 \nFrequency [Hz]')
-        plt.ylabel('Phase Difference b/w IF23 \nFrequency [Hz]')
+        plt.ylabel('Phase Difference b/w IF2 and REF\nFrequency [Hz]')
+        #plt.ylabel('Phase Difference b/w IF23 \nFrequency [Hz]')
         filepath = "figure/"
-        filename = "CSD_PD_IF23_%s_%d" % (self.date, self.shotnum)
+        filename = "CSD_PD_MP16_%s_%d" % (self.date, self.shotnum)
         plt.savefig(filepath + filename)
         #plt.show()
         plt.clf()
@@ -334,7 +336,7 @@ class STFT_RT1(DataBrowser):
             vmin = 0.0
             vmax = 5e-7
             coef_vmax = 0.8
-            NPERSEG = 2**15
+            NPERSEG = 2**16
             time_offset = 0.75
             time_offset_stft = 0.75
 
@@ -391,11 +393,11 @@ class STFT_RT1(DataBrowser):
             #NPERSEG = 1024
             time_offset = 1.25
             time_offset_stft = 0.25
-            #plt.plot(x, MP_FAST[1, :]+1, label="MP1")
-            #plt.plot(x, MP_FAST[2, :], label="MP2")
-            #plt.plot(x, MP_FAST[3, :]-1, label="MP3")
-            #plt.legend()
-            #plt.show()
+            plt.plot(x, MP_FAST[1, :], label="MP1")
+            plt.plot(x, MP_FAST[3, :], label="MP3")
+            plt.plot(x, MP_FAST[6, :], label="MP6")
+            plt.legend()
+            plt.show()
 
         elif(IForMPorSX=="SX"):
             data_SX, time_SX = self.load_SX_CosmoZ(self.LOCALorPPL)
@@ -422,7 +424,7 @@ class STFT_RT1(DataBrowser):
             filename = "STFT_REF_%s_%d" % (self.date, self.shotnum)
             vmin = 0.0
             vmax = 5e-7
-            coef_vmax = 0.8
+            coef_vmax = 0.7
             NPERSEG = 2**14
             time_offset_stft = 0.75
             time_offset = 1.25
@@ -489,6 +491,12 @@ class STFT_RT1(DataBrowser):
         #plt.show()
         filepath = "figure/"
         plt.savefig(filepath + filename)
+        plt.clf()
+        #plt.plot(x+time_offset, y[6, :], label="MP7(CS)")
+        #plt.plot(x+time_offset, y[7, :], label="MP8(CS)")
+        #plt.xlabel("Time [sec]")
+        #plt.legend()
+        #plt.show()
 
 def make_stft_profile(date):
     r_pol = np.array([379, 432, 484, 535, 583, 630, 689, 745, 820])
@@ -523,11 +531,11 @@ if __name__ == "__main__":
     #    stft.plot_stft(IForMPorSX="MP", num_ch=4)
     #    stft.plot_stft(IForMPorSX="POL", num_ch=4)
     #    stft.plot_stft(IForMPorSX="POL_RATIO", num_ch=2)
-    stft = STFT_RT1(date="20171223", shotNo=95, LOCALorPPL="PPL")
+    stft = STFT_RT1(date="20180921", shotNo=13, LOCALorPPL="PPL")
     #stft.phase_diff()
     #stft.plot_stft(IForMPorSX="IF", num_ch=3)
     #f, t,_,_,_,_,_,_,time_offset_stft, x, y = stft.stft(IForMPorSX="MP", num_ch=4)
     #stft.phase_diff(x, y, f, t, time_offset_stft)
-    #stft.plot_stft(IForMPorSX="POL_RATIO", num_ch=2)
+    stft.plot_stft(IForMPorSX="MP", num_ch=8)
     #make_stft_profile(date="20180223")
-    stft.cross_spectrum()
+    #stft.cross_spectrum()

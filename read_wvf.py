@@ -77,10 +77,16 @@ class DataManager:
                 self._base_dir = os.path.expanduser('//EXP_EP01/d/WEDATA')  #for windows(in same Network)
 
         elif(self.exp_ep01or02 == 'exp_ep02'):
-            # チャンネル数(固定)
-            self.CH_NUM = 4
-            # Groupの数
-            self.GROUP_NUM = 1
+            if(self.MPorSX=="MP"):
+                # チャンネル数(固定)
+                self.CH_NUM = 8
+                # Groupの数
+                self.GROUP_NUM = 2
+            elif(self.MPorSX=="SX"):
+                # チャンネル数(固定)
+                self.CH_NUM = 4
+                # Groupの数
+                self.GROUP_NUM = 1
             if(platform.system() == 'Darwin'):
                 #self._base_dir = os.path.expanduser('/Volumes/D/WEDATA')
                 self._base_dir = os.path.expanduser('~/mount_point/exp_ep02/WEDATA')
