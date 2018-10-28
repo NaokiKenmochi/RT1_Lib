@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="38b4f2c5-f5ec-46d1-a1cd-c2deed0afcaf" name="Default" comment="磁気プローブアレイを用いて位相差を計算する処理を追加">
+    <list default="true" id="38b4f2c5-f5ec-46d1-a1cd-c2deed0afcaf" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/YAGTS_DataBrowser.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AutoLoad_RT1.py" beforeDir="false" afterPath="$PROJECT_DIR$/AutoLoad_RT1.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RT1DataBrowser.py" beforeDir="false" afterPath="$PROJECT_DIR$/RT1DataBrowser.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/STFT_RT1.py" beforeDir="false" afterPath="$PROJECT_DIR$/STFT_RT1.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/read_wvf.py" beforeDir="false" afterPath="$PROJECT_DIR$/read_wvf.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -23,11 +21,20 @@
       <file leaf-file-name="RT1DataBrowser.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/RT1DataBrowser.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="192" lean-forward="true" selection-start-line="192" selection-end-line="192" />
+            <state relative-caret-position="727">
+              <caret line="388" column="21" selection-start-line="388" selection-start-column="21" selection-end-line="388" selection-end-column="21" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="YAGTS_DataBrowser.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/YAGTS_DataBrowser.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="90">
+              <caret line="10" selection-start-line="10" selection-end-line="10" />
             </state>
           </provider>
         </entry>
@@ -52,8 +59,8 @@
       <file leaf-file-name="STFT_RT1.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/STFT_RT1.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-5588">
-              <caret line="31" lean-forward="true" selection-start-line="31" selection-end-line="31" />
+            <state relative-caret-position="225">
+              <caret line="31" selection-start-line="31" selection-end-line="31" />
               <folding>
                 <element signature="e#0#38#0" expanded="true" />
               </folding>
@@ -64,7 +71,7 @@
       <file leaf-file-name="Polychromator_DataBrowser.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Polychromator_DataBrowser.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1080">
+            <state relative-caret-position="945">
               <caret line="72" lean-forward="true" selection-start-line="72" selection-end-line="72" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
@@ -76,7 +83,7 @@
       <file leaf-file-name="AutoLoad_RT1.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/AutoLoad_RT1.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
+            <state relative-caret-position="255">
               <caret line="23" column="24" selection-start-line="23" selection-start-column="24" selection-end-line="23" selection-end-column="24" />
               <folding>
                 <element signature="e#0#50#0" expanded="true" />
@@ -139,9 +146,9 @@
         <option value="$PROJECT_DIR$/Polychromator_DataBrowser.py" />
         <option value="$PROJECT_DIR$/YAGTS_DataBrowser.py" />
         <option value="$PROJECT_DIR$/AutoLoad_RT1.py" />
-        <option value="$PROJECT_DIR$/RT1DataBrowser.py" />
         <option value="$PROJECT_DIR$/read_wvf.py" />
         <option value="$PROJECT_DIR$/STFT_RT1.py" />
+        <option value="$PROJECT_DIR$/RT1DataBrowser.py" />
       </list>
     </option>
   </component>
@@ -157,6 +164,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -168,7 +176,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -188,7 +195,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.STFT_RT1">
+  <component name="RunManager" selected="Python.RT1DataBrowser">
     <configuration name="AutoLoad_RT1" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="RT1_PTA" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -347,8 +354,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.STFT_RT1" />
         <item itemvalue="Python.RT1DataBrowser" />
+        <item itemvalue="Python.STFT_RT1" />
         <item itemvalue="Python.read_wvf" />
         <item itemvalue="Python.AutoLoad_RT1" />
         <item itemvalue="Python.Polychromator_DataBrowser" />
@@ -695,7 +702,14 @@
       <option name="project" value="LOCAL" />
       <updated>1530676410384</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="checkout前のcommit">
+      <created>1540540807859</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1540540807859</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -743,15 +757,15 @@
     <frame x="1280" y="23" width="1280" height="1417" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49937266" visible="true" weight="0.13185067" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49937266" weight="0.08741443" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3271719" />
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.31260097" side_tool="true" weight="0.3272589" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.26524955" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="10" sideWeight="0.687399" visible="true" weight="0.39621213" />
+      <window_info anchor="bottom" id="Version Control" order="10" sideWeight="0.687399" weight="0.39621213" />
       <window_info anchor="bottom" id="Python Console" order="8" weight="0.21481481" />
-      <window_info id="Structure" order="1" sideWeight="0.50062734" side_tool="true" visible="true" weight="0.13185067" />
-      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49346405" weight="0.26759258" />
-      <window_info anchor="bottom" x="1290" y="592" width="1259" height="279" id="Debug" order="3" sideWeight="0.49019608" weight="0.22121212" />
+      <window_info id="Structure" order="1" sideWeight="0.50062734" side_tool="true" visible="true" weight="0.1985703" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49346405" weight="0.26742426" />
+      <window_info active="true" anchor="bottom" x="1290" y="592" width="1259" height="279" id="Debug" order="3" sideWeight="0.49019608" visible="true" weight="0.22121212" />
       <window_info id="Favorites" order="2" side_tool="true" weight="0.32962668" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
@@ -764,23 +778,23 @@
     </layout>
     <layout-to-restore>
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info content_ui="combo" id="Project" order="0" weight="0.1796875" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49937266" visible="true" weight="0.13185067" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.26524955" />
       <window_info anchor="right" id="Data View" order="3" />
-      <window_info id="Structure" order="1" weight="0.26943558" />
+      <window_info id="Structure" order="1" sideWeight="0.50062734" side_tool="true" visible="true" weight="0.13185067" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.32829046" />
-      <window_info anchor="bottom" id="Version Control" order="10" sideWeight="0.687399" weight="0.3267776" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.26617375" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" content_ui="combo" x="1290" y="592" width="1259" height="279" id="Debug" order="3" sideWeight="0.49019608" visible="true" weight="0.21104388" />
-      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49346405" weight="0.2193646" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.3271719" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="10" sideWeight="0.687399" visible="true" weight="0.39621213" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" x="1290" y="592" width="1259" height="279" id="Debug" order="3" sideWeight="0.49019608" weight="0.22121212" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49346405" weight="0.26742426" />
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.31260097" side_tool="true" weight="0.3272589" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" weight="0.32962668" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Python Console" order="8" weight="0.32753405" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Python Console" order="8" weight="0.21481481" />
     </layout-to-restore>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -814,7 +828,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="README.mdを追加" />
     <MESSAGE value="read_wvf.pyの中にOSを判定する文を追加" />
     <MESSAGE value="read_wvf.pyを統合．Mac/Windowsを判定して動作させる" />
     <MESSAGE value="README.mdにRT-1の写真を掲載" />
@@ -839,7 +852,8 @@
     <MESSAGE value="ppl内で解析するため，現状をcommitする" />
     <MESSAGE value="磁気プローブアレイを用いて位相差を計算する処理を追加" />
     <MESSAGE value="exp_ep01のファイル監視をして，wvfファイルができたら自動で読み込んでDataBrowserを保存する処理をAutoLoad_RT1.pyとして追加" />
-    <option name="LAST_COMMIT_MESSAGE" value="exp_ep01のファイル監視をして，wvfファイルができたら自動で読み込んでDataBrowserを保存する処理をAutoLoad_RT1.pyとして追加" />
+    <MESSAGE value="checkout前のcommit" />
+    <option name="LAST_COMMIT_MESSAGE" value="checkout前のcommit" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -853,7 +867,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="123" />
+      <option name="time" value="130" />
     </breakpoint-manager>
   </component>
   <component name="debuggerHistoryManager">
@@ -1102,7 +1116,6 @@
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/CT_orbit.py" />
-    <entry file="file://$PROJECT_DIR$/YAGTS_DataBrowser.py" />
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;MarkdownPreviewEditor]">
         <state split_layout="SPLIT">
@@ -1112,6 +1125,39 @@
           <second_editor>
             <markdownNavigatorState />
           </second_editor>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Polychromator_DataBrowser.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="945">
+          <caret line="72" lean-forward="true" selection-start-line="72" selection-end-line="72" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AutoLoad_RT1.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="23" column="24" selection-start-line="23" selection-start-column="24" selection-end-line="23" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#50#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/STFT_IF_FAST.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/STFT_RT1.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="31" selection-start-line="31" selection-end-line="31" />
+          <folding>
+            <element signature="e#0#38#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1125,43 +1171,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Polychromator_DataBrowser.py">
+    <entry file="file://$PROJECT_DIR$/YAGTS_DataBrowser.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1080">
-          <caret line="72" lean-forward="true" selection-start-line="72" selection-end-line="72" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/AutoLoad_RT1.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" column="24" selection-start-line="23" selection-start-column="24" selection-end-line="23" selection-end-column="24" />
-          <folding>
-            <element signature="e#0#50#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/STFT_IF_FAST.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/STFT_RT1.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-5588">
-          <caret line="31" lean-forward="true" selection-start-line="31" selection-end-line="31" />
-          <folding>
-            <element signature="e#0#38#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="90">
+          <caret line="10" selection-start-line="10" selection-end-line="10" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/RT1DataBrowser.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="192" lean-forward="true" selection-start-line="192" selection-end-line="192" />
+        <state relative-caret-position="727">
+          <caret line="388" column="21" selection-start-line="388" selection-start-column="21" selection-end-line="388" selection-end-column="21" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
