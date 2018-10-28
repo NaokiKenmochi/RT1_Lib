@@ -2,6 +2,7 @@ import read_wvf
 import matplotlib.pyplot as plt
 import numpy as np
 import scipy.signal as sig
+import os
 
 
 class DataBrowser:
@@ -129,18 +130,21 @@ class DataBrowser:
 
         return data_ep01, data_ep02_MP, data_ep02_SX
 
-    def multiplot(self):
+    def multiplot(self, isShotLog='False'):
         """
         exp_ep01, exp_ep02に保存してあるRT-1の実験データを全て描写します
 
         :return:
         """
-        fig = plt.figure(figsize=(18,10))
         data_ep01, data_ep02_MP, data_ep02_SX = self.load_date(self.LOCALorPPL)
         data_ep01 = self.adj_gain(data_ep01)
         data_ep01 = self.mag_loop(data_ep01)
         data_ep01 = self.calib_IF(data_ep01)
 
+        if isShotLog=='True':
+            self.make_shotlog(data_ep01)
+
+        fig = plt.figure(figsize=(18,10))
         #############################
         #   Date in exp_ep01        #
         #############################
@@ -274,10 +278,181 @@ class DataBrowser:
         plt.ylim([0, MAXFREQ])
         plt.xlim([0.5, 2.5])
 
+    def get_max_tmax(self, data_ep01):
+        if data_ep01 is None:
+            data_ep01, data_ep02_MP, data_ep02_SX = self.load_date(self.LOCALorPPL)
+            data_ep01 = self.adj_gain(data_ep01)
+            data_ep01 = self.mag_loop(data_ep01)
+            data_ep01 = self.calib_IF(data_ep01)
+
+        t_st = 1.1
+        t_ed = 1.9
+        st_idx = np.abs(np.asarray(data_ep01[0, :]) - t_st).argmin()
+        ed_idx = np.abs(np.asarray(data_ep01[0, :]) - t_ed).argmin()
+
+        ml_convolved = np.zeros((data_ep01[0, :].__len__(), 5))
+        PECH_convolved = np.zeros((data_ep01[0, :].__len__(), 4))
+        VG_convolved = np.zeros((data_ep01[0, :].__len__(), 1))
+        IF_convolved = np.zeros((data_ep01[0, :].__len__(), 3))
+        IF_max_tmax = np.zeros((3, 2))
+        ml_max = np.zeros(5)
+        PECH_max = np.zeros(4)
+        VG_max = np.zeros(1)
+
+        num_convolve = 1000
+        b = np.ones(num_convolve)/num_convolve
+        for i in range(3):
+            IF_convolved[:, i] = np.convolve(data_ep01[10+i, :], b, mode='same')
+        for i in range(5):
+            ml_convolved[:, i] = np.convolve(data_ep01[17+i, :], b, mode='same')
+        for i in range(4):
+            PECH_convolved[:, i] = np.convolve(data_ep01[1+i, :], b, mode='same')
+        VG_convolved[:, 0] = np.convolve(data_ep01[9, :], b, mode='same')
+
+        IF_max_tmax[:, 0] = np.max(IF_convolved[st_idx: ed_idx, :], axis=0)
+        IF_max = np.max(IF_convolved[st_idx: ed_idx, :], axis=0)
+        IF_max_tmax[:, 1] = np.argmax(IF_convolved[st_idx: ed_idx, :], axis=0) + st_idx
+        ml_max = np.max(ml_convolved[st_idx: ed_idx, :], axis=0)
+        PECH_max = np.max(PECH_convolved[st_idx: ed_idx, :], axis=0)
+        VG_max = np.max(VG_convolved[st_idx: ed_idx, :], axis=0)
+        #plt.plot(IF_convolved)
+        #plt.show()
+
+        return IF_max_tmax, IF_max, ml_max, PECH_max, VG_max
+
+    def fileCheck(self, fpn):
+        comment = ''  # ローカル変数を明示
+        m = os.path.isfile(fpn)
+        if m:  # 真の場合に実行
+            comment = 'true'
+        else:
+            comment = 'false'
+
+        return comment  # 戻り値
+
+    def writeLog(self, fname, myCheck, data_ep01):
+        IF_max_tmax, IF_max, ml_max, PECH_max, VG_max = self.get_max_tmax(data_ep01)
+
+        if myCheck == 'false':
+            np.savez_compressed(fname, arr_shotnum=self.shotnum, IF_max_tmax=IF_max_tmax, IF_max=IF_max, ml_max=ml_max, PECH_max=PECH_max, VG_max=VG_max)
+        elif myCheck == 'true':
+            data = np.load(fname)
+            arr_shotnum_buf = data["arr_shotnum"]
+            IF_max_tmax_buf = data["IF_max_tmax"]
+            IF_max_buf = data["IF_max"]
+            ml_max_buf = data["ml_max"]
+            PECH_max_buf = data["PECH_max"]
+            VG_max_buf = data["VG_max"]
+            arr_shotnum_buf = np.hstack((arr_shotnum_buf, self.shotnum))
+            IF_max_tmax_buf = np.vstack((IF_max_tmax_buf, IF_max_tmax))
+            IF_max_buf = np.vstack((IF_max_buf, IF_max))
+            ml_max_buf = np.vstack((ml_max_buf, ml_max))
+            PECH_max_buf = np.vstack((PECH_max_buf, PECH_max))
+            VG_max_buf = np.vstack((VG_max_buf, VG_max))
+            #plt.plot(arr_shotnum_buf, PECH_max_buf)
+            ##plt.plot(arr_shotnum_buf, PECH_max_buf[:, 1])
+            ##plt.plot(arr_shotnum_buf, PECH_max_buf[:, 2])
+            ##plt.plot(arr_shotnum_buf, PECH_max_buf[:, 3])
+            #plt.show()
+            #plt.plot(arr_shotnum_buf, ml_max_buf)
+            #plt.show()
+            #plt.plot(arr_shotnum_buf, VG_max_buf)
+            #plt.show()
+            #plt.plot(arr_shotnum_buf, IF_max_buf)
+            #plt.show()
+
+            IF_label=np.array(["IF1", "IF2", "IF3"])
+            ml_label=np.array(["ml1", "ml2", "ml3", "ml4", "ml5"])
+            PECH_label=np.array(["8GPf", "8GPr", "2GPf", "2GPr"])
+            plt.figure(figsize=(10, 10))
+            plt.subplot(411)
+            for i in range(PECH_label.__len__()):
+                plt.plot(arr_shotnum_buf, PECH_max_buf[:, i], "o", label=PECH_label[i])
+            plt.ylabel("P_ECH(max) [kW]")
+            plt.legend()
+            plt.subplot(412)
+            for i in range(ml_label.__len__()):
+                plt.plot(arr_shotnum_buf, ml_max_buf[:, i], "o", label=ml_label[i])
+            plt.ylabel("diamg.(max) [mWb]")
+            plt.legend()
+            plt.subplot(413)
+            plt.plot(arr_shotnum_buf, VG_max_buf, "o", label="VG")
+            plt.ylabel("VG(max) [Pa]")
+            plt.legend()
+            plt.subplot(414)
+            for i in range(IF_label.__len__()):
+                plt.plot(arr_shotnum_buf, IF_max_buf[:, i], "o", label=IF_label[i])
+            plt.ylabel("Density(max)")
+            plt.xlabel("Shot Number")
+            plt.legend()
+            plt.show()
+            plt.clf()
+
+            np.savez_compressed(fname, arr_shotnum=arr_shotnum_buf, IF_max_tmax=IF_max_tmax_buf, IF_max=IF_max_buf, ml_max=ml_max_buf, PECH_max=PECH_max_buf, VG_max=VG_max_buf)
+        else:
+            pass  # 上記以外の場合は何もしないことを明示
+        print('myCheck -> ' + myCheck)
+
+    def make_shotlog(self, data_ep01=None):
+        fpath = os.getcwd()
+        fname = "RT1_ShotLog_%s.npz" % self.date
+        fpn = fpath + '/' + fname
+        myCheck = self.fileCheck(fpn)
+        self.writeLog(fname, myCheck, data_ep01)
+
+def make_shotlog_series(date):
+    arr_shotnum = np.arange(47, 87)
+    IF_max_tmax = np.zeros((arr_shotnum.__len__(), 3, 2))
+    for i, shotnum in enumerate(arr_shotnum):
+        db = DataBrowser(date=date, shotNo=shotnum, LOCALorPPL="LOCAL")
+        IF_max_tmax[i, :, :] = db.get_max_tmax()
+
+    np.savez_compressed("data/IF123_max_tmax_%s_%dto%d.npz" % (date, arr_shotnum[0], arr_shotnum[-1]),
+                        arr_shotnum=arr_shotnum, IF_max_tmax=IF_max_tmax)
+
+    return arr_shotnum, IF_max_tmax
+
+def plot_shotlog():
+    data = np.load("data/IF123_max_tmax_20180223_47to86.npz")
+    arr_shotnum = data["arr_shotnum"]
+    IF_max_tmax = data["IF_max_tmax"]
+    #arr_pulse_width = np.loadtxt("data/pulse_width_20180223_47to86.csv", delimiter=" ")
+    arr_pulse_width = np.loadtxt("data/test.txt", delimiter="\t")
+    arr_pulse_width[4] = np.nan
+
+    plt.subplot(411)
+    plt.plot(arr_pulse_width, IF_max_tmax[:, 0, 1]*1e-4, "o", label="IF1", color="red")
+    plt.ylim(1.1, 1.4)
+    plt.xlim(5, 30)
+    plt.ylabel("Time(max) [sec]")
+    plt.legend()
+    plt.subplot(412)
+    plt.plot(arr_pulse_width, IF_max_tmax[:, 1, 1]*1e-4, "v", label="IF2", color="green")
+    plt.ylim(1.1, 1.4)
+    plt.xlim(5, 30)
+    plt.ylabel("Time(max) [sec]")
+    plt.legend()
+    plt.subplot(413)
+    plt.plot(arr_pulse_width, IF_max_tmax[:, 2, 1]*1e-4, "^", label="IF3", color="blue")
+    plt.ylim(1.1, 1.4)
+    plt.xlim(5, 30)
+    plt.ylabel("Time(max) [sec]")
+    plt.legend()
+    plt.subplot(414)
+    plt.plot(arr_pulse_width, IF_max_tmax[:, 0, 0], "o", label="IF1", color="red")
+    plt.plot(arr_pulse_width, IF_max_tmax[:, 1, 0], "v", label="IF2", color="green")
+    plt.plot(arr_pulse_width, IF_max_tmax[:, 2, 0], "^", label="IF3", color="blue")
+    plt.ylim(0, 3.5)
+    plt.xlim(5, 30)
+    plt.ylabel("Density(max)")
+    plt.xlabel("Pulse Width [msec]")
+    plt.legend()
+    plt.show()
 
 if __name__ == "__main__":
-#    for i in range(47, 103):
+#    for i in range(1,3):
 #        db = DataBrowser(date="20180223", shotNo=i, LOCALorPPL="PPL")
-#        db.load_date(LOCALorPPL="PPL")
-    db = DataBrowser(date="20180829", shotNo=25, LOCALorPPL="PPL")
-    db.multiplot()
+#        #db.load_date(LOCALorPPL="PPL")
+#        db.make_shotlog()
+    db = DataBrowser(date="20180829", shotNo=27, LOCALorPPL="PPL")
+    db.multiplot(isShotLog='True')
