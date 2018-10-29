@@ -11,10 +11,11 @@ import datetime
 
 
 class ChangeHandler(FileSystemEventHandler, DataBrowser):
-    def __init__(self, date, LOCALorPPL):
+    def __init__(self, date, LOCALorPPL, isShotLog='False'):
         #super().__init__(date, shotNo, LOCALorPPL)
         self.date = date
         self.LOCALorPPL = LOCALorPPL
+        self.isShotLog = isShotLog
 
     def on_created(self, event):
         filepath = event.src_path
@@ -28,7 +29,7 @@ class ChangeHandler(FileSystemEventHandler, DataBrowser):
 
             self.show_shotNo(time_epoch=ctime_epoch, shotNo=shotNo)
             time.sleep(15)
-            db = DataBrowser(date=self.date, shotNo=int(shotNo), LOCALorPPL=self.LOCALorPPL)
+            db = DataBrowser(date=self.date, shotNo=int(shotNo), LOCALorPPL=self.LOCALorPPL, isShotLog=self.isShotLog)
             db.multiplot()
 
     def on_modified(self, event):
@@ -56,13 +57,13 @@ class ChangeHandler(FileSystemEventHandler, DataBrowser):
         #plt.pause(0.1)
 
 
-def main(date):
+def main(date, isShotLog="False"):
     dm_ep01 = read_wvf.DataManager("exp_ep01", 0, date)
     print(dm_ep01.dir_path)
     target_dir = dm_ep01.dir_path
     dm_ep01._mount()
     while 1:
-        event_handler = ChangeHandler(date=date, LOCALorPPL="PPL")
+        event_handler = ChangeHandler(date=date, LOCALorPPL="PPL", isShotLog=isShotLog)
         observer = Observer()
         observer.schedule(event_handler, target_dir, recursive=True)
         observer.start()
@@ -76,7 +77,7 @@ def main(date):
         observer.join()
 
 if __name__ in '__main__':
-    main(date="20180921")
+    main(date="20180921", isShotLog="True")
 #    for i in range(10):
 #        show_shotNo("20180730", 1351670928.0, i)
 #        time.sleep(0.5)

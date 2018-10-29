@@ -6,7 +6,7 @@ import os
 
 
 class DataBrowser:
-    def __init__(self, date, shotNo, LOCALorPPL):
+    def __init__(self, date, shotNo, LOCALorPPL, isShotLog='False'):
         """
 
         :param date:
@@ -15,6 +15,7 @@ class DataBrowser:
         self.date = date
         self.shotnum = shotNo
         self.LOCALorPPL = LOCALorPPL
+        self.isShotLog = isShotLog
         ##干渉計の補正値
         #for IF1
         if(np.int(date)<20171222):
@@ -89,7 +90,7 @@ class DataBrowser:
                                             [11, "REFsin", ""],
                                             [1, "dmlt1", ""],
                                             [1, "mlt2", ""],
-                                            [1, "mlt3", "diamag [mWb]"]])
+                                            [1, "mlt3", "diamag. [mWb]"]])
 
         self.data_pos_name_ep02 = np.array([[2, "MP1", ""],
                                             [2, "MP2", ""],
@@ -130,7 +131,7 @@ class DataBrowser:
 
         return data_ep01, data_ep02_MP, data_ep02_SX
 
-    def multiplot(self, isShotLog='False'):
+    def multiplot(self):
         """
         exp_ep01, exp_ep02に保存してあるRT-1の実験データを全て描写します
 
@@ -141,7 +142,7 @@ class DataBrowser:
         data_ep01 = self.mag_loop(data_ep01)
         data_ep01 = self.calib_IF(data_ep01)
 
-        if isShotLog=='True':
+        if self.isShotLog is 'True':
             self.make_shotlog(data_ep01)
 
         fig = plt.figure(figsize=(18,10))
@@ -364,30 +365,32 @@ class DataBrowser:
             IF_label=np.array(["IF1", "IF2", "IF3"])
             ml_label=np.array(["ml1", "ml2", "ml3", "ml4", "ml5"])
             PECH_label=np.array(["8GPf", "8GPr", "2GPf", "2GPr"])
-            #plt.figure(figsize=(10, 10))
+            plt.figure(figsize=(10, 10))
             plt.subplot(411)
+            plt.title("Date: %s" % (self.date), loc='right', fontsize=36, fontname="Times New Roman")
             for i in range(PECH_label.__len__()):
                 plt.plot(arr_shotnum_buf, PECH_max_buf[:, i], "o", label=PECH_label[i])
-            plt.ylabel("P_ECH(max) [kW]")
+            plt.ylabel(self.data_pos_name_ep01[7, 2] + "(max)")
             plt.legend()
             plt.subplot(412)
             for i in range(ml_label.__len__()):
                 plt.plot(arr_shotnum_buf, ml_max_buf[:, i], "o", label=ml_label[i])
-            plt.ylabel("diamg.(max) [mWb]")
+            plt.ylabel(self.data_pos_name_ep01[32, 2] + "(max)")
             plt.legend()
             plt.subplot(413)
-            plt.plot(arr_shotnum_buf, VG_max_buf, "o", label="VG")
-            plt.ylabel("VG(max) [Pa]")
+            plt.plot(arr_shotnum_buf, 1e3*VG_max_buf, "o", label="VG")
+            plt.ylabel("VG [mPa](max)")
             plt.legend()
             plt.subplot(414)
             for i in range(IF_label.__len__()):
                 plt.plot(arr_shotnum_buf, IF_max_buf[:, i], "o", label=IF_label[i])
-            plt.ylabel("Density(max)")
+            plt.ylabel(self.data_pos_name_ep01[12, 2] + "(max)")
             plt.xlabel("Shot Number")
             plt.legend()
-            plt.pause(0.1)
-            #plt.show()
-            plt.clf()
+            #plt.pause(0.1)
+            ##plt.show()
+            #plt.clf()
+            plt.savefig(fname + ".png")
 
             np.savez_compressed(fname, arr_shotnum=arr_shotnum_buf, IF_max_tmax=IF_max_tmax_buf, IF_max=IF_max_buf, ml_max=ml_max_buf, PECH_max=PECH_max_buf, VG_max=VG_max_buf)
         else:
@@ -451,8 +454,8 @@ def plot_shotlog():
     plt.show()
 
 if __name__ == "__main__":
-    for i in range(93,97):
-        db = DataBrowser(date="20180223", shotNo=i, LOCALorPPL="LOCAL")
+    for i in range(20,25):
+        db = DataBrowser(date="20180223", shotNo=i, LOCALorPPL="PPL")
         #db.load_date(LOCALorPPL="PPL")
         db.make_shotlog()
 #    db = DataBrowser(date="20180829", shotNo=27, LOCALorPPL="PPL")
