@@ -3,6 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="38b4f2c5-f5ec-46d1-a1cd-c2deed0afcaf" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RT1DataBrowser.py" beforeDir="false" afterPath="$PROJECT_DIR$/RT1DataBrowser.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/read_wvf.py" beforeDir="false" afterPath="$PROJECT_DIR$/read_wvf.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -19,8 +21,8 @@
       <file leaf-file-name="RT1DataBrowser.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/RT1DataBrowser.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="77">
-              <caret line="332" selection-start-line="332" selection-end-line="332" />
+            <state relative-caret-position="6975">
+              <caret line="465" column="10" selection-start-line="465" selection-start-column="10" selection-end-line="465" selection-end-column="10" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -45,8 +47,8 @@
       <file leaf-file-name="read_wvf.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/read_wvf.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1230">
-              <caret line="88" column="33" selection-start-line="88" selection-start-column="33" selection-end-line="88" selection-end-column="33" />
+            <state relative-caret-position="435">
+              <caret line="33" column="63" lean-forward="true" selection-start-line="33" selection-start-column="63" selection-end-line="33" selection-end-column="63" />
               <folding>
                 <element signature="e#270#288#0" expanded="true" />
               </folding>
@@ -57,7 +59,7 @@
       <file leaf-file-name="STFT_RT1.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/STFT_RT1.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
+            <state relative-caret-position="465">
               <caret line="31" selection-start-line="31" selection-end-line="31" />
               <folding>
                 <element signature="e#0#38#0" expanded="true" />
@@ -69,7 +71,7 @@
       <file leaf-file-name="Polychromator_DataBrowser.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Polychromator_DataBrowser.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="945">
+            <state relative-caret-position="1080">
               <caret line="72" selection-start-line="72" selection-end-line="72" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
@@ -81,8 +83,8 @@
       <file leaf-file-name="AutoLoad_RT1.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/AutoLoad_RT1.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="22" column="47" selection-start-line="22" selection-start-column="47" selection-end-line="22" selection-end-column="47" />
+            <state relative-caret-position="630">
+              <caret line="75" column="13" selection-start-line="75" selection-start-column="13" selection-end-line="75" selection-end-column="13" />
               <folding>
                 <element signature="e#0#50#0" expanded="true" />
               </folding>
@@ -124,7 +126,7 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="develop/1.3.2" />
+        <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
   </component>
@@ -143,10 +145,10 @@
         <option value="$PROJECT_DIR$/test_STFT_RT1.py" />
         <option value="$PROJECT_DIR$/Polychromator_DataBrowser.py" />
         <option value="$PROJECT_DIR$/YAGTS_DataBrowser.py" />
-        <option value="$PROJECT_DIR$/read_wvf.py" />
         <option value="$PROJECT_DIR$/STFT_RT1.py" />
         <option value="$PROJECT_DIR$/AutoLoad_RT1.py" />
         <option value="$PROJECT_DIR$/RT1DataBrowser.py" />
+        <option value="$PROJECT_DIR$/read_wvf.py" />
       </list>
     </option>
   </component>
@@ -766,11 +768,11 @@
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3271719" />
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.31260097" side_tool="true" weight="0.3272589" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.26524955" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="10" sideWeight="0.687399" visible="true" weight="0.39621213" />
-      <window_info anchor="bottom" id="Python Console" order="8" weight="0.21481481" />
+      <window_info anchor="bottom" id="Version Control" order="10" sideWeight="0.687399" weight="0.39621213" />
+      <window_info anchor="bottom" id="Python Console" order="8" weight="0.21439394" />
       <window_info id="Structure" order="1" sideWeight="0.50062734" side_tool="true" weight="0.1985703" />
       <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49346405" weight="0.26742426" />
-      <window_info anchor="bottom" x="1290" y="592" width="1259" height="279" id="Debug" order="3" sideWeight="0.49019608" weight="0.21969697" />
+      <window_info active="true" anchor="bottom" x="1290" y="592" width="1259" height="279" id="Debug" order="3" sideWeight="0.49019608" visible="true" weight="0.21969697" />
       <window_info id="Favorites" order="2" side_tool="true" weight="0.32962668" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
@@ -785,21 +787,21 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49937266" visible="true" weight="0.13185067" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="right" id="Data View" order="3" />
       <window_info id="Structure" order="1" sideWeight="0.50062734" side_tool="true" visible="true" weight="0.13185067" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3271719" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="10" sideWeight="0.687399" visible="true" weight="0.39621213" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.26524955" />
-      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Python Console" order="8" weight="0.21481481" />
       <window_info anchor="bottom" x="1290" y="592" width="1259" height="279" id="Debug" order="3" sideWeight="0.49019608" weight="0.22121212" />
       <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49346405" weight="0.26742426" />
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.31260097" side_tool="true" weight="0.3272589" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="10" sideWeight="0.687399" visible="true" weight="0.39621213" />
+      <window_info anchor="bottom" id="Message" order="0" />
       <window_info id="Favorites" order="2" side_tool="true" weight="0.32962668" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Python Console" order="8" weight="0.21481481" />
     </layout-to-restore>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -1135,7 +1137,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Polychromator_DataBrowser.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="945">
+        <state relative-caret-position="1080">
           <caret line="72" selection-start-line="72" selection-end-line="72" />
           <folding>
             <element signature="e#0#18#0" expanded="true" />
@@ -1148,20 +1150,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/STFT_RT1.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
+        <state relative-caret-position="465">
           <caret line="31" selection-start-line="31" selection-end-line="31" />
           <folding>
             <element signature="e#0#38#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/read_wvf.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1230">
-          <caret line="88" column="33" selection-start-line="88" selection-start-column="33" selection-end-line="88" selection-end-column="33" />
-          <folding>
-            <element signature="e#270#288#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1175,18 +1167,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/AutoLoad_RT1.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" column="47" selection-start-line="22" selection-start-column="47" selection-end-line="22" selection-end-column="47" />
+        <state relative-caret-position="630">
+          <caret line="75" column="13" selection-start-line="75" selection-start-column="13" selection-end-line="75" selection-end-column="13" />
           <folding>
             <element signature="e#0#50#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/read_wvf.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="33" column="63" lean-forward="true" selection-start-line="33" selection-start-column="63" selection-end-line="33" selection-end-column="63" />
+          <folding>
+            <element signature="e#270#288#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/RT1DataBrowser.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="77">
-          <caret line="332" selection-start-line="332" selection-end-line="332" />
+        <state relative-caret-position="6975">
+          <caret line="465" column="10" selection-start-line="465" selection-start-column="10" selection-end-line="465" selection-end-column="10" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>

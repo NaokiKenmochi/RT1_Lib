@@ -31,7 +31,7 @@ class DataManager:
 #    elif(platform.system() == 'Windows'):
 #        _base_dir = os.path.expanduser('//EXP_EP01/d/WEDATA')  #for windows(in same Network)
 
-    def __init__(self, exp_ep01or02, MPorSX, date):
+    def __init__(self, exp_ep01or02, MPorSX, date, doesMount='True'):
         ##################################
         #              定数              #
         ##################################
@@ -63,7 +63,8 @@ class DataManager:
         self.exp_ep01or02 = exp_ep01or02
         self.MPorSX = MPorSX
 #        self._set_date()
-        self._mount()
+        if doesMount is 'True':
+            self._mount()
 
         if(self.exp_ep01or02 == 'exp_ep01'):
             # チャンネル数(固定)

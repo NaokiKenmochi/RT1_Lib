@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import scipy.signal as sig
 import os
+import time
 
 
 class DataBrowser:
@@ -454,9 +455,12 @@ def plot_shotlog():
     plt.show()
 
 if __name__ == "__main__":
-    for i in range(20,25):
-        db = DataBrowser(date="20180223", shotNo=i, LOCALorPPL="PPL")
-        #db.load_date(LOCALorPPL="PPL")
-        db.make_shotlog()
-#    db = DataBrowser(date="20180829", shotNo=27, LOCALorPPL="PPL")
-#    db.multiplot(isShotLog='True')
+#    for i in range(20,25):
+#        db = DataBrowser(date="20180223", shotNo=i, LOCALorPPL="PPL")
+#        #db.load_date(LOCALorPPL="PPL")
+#        db.make_shotlog()
+    start = time.time()
+    db = DataBrowser(date="20180829", shotNo=27, LOCALorPPL="PPL", isShotLog='False')
+    db.multiplot()
+    process_time = time.time() - start
+    print(process_time)
