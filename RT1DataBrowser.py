@@ -364,7 +364,7 @@ class DataBrowser:
             IF_label=np.array(["IF1", "IF2", "IF3"])
             ml_label=np.array(["ml1", "ml2", "ml3", "ml4", "ml5"])
             PECH_label=np.array(["8GPf", "8GPr", "2GPf", "2GPr"])
-            plt.figure(figsize=(10, 10))
+            #plt.figure(figsize=(10, 10))
             plt.subplot(411)
             for i in range(PECH_label.__len__()):
                 plt.plot(arr_shotnum_buf, PECH_max_buf[:, i], "o", label=PECH_label[i])
@@ -385,7 +385,8 @@ class DataBrowser:
             plt.ylabel("Density(max)")
             plt.xlabel("Shot Number")
             plt.legend()
-            plt.show()
+            plt.pause(0.1)
+            #plt.show()
             plt.clf()
 
             np.savez_compressed(fname, arr_shotnum=arr_shotnum_buf, IF_max_tmax=IF_max_tmax_buf, IF_max=IF_max_buf, ml_max=ml_max_buf, PECH_max=PECH_max_buf, VG_max=VG_max_buf)
@@ -450,9 +451,9 @@ def plot_shotlog():
     plt.show()
 
 if __name__ == "__main__":
-#    for i in range(1,3):
-#        db = DataBrowser(date="20180223", shotNo=i, LOCALorPPL="PPL")
-#        #db.load_date(LOCALorPPL="PPL")
-#        db.make_shotlog()
-    db = DataBrowser(date="20180829", shotNo=27, LOCALorPPL="PPL")
-    db.multiplot(isShotLog='True')
+    for i in range(93,97):
+        db = DataBrowser(date="20180223", shotNo=i, LOCALorPPL="LOCAL")
+        #db.load_date(LOCALorPPL="PPL")
+        db.make_shotlog()
+#    db = DataBrowser(date="20180829", shotNo=27, LOCALorPPL="PPL")
+#    db.multiplot(isShotLog='True')
