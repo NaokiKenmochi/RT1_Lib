@@ -31,6 +31,7 @@ class ChangeHandler(FileSystemEventHandler, DataBrowser):
             time.sleep(15)
             db = DataBrowser(date=self.date, shotNo=int(shotNo), LOCALorPPL=self.LOCALorPPL, isShotLog=self.isShotLog)
             db.multiplot()
+            stft =
 
     def on_modified(self, event):
         filepath = event.src_path

@@ -4,6 +4,8 @@ import numpy as np
 import scipy.signal as sig
 import os
 import time
+import cProfile
+import pstats
 
 
 class DataBrowser:
@@ -190,6 +192,7 @@ class DataBrowser:
         filepath = "figure/"
         filename = "RT1_%s_%d" % (self.date, self.shotnum)
         plt.savefig(filepath + filename)
+        plt.savefig(filepath + 'latest')
 
 #        plt.show()
 
@@ -459,8 +462,14 @@ if __name__ == "__main__":
 #        db = DataBrowser(date="20180223", shotNo=i, LOCALorPPL="PPL")
 #        #db.load_date(LOCALorPPL="PPL")
 #        db.make_shotlog()
+    pr = cProfile.Profile()
+    pr.enable()
     start = time.time()
     db = DataBrowser(date="20180829", shotNo=27, LOCALorPPL="PPL", isShotLog='False')
     db.multiplot()
     process_time = time.time() - start
     print(process_time)
+    stats = pstats.Stats(pr)
+    stats.sort_stats('tottime')
+    pr.disable()
+    pr.print_stats()

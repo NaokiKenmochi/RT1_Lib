@@ -3,8 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="38b4f2c5-f5ec-46d1-a1cd-c2deed0afcaf" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AutoLoad_RT1.py" beforeDir="false" afterPath="$PROJECT_DIR$/AutoLoad_RT1.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/RT1DataBrowser.py" beforeDir="false" afterPath="$PROJECT_DIR$/RT1DataBrowser.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/read_wvf.py" beforeDir="false" afterPath="$PROJECT_DIR$/read_wvf.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/STFT_RT1.py" beforeDir="false" afterPath="$PROJECT_DIR$/STFT_RT1.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -18,11 +19,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="RT1DataBrowser.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="RT1DataBrowser.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/RT1DataBrowser.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="6975">
-              <caret line="465" column="10" selection-start-line="465" selection-start-column="10" selection-end-line="465" selection-end-column="10" />
+            <state relative-caret-position="2805">
+              <caret line="194" selection-start-line="194" selection-end-line="194" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -47,8 +48,8 @@
       <file leaf-file-name="read_wvf.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/read_wvf.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="435">
-              <caret line="33" column="63" lean-forward="true" selection-start-line="33" selection-start-column="63" selection-end-line="33" selection-end-column="63" />
+            <state relative-caret-position="405">
+              <caret line="33" column="63" selection-start-line="33" selection-start-column="63" selection-end-line="33" selection-end-column="63" />
               <folding>
                 <element signature="e#270#288#0" expanded="true" />
               </folding>
@@ -56,11 +57,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="STFT_RT1.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="STFT_RT1.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/STFT_RT1.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="465">
-              <caret line="31" selection-start-line="31" selection-end-line="31" />
+            <state relative-caret-position="378">
+              <caret line="316" column="43" selection-start-line="316" selection-start-column="43" selection-end-line="316" selection-end-column="43" />
               <folding>
                 <element signature="e#0#38#0" expanded="true" />
               </folding>
@@ -71,7 +72,7 @@
       <file leaf-file-name="Polychromator_DataBrowser.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Polychromator_DataBrowser.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1080">
+            <state relative-caret-position="945">
               <caret line="72" selection-start-line="72" selection-end-line="72" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
@@ -83,8 +84,8 @@
       <file leaf-file-name="AutoLoad_RT1.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/AutoLoad_RT1.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="630">
-              <caret line="75" column="13" selection-start-line="75" selection-start-column="13" selection-end-line="75" selection-end-column="13" />
+            <state relative-caret-position="360">
+              <caret line="33" column="18" selection-start-line="33" selection-start-column="18" selection-end-line="33" selection-end-column="18" />
               <folding>
                 <element signature="e#0#50#0" expanded="true" />
               </folding>
@@ -145,18 +146,18 @@
         <option value="$PROJECT_DIR$/test_STFT_RT1.py" />
         <option value="$PROJECT_DIR$/Polychromator_DataBrowser.py" />
         <option value="$PROJECT_DIR$/YAGTS_DataBrowser.py" />
-        <option value="$PROJECT_DIR$/STFT_RT1.py" />
-        <option value="$PROJECT_DIR$/AutoLoad_RT1.py" />
-        <option value="$PROJECT_DIR$/RT1DataBrowser.py" />
         <option value="$PROJECT_DIR$/read_wvf.py" />
+        <option value="$PROJECT_DIR$/RT1DataBrowser.py" />
+        <option value="$PROJECT_DIR$/AutoLoad_RT1.py" />
+        <option value="$PROJECT_DIR$/STFT_RT1.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1280" />
+    <option name="x" value="640" />
     <option name="y" value="23" />
     <option name="width" value="1280" />
-    <option name="height" value="1417" />
+    <option name="height" value="1177" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -195,7 +196,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.RT1DataBrowser">
+  <component name="RunManager" selected="Python.STFT_RT1">
     <configuration name="AutoLoad_RT1" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="RT1_PTA" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -354,9 +355,9 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.STFT_RT1" />
         <item itemvalue="Python.RT1DataBrowser" />
         <item itemvalue="Python.AutoLoad_RT1" />
-        <item itemvalue="Python.STFT_RT1" />
         <item itemvalue="Python.read_wvf" />
         <item itemvalue="Python.Polychromator_DataBrowser" />
       </list>
@@ -372,13 +373,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1498008702274</updated>
-    </task>
-    <task id="LOCAL-00003" summary="WE7000のゲインを調整する">
-      <created>1498029703256</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1498029703256</updated>
     </task>
     <task id="LOCAL-00004" summary="WE7000のゲインを調整する part2">
       <created>1498029791112</created>
@@ -716,7 +710,14 @@
       <option name="project" value="LOCAL" />
       <updated>1540799754855</updated>
     </task>
-    <option name="localTasksCounter" value="52" />
+    <task id="LOCAL-00052" summary="マウント処理をオプション選択できるようにした．ただし，マウント処理の有無による処理時間の変化は殆ど無い">
+      <created>1540855335637</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1540855335637</updated>
+    </task>
+    <option name="localTasksCounter" value="53" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -761,18 +762,17 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1280" y="23" width="1280" height="1417" extended-state="0" />
-    <editor active="true" />
+    <frame x="640" y="23" width="1280" height="1177" extended-state="0" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49937266" weight="0.08741443" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3271719" />
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.31260097" side_tool="true" weight="0.3272589" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.26524955" />
-      <window_info anchor="bottom" id="Version Control" order="10" sideWeight="0.687399" weight="0.39621213" />
-      <window_info anchor="bottom" id="Python Console" order="8" weight="0.21439394" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.2621212" />
+      <window_info anchor="bottom" id="Version Control" order="10" sideWeight="0.687399" weight="0.39537036" />
+      <window_info active="true" anchor="bottom" id="Python Console" order="8" visible="true" weight="0.21481481" />
       <window_info id="Structure" order="1" sideWeight="0.50062734" side_tool="true" weight="0.1985703" />
       <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49346405" weight="0.26742426" />
-      <window_info active="true" anchor="bottom" x="1290" y="592" width="1259" height="279" id="Debug" order="3" sideWeight="0.49019608" visible="true" weight="0.21969697" />
+      <window_info anchor="bottom" x="1290" y="592" width="1259" height="279" id="Debug" order="3" sideWeight="0.49019608" weight="0.38703704" />
       <window_info id="Favorites" order="2" side_tool="true" weight="0.32962668" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
@@ -794,13 +794,13 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3271719" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.26524955" />
-      <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Python Console" order="8" weight="0.21481481" />
+      <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" x="1290" y="592" width="1259" height="279" id="Debug" order="3" sideWeight="0.49019608" weight="0.22121212" />
       <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49346405" weight="0.26742426" />
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.31260097" side_tool="true" weight="0.3272589" />
       <window_info active="true" anchor="bottom" id="Version Control" order="10" sideWeight="0.687399" visible="true" weight="0.39621213" />
-      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
       <window_info id="Favorites" order="2" side_tool="true" weight="0.32962668" />
     </layout-to-restore>
   </component>
@@ -835,7 +835,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="README.mdにDataBrowserのサンプルを掲載" />
     <MESSAGE value="README.mdにUsageを掲載" />
     <MESSAGE value="1shotGPで閉じ込め時間を計算するプログラムを追加，干渉計の較正値を更新した" />
     <MESSAGE value="テキストの表示位置を調整" />
@@ -860,10 +859,23 @@
     <MESSAGE value="ショットログを作成するメソッドを追加" />
     <MESSAGE value="最新のショット番号を表示する処理を追加" />
     <MESSAGE value="ショットログの処理を修正" />
-    <option name="LAST_COMMIT_MESSAGE" value="ショットログの処理を修正" />
+    <MESSAGE value="マウント処理をオプション選択できるようにした．ただし，マウント処理の有無による処理時間の変化は殆ど無い" />
+    <option name="LAST_COMMIT_MESSAGE" value="マウント処理をオプション選択できるようにした．ただし，マウント処理の有無による処理時間の変化は殆ど無い" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/STFT_RT1.py</url>
+          <line>337</line>
+          <option name="timeStamp" value="195" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/STFT_RT1.py</url>
+          <line>324</line>
+          <option name="timeStamp" value="197" />
+        </line-breakpoint>
+      </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
@@ -874,7 +886,7 @@
           </properties>
         </breakpoint>
       </default-breakpoints>
-      <option name="time" value="135" />
+      <option name="time" value="198" />
     </breakpoint-manager>
   </component>
   <component name="debuggerHistoryManager">
@@ -1135,28 +1147,8 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Polychromator_DataBrowser.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1080">
-          <caret line="72" selection-start-line="72" selection-end-line="72" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/STFT_IF_FAST.py">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/STFT_RT1.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="31" selection-start-line="31" selection-end-line="31" />
-          <folding>
-            <element signature="e#0#38#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/YAGTS_DataBrowser.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -1165,32 +1157,52 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/AutoLoad_RT1.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="630">
-          <caret line="75" column="13" selection-start-line="75" selection-start-column="13" selection-end-line="75" selection-end-column="13" />
-          <folding>
-            <element signature="e#0#50#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/read_wvf.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="33" column="63" lean-forward="true" selection-start-line="33" selection-start-column="63" selection-end-line="33" selection-end-column="63" />
+        <state relative-caret-position="405">
+          <caret line="33" column="63" selection-start-line="33" selection-start-column="63" selection-end-line="33" selection-end-column="63" />
           <folding>
             <element signature="e#270#288#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Polychromator_DataBrowser.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="945">
+          <caret line="72" selection-start-line="72" selection-end-line="72" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/RT1DataBrowser.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6975">
-          <caret line="465" column="10" selection-start-line="465" selection-start-column="10" selection-end-line="465" selection-end-column="10" />
+        <state relative-caret-position="2805">
+          <caret line="194" selection-start-line="194" selection-end-line="194" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/AutoLoad_RT1.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="33" column="18" selection-start-line="33" selection-start-column="18" selection-end-line="33" selection-end-column="18" />
+          <folding>
+            <element signature="e#0#50#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/STFT_RT1.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="378">
+          <caret line="316" column="43" selection-start-line="316" selection-start-column="43" selection-end-line="316" selection-end-column="43" />
+          <folding>
+            <element signature="e#0#38#0" expanded="true" />
           </folding>
         </state>
       </provider>
