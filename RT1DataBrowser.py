@@ -458,18 +458,18 @@ def plot_shotlog():
     plt.show()
 
 if __name__ == "__main__":
-#    for i in range(20,25):
-#        db = DataBrowser(date="20180223", shotNo=i, LOCALorPPL="PPL")
-#        #db.load_date(LOCALorPPL="PPL")
-#        db.make_shotlog()
-    pr = cProfile.Profile()
-    pr.enable()
-    start = time.time()
-    db = DataBrowser(date="20180829", shotNo=27, LOCALorPPL="PPL", isShotLog='False')
-    db.multiplot()
-    process_time = time.time() - start
-    print(process_time)
-    stats = pstats.Stats(pr)
-    stats.sort_stats('tottime')
-    pr.disable()
-    pr.print_stats()
+    for i in range(22, 112):
+        db = DataBrowser(date="20181107", shotNo=i, LOCALorPPL="PPL")
+        #db.load_date(LOCALorPPL="PPL")
+        db.make_shotlog()
+    #pr = cProfile.Profile()
+    #pr.enable()
+    #start = time.time()
+    #db = DataBrowser(date="20180829", shotNo=27, LOCALorPPL="PPL", isShotLog='False')
+    #db.multiplot()
+    #process_time = time.time() - start
+    #print(process_time)
+    #stats = pstats.Stats(pr)
+    #stats.sort_stats('tottime')
+    #pr.disable()
+    #pr.print_stats()

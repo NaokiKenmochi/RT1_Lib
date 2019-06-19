@@ -162,7 +162,7 @@ class STFT_RT1(DataBrowser):
         N = 2.8e4
         time = np.arange(N)/float(fs)
         x1 = np.sin(2*np.pi*600*time)
-        x2 = np.sin(2*np.pi*600*time-1*np.pi/4)
+        x2 = np.sin(2*np.pi*600*time-1*np.pi/1)
 
         IF_MP = np.zeros((N, 2))
         IF_MP[:, 0] = x1[::1]
@@ -203,7 +203,8 @@ class STFT_RT1(DataBrowser):
         plt.ylabel("Cross-Spectrum \nb/w" + name_data1+str(chnum_data1) + " and " + name_data2+str(chnum_data2) + "\nFrequency [Hz]")
         plt.colorbar()
         plt.subplot(212)
-        plt.pcolormesh(t+0.7, f, DPhase*weight, cmap='bwr', vmin=-180, vmax=180)
+        plt.pcolormesh(t, f, DPhase*weight, cmap='bwr', vmin=-180, vmax=180)
+        #plt.pcolormesh(t+0.7, f, DPhase*weight, cmap='bwr', vmin=-180, vmax=180)
         #plt.pcolormesh(t+0.8, f, 120/(DPhase*weight), cmap='Set1', vmin=-8, vmax=8)
         #plt.pcolormesh(t+0.8, f, weight)
         plt.ylim(0, 2000)
@@ -214,7 +215,7 @@ class STFT_RT1(DataBrowser):
         filepath = "figure/"
         filename = "CSD_PD_bw_%s%d_and_%s%d_%s_%d" % (name_data1, chnum_data1, name_data2, chnum_data2, self.date, self.shotnum)
         plt.tight_layout()
-        #plt.savefig(filepath + filename)
+        #plt.savefig(filepath + filename, format='png', dpi=600)
         plt.show()
         plt.clf()
 
@@ -295,15 +296,17 @@ class STFT_RT1(DataBrowser):
         return pulse_width
 
 
-    def cross_spectrum_MParray(self, vmax, freq_border, freq_border_2=None):
+    def cross_spectrum_MParray(self, vmax, freq_border, freq_border_2=None, num_ch=7):
         rc('text', usetex=True)
         MP_FAST = self.load_MP_FAST("PPL")
 
         if freq_border_2==None:
             freq_border_2=freq_border
 
-        fpn = "Parameters_Errors_all_ltfqb_mid_gtfqb_fqb12_%s" % self.date
-        #fpn = "Parameters_Errors_all_ltfqb_mid_gtfqb_fqb12_pw10ms_%s" % self.date
+        #fpn = "Parameters_Errors_all_ltfqb_mid_gtfqb_fqb12_%s" % self.date
+        #fpn = "Parameters_Errors_all_ltfqb_mid_gtfqb_fqb12_pw5ms_MP1to%d_%s" % (num_ch, self.date)
+        fpn = "Parameters_Errors_all_ltfqb_mid_gtfqb_fqb12_pw10ms_MP1to%d_%s" % (num_ch, self.date)
+        #fpn = "Parameters_Errors_all_ltfqb_mid_gtfqb_fqb12_Pech18kW_MP1to%d_%s" % (num_ch, self.date)
         #fpn = "Parameters_Errors_all_ltfqb_gtfqb_fqb_%s" % self.date
         if self.fileCheck(fpn + ".npz") == 'true':
             Parameters_Errors = np.load(fpn + '.npz')
@@ -313,45 +316,41 @@ class STFT_RT1(DataBrowser):
             Parameters_shtNo_all_ltfqb_mid_gtfqb = np.zeros((120, 11))
             Errors_shtNo_all_ltfqb_mid_gtfqb = np.zeros((120, 11))
 
-        Pech = self.set_pulse_width()
-        pulse_width = self.set_pulse_width()
-        freq_range = (Parameters_shtNo_all_ltfqb_mid_gtfqb[:, 9] + Parameters_shtNo_all_ltfqb_mid_gtfqb[:, 10])/2
-        plt.plot(pulse_width, freq_range)
-        plt.show()
-        #Pech = self.set_Pech()
-        #plt.plot(Pech, Parameters_shtNo_all_ltfqb_mid_gtfqb[:, 1], '^', label='all freq.')
-        #plt.errorbar(Pech, Parameters_shtNo_all_ltfqb_mid_gtfqb[:, 1], yerr=Errors_shtNo_all_ltfqb_mid_gtfqb[:, 1], fmt='b^', label='all freq.')
-        #plt.plot(Pech, Parameters_shtNo_all_ltfqb_mid_gtfqb[:, 3], 'o', label='ltfqb')
-        plt.errorbar(Pech, Parameters_shtNo_all_ltfqb_mid_gtfqb[:, 3], yerr=Errors_shtNo_all_ltfqb_mid_gtfqb[:, 3], fmt='ro', label='ltfqb')
-        #plt.plot(Pech, Parameters_shtNo_all_ltfqb_mid_gtfqb[:, 5], 's', label='gtfqb')
-        #plt.errorbar(Pech, Parameters_shtNo_all_ltfqb_mid_gtfqb[:, 5], yerr=Errors_shtNo_all_ltfqb_mid_gtfqb[:, 5], fmt='gs', label='gtfqb')
-        plt.errorbar(Pech, Parameters_shtNo_all_ltfqb_mid_gtfqb[:, 5], yerr=Errors_shtNo_all_ltfqb_mid_gtfqb[:, 5], fmt='gs', label='mid')
-        plt.errorbar(Pech, Parameters_shtNo_all_ltfqb_mid_gtfqb[:, 7], yerr=Errors_shtNo_all_ltfqb_mid_gtfqb[:, 7], fmt='bs', label='gtfqb')
-        plt.legend()
-        plt.ylim(1, 3)
-        plt.xlim(9.5, 20)
-        #plt.xlabel(r'$P_{ECH(inj.)}$ [kW]')
-        plt.xlabel('Pulse width [msec]')
-        plt.ylabel('')
-        plt.show()
 
         Parameters_shtNo_all_ltfqb_mid_gtfqb[self.shotnum, 0] = self.shotnum
         Errors_shtNo_all_ltfqb_mid_gtfqb[self.shotnum, 0] = self.shotnum
 
-        array_2data = MP_FAST[1:8, 10500:38500:1].T
+        num_st = 5650
+        num_ed = num_st + 22000
+        array_2data = MP_FAST[1:7, num_st:num_ed:1].T
+        #array_2data = array_2data_buf[:, [3,1,2,0,4,5]]
+        #array_2data = MP_FAST[1:7, 10500:38500:1].T
+        #plt.plot(array_2data[:, 0], label='MP1')
+        #plt.plot(array_2data[:, 1], label='MP2')
+        #plt.plot(array_2data[:, 2], label='MP3')
+        #plt.plot(array_2data[:, 3], label='MP4')
+        #plt.legend()
+        #plt.show()
+        #array_2data[:, 2] *= -1
+        #array_2data[:, 4:] *= -1
         N = np.abs(1/(MP_FAST[0, 1]-MP_FAST[0, 2]))
         sampling_time = 1/N
 
-        array_offset = np.arange(7)
+        array_offset = np.arange(6)
 
         #average_phase = [0]
-        average_phase = [-179.999]
-        average_phase_lt_fqb = [-179.999]
-        average_phase_mid = [-179.999]
-        average_phase_gt_fqb = [-179.999]
+        #average_phase = [-179.999]
+        #average_phase_lt_fqb = [-179.999]
+        #average_phase_mid = [-179.999]
+        #average_phase_gt_fqb = [-179.999]
+        #average_phase = [-179.999]
+        average_phase = [0.001]
+        average_phase_lt_fqb = [0.001]
+        average_phase_mid = [0.001]
+        average_phase_gt_fqb = [0.001]
 
         plt.figure(figsize=(12, 16))
-        for i in range(6):
+        for i in range(5):
             f, t, Pxx = sig.spectrogram(array_2data[:, :i+2:i+1], axis=0, fs=1/sampling_time, window='hamming', nperseg=2**8, noverlap=16, mode='complex')    #MP
             Pxx_run = self.moving_average(Pxx[:, 0] * np.conj(Pxx[:, 1]), 8)
             weight = np.where(np.log(np.abs(Pxx_run)) > vmax[i]-0.5, 1, 0)
@@ -364,24 +363,28 @@ class STFT_RT1(DataBrowser):
             weight_lt_fqb[freq_border:, :] = 0
 
             #２列目の位相が進んでいる場合にDPhaseは正になる
-            DPhase = 180/np.pi*np.arctan2(Pxx_run.imag, Pxx_run.real)
+            DPhase = 180/np.pi*np.arctan2(Pxx_run.imag, Pxx_run.real) + 180
 
-            plt.subplot(8, 2, 2*i+1)
-            plt.pcolormesh(t+0.7, f, np.log(np.abs(Pxx_run)), vmin=vmax[i]-1, vmax=vmax[i])
+            plt.subplot(7, 2, 2*i+1)
+            #plt.pcolormesh(t+0.7, f, np.log(np.abs(Pxx_run)), vmin=vmax[i]-1, vmax=vmax[i])
+            plt.pcolormesh(t+0.9, f, np.log(np.abs(Pxx_run)), vmin=vmax[i]-1, vmax=vmax[i])
             plt.ylim(0, 2000)
-            plt.xlim(0.5, 2.5)
+            #plt.xlim(0.5, 2.5)
+            plt.xlim(1, 2)
             plt.ylabel("Cross-Spectrum \nb/w MP1" + " and MP" +str(i+2) + "\nFrequency [Hz]")
             plt.xlabel('Time [sec]')
             plt.colorbar()
-            plt.subplot(8, 2, 2*i+2)
+            plt.subplot(7, 2, 2*i+2)
             if i==0:
                 plt.title("Date: %s, Shot No.: %d" % (self.date, self.shotnum), loc='right', fontsize=16, fontname="Times New Roman")
-            plt.pcolormesh(t+0.7, f, DPhase*weight, cmap='bwr', vmin=-180, vmax=180)
+            #plt.pcolormesh(t+0.7, f, DPhase*weight, cmap='bwr', vmin=-180, vmax=180)
+            plt.pcolormesh(t+0.9, f, DPhase*weight, cmap='hot_r', vmin=0, vmax=360)
             #plt.hlines(781.25, 0.5, 2.5, linestyles='dotted')
             plt.hlines(f[freq_border], 0.5, 2.5, linestyles='dotted')
             plt.hlines(f[freq_border_2], 0.5, 2.5, linestyles='dotted')
             plt.ylim(0, 2000)
-            plt.xlim(0.5, 2.5)
+            #plt.xlim(0.5, 2.5)
+            plt.xlim(1, 2)
             plt.colorbar()
             plt.ylabel("Phase Difference \nb/w MP1" + " and MP" +str(i+2) + "\nFrequency [Hz]")
             plt.xlabel('Time [sec]')
@@ -390,70 +393,84 @@ class STFT_RT1(DataBrowser):
             average_phase_mid.append(np.sum(DPhase*weight_mid)/np.sum(weight_mid))
             average_phase_lt_fqb.append(np.sum(DPhase*weight_lt_fqb)/np.sum(weight_lt_fqb))
 
-        plt.subplot(8, 1, 8)
+        #average_phase[2] = 179.999
+        #average_phase_lt_fqb[2] = 179.999
+        #average_phase_mid[2] = 179.999
+        #average_phase_gt_fqb[2] = 179.999
+
+        plt.subplot(7, 1, 7)
         plt.plot(array_2data + array_offset + 1)#, label=name_data1+str(chnum_data1) + " and " + name_data2+str(chnum_data2))
-        plt.ylabel('Raw data \n(MP1to7)')
-        plt.subplot(8, 1, 7)
-        average_phase_array = np.where((np.array(average_phase) > -180) & (np.array(average_phase) < 180), np.array(average_phase), 1000)
-        average_phase_array_lt_fqb = np.where((np.array(average_phase_lt_fqb) > -180) & (np.array(average_phase_lt_fqb) < 180), np.array(average_phase_lt_fqb), 1000)
-        average_phase_array_mid = np.where((np.array(average_phase_mid) > -180) & (np.array(average_phase_mid) < 180), np.array(average_phase_mid), 1000)
-        average_phase_array_gt_fqb= np.where((np.array(average_phase_gt_fqb) > -180) & (np.array(average_phase_gt_fqb) < 180), np.array(average_phase_gt_fqb), 1000)
-        position = np.array([15, 30, 60, 75, 45, 135, 270])
+        plt.ylabel('Raw data \n(MP1to6)')
+        plt.subplot(7, 1, 6)
+        #average_phase_array = np.where((np.array(average_phase) > -180) & (np.array(average_phase) < 180), np.array(average_phase), 1000)
+        #average_phase_array_lt_fqb = np.where((np.array(average_phase_lt_fqb) > -180) & (np.array(average_phase_lt_fqb) < 180), np.array(average_phase_lt_fqb), 1000)
+        #average_phase_array_mid = np.where((np.array(average_phase_mid) > -180) & (np.array(average_phase_mid) < 180), np.array(average_phase_mid), 1000)
+        #average_phase_array_gt_fqb= np.where((np.array(average_phase_gt_fqb) > -180) & (np.array(average_phase_gt_fqb) < 180), np.array(average_phase_gt_fqb), 1000)
+        average_phase_array = np.where((np.array(average_phase) > 0) & (np.array(average_phase) <360), np.array(average_phase), 1000)
+        average_phase_array_lt_fqb = np.where((np.array(average_phase_lt_fqb) > 0) & (np.array(average_phase_lt_fqb) < 360), np.array(average_phase_lt_fqb), 1000)
+        average_phase_array_mid = np.where((np.array(average_phase_mid) > 0) & (np.array(average_phase_mid) < 360), np.array(average_phase_mid), 1000)
+        average_phase_array_gt_fqb= np.where((np.array(average_phase_gt_fqb) > 0) & (np.array(average_phase_gt_fqb) < 360), np.array(average_phase_gt_fqb), 1000)
+        position = np.array([22.5, 37.5, 37.5, 37.5, 52.5, 67.5])
+        position_z = np.array([0.0, 100.0, 0.0, -100.0, 0.0, 0.0])
+        #position = np.array([22.5, 37.5, 52.5, 67.5, 45, 135, 270])
         #average_phase_array = np.array([90, 156, 156, 90, 180, -180, 0])
         #position = np.array([30, 60, 75, 45, 135, 270])
         position_fitfunc = np.linspace(0, 360, 3600)
-        
-        parameter_initial = np.array([2, 100])
-        parameter_optimal, covariance = scipy.optimize.curve_fit(self.fit_func_sin, position, average_phase_array, p0=parameter_initial, bounds=([1, 0], [10, 360]))
-        Parameters_shtNo_all_ltfqb_mid_gtfqb[self.shotnum, 1:3] = parameter_optimal
-        Errors_shtNo_all_ltfqb_mid_gtfqb[self.shotnum, 1:3] = np.sqrt(np.diag(covariance))
-        print("Parameter = ", parameter_optimal)
-        #y = self.fit_func_sin(position_fitfunc, 1, 45)#parameter_optimal[0], parameter_optimal[1])
-        y = self.fit_func_sin(position_fitfunc, parameter_optimal[0], parameter_optimal[1])
-        plt.plot(position_fitfunc, y)
-        plt.plot(position, average_phase_array, 'o')
-        plt.text(250, 100, r'$\displaystyle y = 180sin(\frac{2\pi%.3fx}{360} - \frac{2\pi%.3f}{360})$' % (parameter_optimal[0], parameter_optimal[1]))
-        plt.hlines(0, xmin=0, xmax=360,linestyles='dotted')
+
+        print("===== Results of MP1 to MP%d =====" % num_ch)
+        #parameter_initial = np.array([2, 22.5])
+        #parameter_optimal, covariance = scipy.optimize.curve_fit(self.fit_func_sin, position[:num_ch], average_phase_array[:num_ch], p0=parameter_initial, bounds=([1, 22.5], [10, 22.6]))
+        #Parameters_shtNo_all_ltfqb_mid_gtfqb[self.shotnum, 1:3] = parameter_optimal
+        #Errors_shtNo_all_ltfqb_mid_gtfqb[self.shotnum, 1:3] = np.sqrt(np.diag(covariance))
+        #print("Parameter(All freq.): a=%.3f, b=%.3f" % (parameter_optimal[0], parameter_optimal[1]))
+        ##y = self.fit_func_sin(position_fitfunc, 1, 45)#parameter_optimal[0], parameter_optimal[1])
+        #y = self.fit_func_sin(position_fitfunc, parameter_optimal[0], parameter_optimal[1])
+        #plt.plot(position_fitfunc, y)
+        #plt.plot(position[:num_ch], average_phase_array[:num_ch], 'o')
+        #plt.text(250, 100, r'$\displaystyle y = -180cos(\frac{2\pi%.3f(x-%.3f)}{360})+180$' % (parameter_optimal[0], parameter_optimal[1]))
+        ##plt.hlines(0, xmin=0, xmax=360,linestyles='dotted')
         plt.xlabel('Position of MP [degree]')
         plt.ylabel('Phase Difference \nfrom MP1 [degree]')
-        plt.ylim(-180, 180)
+        #plt.ylim(-180, 180)
+        plt.ylim(0, 360)
         plt.xlim(0, 360)
 
-        parameter_initial = np.array([2, 100])
-        parameter_optimal, covariance = scipy.optimize.curve_fit(self.fit_func_sin, position, average_phase_array_lt_fqb, p0=parameter_initial, bounds=([1, 0], [10, 360]))
+        parameter_initial = np.array([2, 22.5])
+        parameter_optimal, covariance = scipy.optimize.curve_fit(self.fit_func_sin, position[:num_ch], average_phase_array_lt_fqb[:num_ch], p0=parameter_initial, bounds=([1, 22.5], [10, 22.6]))
         Parameters_shtNo_all_ltfqb_mid_gtfqb[self.shotnum, 3:5] = parameter_optimal
         Errors_shtNo_all_ltfqb_mid_gtfqb[self.shotnum, 3:5] = np.sqrt(np.diag(covariance))
-        print("Parameter (<781Hz) = ", parameter_optimal)
+        print("Parameter (freq.<%dHz): a=%.3f, b=%.3f" % (f[freq_border], parameter_optimal[0], parameter_optimal[1]))
         y = self.fit_func_sin(position_fitfunc, parameter_optimal[0], parameter_optimal[1])
-        plt.plot(position_fitfunc, y, label='lt%dHz' % f[freq_border])
-        plt.plot(position, average_phase_array_lt_fqb, '^', label='lt%dHz' % f[freq_border])
-        plt.text(250, 0, r'$\displaystyle y(f<%dHz) = 180sin(\frac{2\pi%.3fx}{360} - \frac{2\pi%.3f}{360})$' % (f[freq_border], parameter_optimal[0], parameter_optimal[1]))
+        plt.plot(position_fitfunc, y, label=r'$<$%dHz' % f[freq_border], color='blue')
+        plt.plot(position[:num_ch], average_phase_array_lt_fqb[:num_ch], 'b^', label=r'$<$%dHz' % f[freq_border])
+        plt.text(180, 270, r'$\displaystyle y(f<%dHz) = -180cos(\frac{2\pi%.3f(x-%.3f)}{360})+180$' % (f[freq_border], parameter_optimal[0], parameter_optimal[1]))
 
-        parameter_initial = np.array([2, 100])
-        parameter_optimal, covariance = scipy.optimize.curve_fit(self.fit_func_sin, position, average_phase_array_mid, p0=parameter_initial, bounds=([1, 0], [10, 360]))
+        parameter_initial = np.array([2, 22.5])
+        parameter_optimal, covariance = scipy.optimize.curve_fit(self.fit_func_sin, position[:num_ch], average_phase_array_mid[:num_ch], p0=parameter_initial, bounds=([1, 22.5], [10, 22.6]))
         Parameters_shtNo_all_ltfqb_mid_gtfqb[self.shotnum, 5:7] = parameter_optimal
         Errors_shtNo_all_ltfqb_mid_gtfqb[self.shotnum, 5:7] = np.sqrt(np.diag(covariance))
-        print("Parameter (mid) = ", parameter_optimal)
+        print("Parameter (%d<freq.<%dHz): a=%.3f, b=%.3f" % (f[freq_border], f[freq_border_2], parameter_optimal[0], parameter_optimal[1]))
         y = self.fit_func_sin(position_fitfunc, parameter_optimal[0], parameter_optimal[1])
-        plt.plot(position_fitfunc, y, label='%d-%dHz' % (f[freq_border], f[freq_border_2]))
-        plt.plot(position, average_phase_array_mid, '^', label='%d-%dHz' % (f[freq_border], f[freq_border_2]))
-        plt.text(250, -90, r'$\displaystyle y(%d<f<%dHz) = 180sin(\frac{2\pi%.3fx}{360} - \frac{2\pi%.3f}{360})$' % (f[freq_border], f[freq_border_2], parameter_optimal[0], parameter_optimal[1]))
+        plt.plot(position_fitfunc, y, label='%d-%dHz' % (f[freq_border], f[freq_border_2]), color='red')
+        plt.plot(position[:num_ch], average_phase_array_mid[:num_ch], 'ro', label='%d-%dHz' % (f[freq_border], f[freq_border_2]))
+        plt.text(180, 180, r'$\displaystyle y(%d<f<%dHz) = -180cos(\frac{2\pi%.3f(x-%.3f)}{360})+180$' % (f[freq_border], f[freq_border_2], parameter_optimal[0], parameter_optimal[1]))
 
-        parameter_initial = np.array([2, 100])
-        parameter_optimal, covariance = scipy.optimize.curve_fit(self.fit_func_sin, position, average_phase_array_gt_fqb, p0=parameter_initial, bounds=([1, 0], [10, 360]))
+        parameter_initial = np.array([2, 22.5])
+        parameter_optimal, covariance = scipy.optimize.curve_fit(self.fit_func_sin, position[:num_ch], average_phase_array_gt_fqb[:num_ch], p0=parameter_initial, bounds=([1, 22.5], [10, 22.6]))
         Parameters_shtNo_all_ltfqb_mid_gtfqb[self.shotnum, 7:9] = parameter_optimal
         Errors_shtNo_all_ltfqb_mid_gtfqb[self.shotnum, 7:9] = np.sqrt(np.diag(covariance))
-        print("Parameter (>781Hz)= ", parameter_optimal)
+        print("Parameter (freq.>%dHz): a=%.3f, b=%.3f" % (f[freq_border_2], parameter_optimal[0], parameter_optimal[1]))
         y = self.fit_func_sin(position_fitfunc, parameter_optimal[0], parameter_optimal[1])
-        plt.plot(position_fitfunc, y, label='gt%dHz' % f[freq_border_2])
-        plt.plot(position, average_phase_array_gt_fqb, 's', label='gt%dHz' % f[freq_border_2])
-        plt.text(250, -180, r'$\displaystyle y(f>%dHz) = 180sin(\frac{2\pi%.3fx}{360} - \frac{2\pi%.3f}{360})$' % (f[freq_border_2], parameter_optimal[0], parameter_optimal[1]))
-        plt.legend(bbox_to_anchor=(0.5, 0.95), loc='upper left', borderaxespad=0)
+        plt.plot(position_fitfunc, y, label=r'$>$%dHz' % f[freq_border_2], color='green')
+        plt.plot(position[:num_ch], average_phase_array_gt_fqb[:num_ch], 'gs', label=r'$>$%dHz' % f[freq_border_2])
+        plt.text(180, 90, r'$\displaystyle y(f>%dHz) = -180cos(\frac{2\pi%.3f(x-%.3f)}{360})+180$' % (f[freq_border_2], parameter_optimal[0], parameter_optimal[1]))
+        plt.legend(bbox_to_anchor=(0.88, 0.95), loc='upper left', borderaxespad=0)
 
         filepath = "figure/"
-        filename = "CSD_PD_bwMP1to7_l%d_mid_h%dHz_%s_%d" % (f[freq_border], f[freq_border_2], self.date, self.shotnum)
+        filename = "CSD_PD_bwMP1to7_l%d_mid_h%dHz_MP1to%d_%s_%d" % (f[freq_border], f[freq_border_2], num_ch, self.date, self.shotnum)
         plt.tight_layout()
-        plt.savefig(filepath + filename)
+        #plt.show()
+        plt.savefig(filepath + filename + '.png', format='png', dpi=100)
         plt.clf()
 
         Parameters_shtNo_all_ltfqb_mid_gtfqb[self.shotnum, 9] = f[freq_border]
@@ -464,9 +481,48 @@ class STFT_RT1(DataBrowser):
         print("Save %s.png" % filename)
 
 
+        #Pech = self.set_Pech()
+        ##pulse_width = self.set_pulse_width()
+        ##freq_range = (Parameters_shtNo_all_ltfqb_mid_gtfqb[:, 9] + Parameters_shtNo_all_ltfqb_mid_gtfqb[:, 10])/2
+        ##plt.plot(Pech, freq_range)
+        ##plt.show()
+        ##Pech = self.set_Pech()
+        ##plt.plot(Pech, Parameters_shtNo_all_ltfqb_mid_gtfqb[:, 1], '^', label='all freq.')
+        ##plt.errorbar(Pech, Parameters_shtNo_all_ltfqb_mid_gtfqb[:, 1], yerr=Errors_shtNo_all_ltfqb_mid_gtfqb[:, 1], fmt='b^', label='all freq.')
+        ##plt.plot(Pech, Parameters_shtNo_all_ltfqb_mid_gtfqb[:, 3], 'o', label='ltfqb')
+        #plt.errorbar(Pech[:], Parameters_shtNo_all_ltfqb_mid_gtfqb[:, 3], yerr=Errors_shtNo_all_ltfqb_mid_gtfqb[:, 3], fmt='ro', label=r'$freq.<%dHz$' % f[freq_border])
+        ##plt.plot(Pech, Parameters_shtNo_all_ltfqb_mid_gtfqb[:, 5], 's', label='gtfqb')
+        ##plt.errorbar(Pech, Parameters_shtNo_all_ltfqb_mid_gtfqb[:, 5], yerr=Errors_shtNo_all_ltfqb_mid_gtfqb[:, 5], fmt='gs', label='gtfqb')
+        #plt.errorbar(Pech[:], Parameters_shtNo_all_ltfqb_mid_gtfqb[:, 5], yerr=Errors_shtNo_all_ltfqb_mid_gtfqb[:, 5], fmt='gs', label=r'$%d<freq.<%dHz$' % (f[freq_border], f[freq_border_2]))
+        #plt.errorbar(Pech[:], Parameters_shtNo_all_ltfqb_mid_gtfqb[:, 7], yerr=Errors_shtNo_all_ltfqb_mid_gtfqb[:, 7], fmt='bs', label=r'$freq.>%dHz$' % f[freq_border_2])
+        #plt.legend()
+        #plt.ylim(1, 10)
+        #plt.xlim(5, 20)
+        #plt.xlabel(r'$P_{ECH(inj.)}$ [kW]')
+        ##plt.xlabel('Pulse width [msec]')
+        #plt.ylabel('')
+        #plt.show()
+
+        #plt.xlabel('Toroidal Position of MP [degree]')
+        #plt.ylabel('Phase Difference \nfrom MP1 [degree]')
+        #plt.ylim(0, 360)
+        #plt.xlim(0, 360)
+
+        #parameter_initial = np.array([2, 22.5])
+        #parameter_optimal, covariance = scipy.optimize.curve_fit(self.fit_func_sin, position[:num_ch], average_phase_array_mid[:num_ch], p0=parameter_initial, bounds=([1, 22.5], [10, 22.6]))
+        #Parameters_shtNo_all_ltfqb_mid_gtfqb[self.shotnum, 5:7] = parameter_optimal
+        #Errors_shtNo_all_ltfqb_mid_gtfqb[self.shotnum, 5:7] = np.sqrt(np.diag(covariance))
+        #print("Parameter (%d<freq.<%dHz): a=%.3f, b=%.3f" % (f[freq_border], f[freq_border_2], parameter_optimal[0], parameter_optimal[1]))
+        #y = self.fit_func_sin(position_fitfunc, parameter_optimal[0], parameter_optimal[1])
+        #plt.plot(position_fitfunc-22.5, y+180, label='%d-%dHz' % (f[freq_border], f[freq_border_2]), color='blue', linestyle='dashed')
+        #plt.plot(position[:num_ch+1]-22.5, average_phase_array_mid[:num_ch+1]+180, 'ro', label='%d-%dHz' % (f[freq_border], f[freq_border_2]))
+        #plt.show()
+
+
     def fit_func_sin(self, x, a, b):
 
-        return 180*np.sin(2*np.pi*a*x/360 - 2*np.pi*b/360)
+        #return -180*np.cos(2*np.pi*a*(x-b)/360)
+        return -189*np.cos(2*np.pi*a*(x-b)/360) + 180
 
 
     def phase_diff(self, x, y, f, t, t_offset):
@@ -612,13 +668,8 @@ class STFT_RT1(DataBrowser):
             #NPERSEG = 2**14
             NPERSEG = 2**10
             #NPERSEG = 1024
-            time_offset = 1.25
+            time_offset = 0.75
             time_offset_stft = 0.25
-            plt.plot(x, MP_FAST[1, :], label="MP1")
-            plt.plot(x, MP_FAST[3, :], label="MP3")
-            plt.plot(x, MP_FAST[6, :], label="MP6")
-            plt.legend()
-            plt.show()
 
         elif(IForMPorSX=="SX"):
             data_SX, time_SX = self.load_SX_CosmoZ(self.LOCALorPPL)
@@ -658,6 +709,7 @@ class STFT_RT1(DataBrowser):
 
         N = np.abs(1/(x[1]-x[2]))
 
+        time_freq_amp_3D = np.zeros((3, 10, num_ch))
         for i in range(num_ch):
 
             #f, t, Zxx =sig.spectrogram(y[i, :], fs=N, window='hamming', nperseg=NPERSEG, mode='complex')
@@ -668,10 +720,50 @@ class STFT_RT1(DataBrowser):
                 Zxx_3D = np.zeros((np.shape(Zxx)[0], np.shape(Zxx)[1], num_ch))
             Zxx_3D[:, :, i] = Zxx[:, :]
 
-        return f, t, Zxx_3D, filename, vmax, coef_vmax,  vmin, time_offset, time_offset_stft, x, y
+            time_freq_amp_3D[:,:,i] = self.fft_w_window( y[i, :])
+
+        return f, t, Zxx_3D, filename, vmax, coef_vmax,  vmin, time_offset, time_offset_stft, x, y, time_freq_amp_3D
+
+    def fft_w_window(self, y):
+        N = len(y)
+        t_st = 1.0
+        t_ed = 1.1
+        #t = np.linspace(0.275, 2.275, N)
+        #plt.plot(t, y)
+        #plt.show()
+
+        N_st = np.int((t_st-0.275)*N/2)
+        N_ed = np.int((t_ed-0.275)*N/2)
+        hammingWindow = np.hamming(N_ed-N_st)
+        freqList = np.fft.fftfreq(N_ed - N_st, d=2/N)
+        time_freq_amp = np.zeros((3,10))
+        for i in range(10):
+            y_shorttime = y[N_st+2000*i:N_ed+2000*i]
+            #yf = fft(y_shorttime)
+            yfw = fft(y_shorttime*hammingWindow)
+            Label = 't=%.1f-%.1f' % (t_st+0.1*i, t_ed+0.1*i)
+            plt.plot(freqList, np.abs(yfw), label=Label)
+            #print(freqList[np.argmax(np.abs(yfw[10:len(yfw)/2]))+10])
+            #print(np.max(np.abs(yfw[10:len(yfw)/2])))
+            time_freq_amp[0,i] = t_st+0.1*i
+            time_freq_amp[1,i] = freqList[np.argmax(np.abs(yfw[10:len(yfw)/2]))+10]
+            time_freq_amp[2,i] = np.max(np.abs(yfw[10:len(yfw)/2]))
+        #plt.plot(freqList, np.abs(yf), color='red')
+        #plt.xlim(0, 2000)
+        #plt.legend()
+        #plt.show()
+
+        #plt.plot(time_freq_amp[0, :], time_freq_amp[1, :])
+        #plt.show()
+        #plt.plot(time_freq_amp[0, :], time_freq_amp[2, :])
+        #plt.show()
+
+        return time_freq_amp
+
+
 
     def plot_stft(self, IForMPorSX="IF", num_ch=4):
-        f, t, Zxx_3D, filename, vmax, coef_vmax, vmin, time_offset, time_offset_stft, x, y = self.stft(IForMPorSX=IForMPorSX, num_ch=num_ch)
+        f, t, Zxx_3D, filename, vmax, coef_vmax, vmin, time_offset, time_offset_stft, x, y, _ = self.stft(IForMPorSX=IForMPorSX, num_ch=num_ch)
 
         #vmaxを求める際の時間(t)，周波数(f)の範囲とそのindexを取得
         t_st = 1.2
@@ -686,10 +778,12 @@ class STFT_RT1(DataBrowser):
         plt.figure(figsize=(16, 5))
         gs = gridspec.GridSpec(4, num_ch)
         gs.update(hspace=0.4, wspace=0.3)
+        array_vmax_in_range = np.zeros(num_ch)
         for i in range(num_ch):
             ax0 = plt.subplot(gs[0:3, i])
             try:
                 vmax_in_range = np.max(np.abs(Zxx_3D[idx_fst:idx_fed, idx_tst:idx_ted, i])) * coef_vmax
+                array_vmax_in_range[i] = vmax_in_range
             except ValueError:
                 vmax_in_range = 1e-10
             plt.pcolormesh(t + time_offset_stft, f, np.abs(Zxx_3D[:, :, i]), vmin=vmin, vmax=vmax_in_range)
@@ -713,11 +807,13 @@ class STFT_RT1(DataBrowser):
         filepath = "figure/"
         plt.savefig(filepath + filename)
         plt.clf()
-        #plt.plot(x+time_offset, y[6, :], label="MP7(CS)")
-        #plt.plot(x+time_offset, y[7, :], label="MP8(CS)")
-        #plt.xlabel("Time [sec]")
-        #plt.legend()
-        #plt.show()
+        plt.plot(x+time_offset, y[7, :], label="MP8")
+        plt.plot(x+time_offset, -y[6, :]/10, label="MP7")
+        plt.xlabel("Time [sec]")
+        plt.legend()
+        plt.show()
+
+        return array_vmax_in_range
 
     def fileCheck(self, fpn):
         comment = ''  # ローカル変数を明示
@@ -754,21 +850,175 @@ def make_stft_profile(date):
     plt.plot(f, Cxy)
     plt.show()
 
+def plot_mode_MvsN(m, n):
+    line_MvsN = np.zeros((100, 3))#m*n))
+    #for i in range(m*n):
+    #    line_MvsN[:, i] = np.linspace(0, 2*n*np.pi, 100) + 2*n*np.pi*(i)/m - np.pi*n*n
+    line_MvsN[:, 0] = np.linspace(0, 360, 100)
+    line_MvsN[:, 1] = np.linspace(0, 360, 100) - 180*(2*n/m)
+    line_MvsN[:, 2] = np.linspace(0, 360, 100) + 180*(2-2*n/m)
+
+    plt.plot(np.linspace(0, 360, 100), line_MvsN[:,0], color='red', label='Wave 1')
+    plt.plot(np.linspace(0, 360, 100), line_MvsN[:,1], color='blue', label='Wave 2')
+    plt.plot(np.linspace(0, 360, 100), line_MvsN[:,2], color='blue', label='Wave 2')
+    plt.xlim(0, 360)
+    plt.ylim(0, 360)
+    plt.xlabel('Toroidal angle [degree]')
+    plt.ylabel('[degree]')
+    plt.legend()
+    plt.show()
+
+def plot_AmpFluc_Wp():
+    plt.figure(figsize=(6,4), dpi=300)
+
+    fpn_FreqAmp = 'sn_time_freq_amp_4D_MP1to7_20181107'
+    freq_amp = np.load(fpn_FreqAmp + '.npz')
+    sn_time_freq_amp_4D = freq_amp['arr_0']
+
+    #fpn = "Parameters_Errors_all_ltfqb_mid_gtfqb_fqb12_%s" % ("20181107")
+    #fpn = "Parameters_Errors_all_ltfqb_mid_gtfqb_fqb12_pw5ms_MP1to%d_%s" % (4, "20181107")
+    fpn = "Parameters_Errors_all_ltfqb_mid_gtfqb_fqb12_Pech18kW_MP1to%d_%s" % (4, "20181107")
+    #fpn = "Parameters_Errors_all_ltfqb_gtfqb_fqb_%s" % self.date
+    Parameters_Errors = np.load(fpn + '.npz')
+    Parameters_shtNo_all_ltfqb_mid_gtfqb = Parameters_Errors['parameters']
+    Errors_shtNo_all_ltfqb_mid_gtfqb = Parameters_Errors['errors']
+    array_MP = np.load('vmax_in_range_shotnum_maxMP1to7_20181107.npz')
+    array_ShotLog = np.load('RT1_ShotLog_20181107_t12to13.npz')
+    vmax_in_range_all = array_MP['arr_0']
+    arr_shotnum = array_ShotLog['arr_shotnum']
+    PECH_max = array_ShotLog['PECH_max']
+    IF_max = array_ShotLog['IF_max']
+    VG_max = array_ShotLog['VG_max']
+    ml_max = array_ShotLog['ml_max']
+
+    Parameters_shtNo_all_ltfqb_mid_gtfqb[66:68, 9] = Parameters_shtNo_all_ltfqb_mid_gtfqb[65, 9]
+    Parameters_shtNo_all_ltfqb_mid_gtfqb[66:68, 10] = Parameters_shtNo_all_ltfqb_mid_gtfqb[65, 10]
+    freq_range = (Parameters_shtNo_all_ltfqb_mid_gtfqb[:, 9] + Parameters_shtNo_all_ltfqb_mid_gtfqb[:, 10])/2
+
+    t = np.linspace(1.0, 1.9, 10)
+    #plt.plot(t, sn_time_freq_amp_4D[2,:,5,38:41])
+    #plt.plot(t, sn_time_freq_amp_4D[2,:,5,105:108])
+    #plt.plot(t[1:7], sn_time_freq_amp_4D[1,1:7,5,38:41])
+    #plt.plot(t[1:7], sn_time_freq_amp_4D[1,1:7,5,105:108])
+    #plt.plot(sn_time_freq_amp_4D[1,:,5,22:41])
+    #plt.plot(sn_time_freq_amp_4D[1,:,5,92:108])
+    #plt.plot(ml_max[:19, 2], sn_time_freq_amp_4D[1,4,5,22:41], 'bo')
+    #plt.plot(ml_max[70:86, 2], sn_time_freq_amp_4D[1,4,5,92:108], 'bo')
+    #plt.plot(ml_max[:, 2], (sn_time_freq_amp_4D[1,4,5,22:112] + sn_time_freq_amp_4D[1,3,5,22:112])/2, 'bo')
+    #plt.plot(ml_max[:, 2], sn_time_freq_amp_4D[1,1,5,22:112], 'bo')
+    #plt.plot(ml_max[:, 2], sn_time_freq_amp_4D[2,2,5,22:112], 'ro')
+    #plt.plot(18*np.sqrt(1e-3*ml_max[:, 2]), sn_time_freq_amp_4D[2,2,5,22:112], 'ro')
+    plt.plot(0.18*ml_max[:, 2], sn_time_freq_amp_4D[1,2,5,22:112], 'go')
+    #plt.plot(ml_max[:, 2], sn_time_freq_amp_4D[1,2,5,22:112], 'go')
+    #plt.plot(ml_max[:, 2], sn_time_freq_amp_4D[1,4,5,22:112], 'ro')
+    #plt.xlabel('diamagnetism [mWb]')
+    #plt.xlabel('Time [sec]')
+    #plt.ylabel('Frequency [Hz]')
+    plt.xlabel(r'$\beta$')
+    plt.ylabel('Amplitude of \nmagnetic fluctuation [a.u.]')
+    #plt.ylim(0, 15)
+    plt.ylim(600, 1200)
+    plt.xlim(0, 0.2)
+    plt.show()
+
+    plt.errorbar(ml_max[19:46, 2], Parameters_shtNo_all_ltfqb_mid_gtfqb[41:68, 5], yerr=Errors_shtNo_all_ltfqb_mid_gtfqb[41:68, 5], fmt='bo', label=r'$%dHz<freq.<%dHz$' % (859, 1093))
+
+    fpn = "Parameters_Errors_all_ltfqb_mid_gtfqb_fqb12_pw5ms_MP1to%d_%s" % (4, "20181107")
+    Parameters_Errors = np.load(fpn + '.npz')
+    Parameters_shtNo_all_ltfqb_mid_gtfqb = Parameters_Errors['parameters']
+    Errors_shtNo_all_ltfqb_mid_gtfqb = Parameters_Errors['errors']
+    plt.errorbar(ml_max[:19, 2], Parameters_shtNo_all_ltfqb_mid_gtfqb[22:41, 5], yerr=Errors_shtNo_all_ltfqb_mid_gtfqb[22:41, 5], fmt='bo', label=r'$%dHz<freq.<%dHz$' % (859, 1093))
+    plt.errorbar(ml_max[70:86, 2], Parameters_shtNo_all_ltfqb_mid_gtfqb[92:108, 5], yerr=Errors_shtNo_all_ltfqb_mid_gtfqb[92:108, 5], fmt='bo', label=r'$%dHz<freq.<%dHz$' % (859, 1093))
+
+    fpn = "Parameters_Errors_all_ltfqb_mid_gtfqb_fqb12_pw10ms_MP1to%d_%s" % (4, "20181107")
+    Parameters_Errors = np.load(fpn + '.npz')
+    Parameters_shtNo_all_ltfqb_mid_gtfqb = Parameters_Errors['parameters']
+    Errors_shtNo_all_ltfqb_mid_gtfqb = Parameters_Errors['errors']
+    plt.errorbar(ml_max[46:66, 2], Parameters_shtNo_all_ltfqb_mid_gtfqb[68:88, 5], yerr=Errors_shtNo_all_ltfqb_mid_gtfqb[68:88, 5], fmt='bo', label=r'$%dHz<freq.<%dHz$' % (859, 1093))
+    #plt.errorbar(ml_max[:19, 2], Parameters_shtNo_all_ltfqb_mid_gtfqb[22:41, 3], yerr=Errors_shtNo_all_ltfqb_mid_gtfqb[22:41, 3], fmt='ro', label=r'$freq.<%dHz$' % 859)
+    #plt.errorbar(ml_max[:19, 2], Parameters_shtNo_all_ltfqb_mid_gtfqb[22:41, 7], yerr=Errors_shtNo_all_ltfqb_mid_gtfqb[22:41, 7], fmt='bs', label=r'$freq.>%dHz$' % 1093)
+    #plt.errorbar(ml_max[70:86, 2], Parameters_shtNo_all_ltfqb_mid_gtfqb[92:108, 3], yerr=Errors_shtNo_all_ltfqb_mid_gtfqb[92:108, 3], fmt='ro', label=r'$freq.<%dHz$' % 859)
+    #plt.errorbar(ml_max[70:86, 2], Parameters_shtNo_all_ltfqb_mid_gtfqb[92:108, 7], yerr=Errors_shtNo_all_ltfqb_mid_gtfqb[92:108, 7], fmt='bs', label=r'$freq.>%dHz$' % 1093)
+    plt.legend()
+    plt.ylim(1, 10)
+    plt.xlim(0, 1.1)
+    plt.xlabel('diamagnetism [mWb]')
+    plt.ylabel('Toroidal mode number')
+    plt.tight_layout()
+    plt.show()
+
+    plt.plot(18*np.sqrt(1e-3*ml_max[:19, 2]), vmax_in_range_all[22:41, 5]*1e6, 'ro')
+    plt.plot(18*np.sqrt(1e-3*ml_max[70:86, 2]), vmax_in_range_all[92:108, 5]*1e6, 'ro')
+    plt.xlabel(r'$\beta$')
+    plt.ylabel('Amplitude of \nmagnetic fluctuation [a.u.]')
+    plt.show()
+
+    plt.plot(ml_max[:19, 2]/IF_max[:19, 0]**2, vmax_in_range_all[22:41, 5]*1e6, 'ro')
+    plt.plot(ml_max[70:86, 2]/IF_max[70:86, 0]**2, vmax_in_range_all[92:108, 5]*1e6, 'ro')
+    #plt.plot(arr_shotnum[:90], vmax_in_range_all[22:112, 5], 'ro')
+    plt.xlabel('diamag/IF1**2')
+    plt.ylabel('Amplitude of \nmagnetic fluctuation [a.u.]')
+    plt.show()
+
+    plt.plot(ml_max[:19, 2]/IF_max[:19, 0], vmax_in_range_all[22:41, 5]*1e6, 'ro')
+    plt.plot(ml_max[70:86, 2]/IF_max[70:86, 0], vmax_in_range_all[92:108, 5]*1e6, 'ro')
+    #plt.plot(arr_shotnum[:90], vmax_in_range_all[22:112, 5], 'ro')
+    plt.xlabel('diamag/IF1')
+    plt.ylabel('Amplitude of \nmagnetic fluctuation [a.u.]')
+    plt.show()
+
+    plt.plot(ml_max[:19, 2], vmax_in_range_all[22:41, 5]*1e6, 'ro')
+    plt.plot(ml_max[70:86, 2], vmax_in_range_all[92:108, 5]*1e6, 'ro')
+    #plt.plot(arr_shotnum[:90], vmax_in_range_all[22:112, 5], 'ro')
+    plt.xlabel('diamagnetism [mWb]')
+    plt.ylabel('Amplitude of \nmagnetic fluctuation [a.u.]')
+    plt.show()
+
+    plt.plot(ml_max[19:46, 2]/IF_max[19:46, 0]**2, freq_range[41:68], 'ro')
+    fpn = "Parameters_Errors_all_ltfqb_mid_gtfqb_fqb12_pw5ms_MP1to%d_%s" % (4, "20181107")
+    Parameters_Errors = np.load(fpn + '.npz')
+    Parameters_shtNo_all_ltfqb_mid_gtfqb = Parameters_Errors['parameters']
+    freq_range = (Parameters_shtNo_all_ltfqb_mid_gtfqb[:, 9] + Parameters_shtNo_all_ltfqb_mid_gtfqb[:, 10])/2
+    plt.plot(ml_max[:19, 2]/IF_max[:19, 0]**2, freq_range[22:41], 'ro')
+    plt.plot(ml_max[70:86, 2]/IF_max[70:86, 0]**2, freq_range[92:108], 'ro')
+
+    #plt.plot(arr_shotnum[:90], vmax_in_range_all[22:112, 5], 'ro')
+    #plt.xlabel('diamagnetism [mWb]')
+    plt.xlabel('diamag/IF1**2')
+    plt.ylabel('Amplitude of magnetic fluctuation [a.u.]')
+    plt.show()
+
 if __name__ == "__main__":
-    #for i in range(46,105):
-    #    stft = STFT_RT1(date="20180622", shotNo=i, LOCALorPPL="PPL")
-    #    stft.cross_spectrum()
-    #    stft.plot_stft(IForMPorSX="IF", num_ch=3)
-    #    stft.plot_stft(IForMPorSX="MP", num_ch=4)
-    #    stft.plot_stft(IForMPorSX="POL", num_ch=4)
-    #    stft.plot_stft(IForMPorSX="POL_RATIO", num_ch=2)
-    stft = STFT_RT1(date="20181107", shotNo=87, LOCALorPPL="PPL")
-    vmax = np.array([-12.5, -14.5, -12.5, -14.5, -15, -15.5])
-    stft.cross_spectrum_MParray(vmax=vmax, freq_border=10, freq_border_2=12)
+    #vmax_in_range_all = np.zeros((120, 8))
+#    sn_time_freq_amp_4D = np.zeros((3, 10, 7, 120))
+#    for i in range(22,112):
+#        stft = STFT_RT1(date="20181107", shotNo=i, LOCALorPPL="PPL")
+#    #    stft.cross_spectrum()
+#    #    stft.plot_stft(IForMPorSX="IF", num_ch=3)
+#        _,_,_,_,_,_,_,_,_,_,_, time_freq_amp_3D = stft.stft(IForMPorSX="MP", num_ch=7)
+#        sn_time_freq_amp_4D[:,:,:,i] = time_freq_amp_3D
+#        print('Now analyzing shot no. %d' % i)
+    #    array_vmax_in_range = stft.plot_stft(IForMPorSX="MP", num_ch=7)
+    #    vmax_in_range_all[i, 0] = i
+    #    vmax_in_range_all[i, 1:] = array_vmax_in_range
+    ##    stft.plot_stft(IForMPorSX="POL", num_ch=4)
+    ##    stft.plot_stft(IForMPorSX="POL_RATIO", num_ch=2)
+    #plot_mode_MvsN(8, 5)
+    stft = STFT_RT1(date="20190619", shotNo=39, LOCALorPPL="PPL")
+    vmax = np.array([-32/2, -33/2, -33/2, -32/2, -32/2, -34/2])
+    fb1=8
+    fb2=10
+    stft.cross_spectrum_MParray(vmax=vmax, freq_border=fb1, freq_border_2=fb2, num_ch=8)
+    #stft.cross_spectrum_MParray(vmax=vmax, freq_border=fb1, freq_border_2=fb2, num_ch=5)
+    #stft.cross_spectrum_MParray(vmax=vmax, freq_border=fb1, freq_border_2=fb2, num_ch=4)
     #stft.phase_diff()
-    #stft.plot_stft(IForMPorSX="IF", num_ch=3)
-    #f, t,_,_,_,_,_,_,time_offset_stft, x, y = stft.stft(IForMPorSX="MP", num_ch=4)
+    #stft.plot_stft(IForMPorSX="MP", num_ch=8)
+    #f, t,_,_,_,_,_,_,time_offset_stft, x, y = stft.stft(IForMPorSX="MP", num_ch=7)
     #stft.phase_diff(x, y, f, t, time_offset_stft)
     #stft.plot_stft(IForMPorSX="MP", num_ch=8)
     #make_stft_profile(date="20180223")
     #stft.cross_spectrum(name_data1="MP", name_data2="MP", chnum_data1=2, chnum_data2=3, vmax=-14)
+    #np.savez('vmax_in_range_shotnum_maxMP1to7_20181107', vmax_in_range_all)
+    #np.savez('sn_time_freq_amp_4D_MP1to7_20181107', sn_time_freq_amp_4D)
+
+    #plot_AmpFluc_Wp()
