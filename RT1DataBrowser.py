@@ -283,7 +283,7 @@ class DataBrowser:
         plt.ylim([0, MAXFREQ])
         plt.xlim([0.5, 2.5])
 
-    def get_max_tmax(self, data_ep01):
+    def get_max_tmax(self, data_ep01=None):
         if data_ep01 is None:
             data_ep01, data_ep02_MP, data_ep02_SX = self.load_date(self.LOCALorPPL)
             data_ep01 = self.adj_gain(data_ep01)
@@ -292,6 +292,8 @@ class DataBrowser:
 
         t_st = 1.1
         t_ed = 1.9
+        #t_st = 1.2
+        #t_ed = 1.3
         st_idx = np.abs(np.asarray(data_ep01[0, :]) - t_st).argmin()
         ed_idx = np.abs(np.asarray(data_ep01[0, :]) - t_ed).argmin()
 
@@ -409,10 +411,10 @@ class DataBrowser:
         self.writeLog(fname, myCheck, data_ep01)
 
 def make_shotlog_series(date):
-    arr_shotnum = np.arange(47, 87)
+    arr_shotnum = np.arange(16, 73)
     IF_max_tmax = np.zeros((arr_shotnum.__len__(), 3, 2))
     for i, shotnum in enumerate(arr_shotnum):
-        db = DataBrowser(date=date, shotNo=shotnum, LOCALorPPL="LOCAL")
+        db = DataBrowser(date=date, shotNo=shotnum, LOCALorPPL="PPL")
         IF_max_tmax[i, :, :] = db.get_max_tmax()
 
     np.savez_compressed("data/IF123_max_tmax_%s_%dto%d.npz" % (date, arr_shotnum[0], arr_shotnum[-1]),
@@ -458,14 +460,14 @@ def plot_shotlog():
     plt.show()
 
 if __name__ == "__main__":
-    for i in range(22, 112):
-        db = DataBrowser(date="20181107", shotNo=i, LOCALorPPL="PPL")
+    for i in range(51, 69):
+        db = DataBrowser(date="20190624", shotNo=i, LOCALorPPL="PPL")
         #db.load_date(LOCALorPPL="PPL")
         db.make_shotlog()
     #pr = cProfile.Profile()
     #pr.enable()
     #start = time.time()
-    #db = DataBrowser(date="20180829", shotNo=27, LOCALorPPL="PPL", isShotLog='False')
+    #db = DataBrowser(date="20190619", shotNo=41, LOCALorPPL="LOCAL", isShotLog='False')
     #db.multiplot()
     #process_time = time.time() - start
     #print(process_time)
